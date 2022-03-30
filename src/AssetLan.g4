@@ -13,7 +13,7 @@ function    : (type | 'void') ID
               '[' (asset (',' asset)* )? ']'
 	          '{' param* statement* '}' ;
 
-param       : type ID ';' ;
+param       : type ID ';';
 
 statement   : assignment ';'
             | move ';'     // sposta un asset da una parte all'altra
