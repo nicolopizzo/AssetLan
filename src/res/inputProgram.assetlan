@@ -1,5 +1,5 @@
 asset x;
-asset y;
+asset y_1;
 void f()[asset u;, asset v;]{
     u -o y ;
     v -o x ;

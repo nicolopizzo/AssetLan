@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LexerErrorListener extends BaseErrorListener {
+    //list of Syntax errors
     private final List<SyntaxError> lexerErrors = new ArrayList<>();
 
     public List<SyntaxError> getLexerErrors() {

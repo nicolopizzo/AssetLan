@@ -3,6 +3,7 @@ package errorhandler;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
+//class that implement the features of errors
 public class SyntaxError {
     private final Recognizer<?, ?> recognizer;
     private final Object offendingSymbol;
@@ -20,6 +21,7 @@ public class SyntaxError {
         this.e = e;
     }
 
+    //called by Main to print the errors message
     public String getMessage()
     {
         return "Error at " + line + ":" + charPositionInLine + " " + message;
