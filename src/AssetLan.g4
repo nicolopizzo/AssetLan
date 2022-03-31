@@ -10,10 +10,11 @@ asset       : 'asset' ID ';' ;
 
 function    : (type | 'void') ID
               '(' (param (',' param)* )? ')'
-              '[' (asset (',' asset)* )? ']'
+              '[' (aparam (',' aparam)* )? ']'
 	          '{' param* statement* '}' ;
 
-param       : type ID ';';
+param       : type ID;
+aparam       : 'asset' ID;
 
 statement   : assignment ';'
             | move ';'     // sposta un asset da una parte all'altra
