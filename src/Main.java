@@ -1,11 +1,9 @@
 import ast.AssetLanVisitorConcrete;
 import ast.Node;
-import errorhandler.LexerErrorListener;
-import errorhandler.SyntaxError;
+import errorhandler.*;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import parser.AssetLanLexer;
-import parser.AssetLanParser;
+import parser.*;
 import utils.Environment;
 import utils.SemanticError;
 
