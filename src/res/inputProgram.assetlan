@@ -8,5 +8,6 @@ void main()[asset u, asset v]{
     u -o x ;
     u -o y ;
     f()[x,y] ;
+    x = 12 ;
 }
 main()[2,3]

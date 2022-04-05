@@ -1,6 +1,4 @@
-package parser;
-
-// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.9.2
+package parser;// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -42,11 +40,17 @@ public interface AssetLanVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunction(AssetLanParser.FunctionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AssetLanParser#param}.
+	 * Visit a parse tree produced by {@link AssetLanParser#dec}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParam(AssetLanParser.ParamContext ctx);
+	T visitDec(AssetLanParser.DecContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AssetLanParser#adec}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdec(AssetLanParser.AdecContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AssetLanParser#statement}.
 	 * @param ctx the parse tree

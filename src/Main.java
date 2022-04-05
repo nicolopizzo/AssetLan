@@ -1,12 +1,17 @@
+import ast.AssetLanVisitorConcrete;
+import ast.Node;
 import errorhandler.LexerErrorListener;
 import errorhandler.SyntaxError;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parser.AssetLanLexer;
 import parser.AssetLanParser;
+import utils.Environment;
+import utils.SemanticError;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -28,9 +33,8 @@ public class Main {
         //create the parser
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         AssetLanParser parser = new AssetLanParser(tokenStream);
-
-        //call parser that include also call to the lexer
-        parser.init();
+        AssetLanVisitorConcrete visitor = new AssetLanVisitorConcrete();
+        Node ast = visitor.visitInit(parser.init());
         //if there are syntax errors stop the compiler and return errors in lexicalErrors.txt file
         if (lexerErrorListener.getLexerErrors().size() > 0) {
             PrintWriter writer = new PrintWriter("lexicalErrors.txt");
@@ -40,6 +44,10 @@ public class Main {
             writer.close();
             System.out.println("Lexical Errors encountered. Aborting parsing. You can check the 'lexicalErrors.txt' file.");
         } else {
+            Environment env = new Environment();
+            if (ast != null) {
+                ArrayList<SemanticError> errors = ast.checkSemantics(env);
+            }
             //there are no syntax errors, can continue to compile executing the parser
             System.out.println("All good.");
         }

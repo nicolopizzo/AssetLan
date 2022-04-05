@@ -1,6 +1,4 @@
-// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.9.2
-package parser;
-
+package parser;// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -59,15 +57,25 @@ public interface AssetLanListener extends ParseTreeListener {
 	 */
 	void exitFunction(AssetLanParser.FunctionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AssetLanParser#param}.
+	 * Enter a parse tree produced by {@link AssetLanParser#dec}.
 	 * @param ctx the parse tree
 	 */
-	void enterParam(AssetLanParser.ParamContext ctx);
+	void enterDec(AssetLanParser.DecContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AssetLanParser#param}.
+	 * Exit a parse tree produced by {@link AssetLanParser#dec}.
 	 * @param ctx the parse tree
 	 */
-	void exitParam(AssetLanParser.ParamContext ctx);
+	void exitDec(AssetLanParser.DecContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AssetLanParser#adec}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdec(AssetLanParser.AdecContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AssetLanParser#adec}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdec(AssetLanParser.AdecContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AssetLanParser#statement}.
 	 * @param ctx the parse tree
