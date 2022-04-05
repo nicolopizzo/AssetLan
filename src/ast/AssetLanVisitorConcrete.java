@@ -149,9 +149,6 @@ public class AssetLanVisitorConcrete implements AssetLanVisitor<Node> {
 
     @Override
     public Node visitNotExp(NotExpContext ctx) {
-        for (ParseTree child : ctx.children) {
-            visit(child);
-        }
         return null;
     }
 
