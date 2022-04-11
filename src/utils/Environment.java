@@ -1,10 +1,10 @@
 package utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Environment {
-    private final HashMap<String, List<STEntry>> symTable = new HashMap<>();
+    private final HashMap<String, ArrayList<STEntry>> symTable = new HashMap<>();
     private int nestLevel = -1;
     private int offset = 0;
 
@@ -16,7 +16,7 @@ public class Environment {
         return nestLevel;
     }
 
-    public HashMap<String, List<STEntry>> getSymTable() {
+    public HashMap<String, ArrayList<STEntry>> getSymTable() {
         return symTable;
     }
 
@@ -36,7 +36,13 @@ public class Environment {
         nestLevel--;
     }
 
-    public SemanticError addEntry(String key, STEntry entry) {
+    public SemanticError addEntry(String key, STEntry entry) throws SemanticException {
+        ArrayList<STEntry> entries = symTable.get(key);
+        for (STEntry e : entries) {
+            if (e.getNestLevel() == entry.getNestLevel()) {
+                throw new DuplicateNestLevelException();
+            }
+        }
         return null;
     }
 

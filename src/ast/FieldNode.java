@@ -1,6 +1,7 @@
 package ast;
 
 import utils.Environment;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
@@ -28,8 +29,17 @@ public class FieldNode implements Node {
         return exp;
     }
 
+//    TODO: inserire la logica della checksemantics in una funzione separata; in questo caso se non è dichiarata la var.
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> errors = new ArrayList<>();
+        try {
+            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
+        } catch (Exception e) {
+            errors.add(new SemanticError(e.getMessage()));
+        } finally {
+            return errors;
+        }
     }
 }

@@ -13,8 +13,8 @@ function    : (type | 'void') ID
               '[' (aparam (',' aparam)* )? ']'
 	          '{' bparam* statement* '}' ;
 
-param       : type ID;
-bparam      : param;
+param       : type ID ;
+bparam      : param ';' ;
 
 aparam       : 'asset' ID;
 

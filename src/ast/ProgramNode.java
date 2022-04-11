@@ -21,6 +21,15 @@ public class ProgramNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> errors = new ArrayList<>();
+        for (FieldNode f : fields) {
+            errors.addAll(f.checkSemantics(env));
+        }
+
+        for (AssetNode a : assets) {
+//            Continua...
+        }
+
+        return errors;
     }
 }

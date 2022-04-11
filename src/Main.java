@@ -45,6 +45,9 @@ public class Main {
             Environment env = new Environment();
             if (ast != null) {
                 ArrayList<SemanticError> errors = ast.checkSemantics(env);
+                if (errors.size() > 0) {
+//                    Stampa errori e chiudi programma.
+                }
             }
             //there are no syntax errors, can continue to compile executing the parser
             System.out.println("All good.");
