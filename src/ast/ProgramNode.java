@@ -27,7 +27,7 @@ public class ProgramNode implements Node {
         }
 
         for (AssetNode a : assets) {
-//            Continua...
+            errors.addAll(a.checkSemantics(env));
         }
 
         return errors;
