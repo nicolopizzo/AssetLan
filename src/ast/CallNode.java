@@ -33,7 +33,7 @@ public class CallNode implements Node{
             errors.add(SemanticError.variableNotDeclared(id));
         }
         for (String myId : ids){
-            if (isVariableDeclared(env, myId)) {
+            if (!isVariableDeclared(env, myId)) {
                 errors.add(SemanticError.variableNotDeclared(myId));
             }
         }
