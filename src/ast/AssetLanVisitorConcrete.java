@@ -13,34 +13,34 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
 
     @Override
     public ProgramNode visitProgram(ProgramContext ctx) {
-        ArrayList<FieldNode> fields = new ArrayList<>();
+        ArrayList<Node> fields = new ArrayList<>();
         for (FieldContext field : ctx.field()) {
-            fields.add((FieldNode) visit(field));
+            fields.add(visit(field));
         }
 
-        ArrayList<AssetNode> assets = new ArrayList<>();
+        ArrayList<Node> assets = new ArrayList<>();
         for (AssetContext asset : ctx.asset()) {
-            assets.add((AssetNode) visit(asset));
+            assets.add(visit(asset));
         }
 
-        ArrayList<FunctionNode> functions = new ArrayList<>();
+        ArrayList<Node> functions = new ArrayList<>();
         for (FunctionContext function : ctx.function()) {
-            functions.add((FunctionNode) visit(function));
+            functions.add(visit(function));
         }
 
-        InitCallNode initCall = (InitCallNode) visit(ctx.initcall());
+        Node initCall = visit(ctx.initcall());
 
         return new ProgramNode(fields, assets, functions, initCall);
     }
 
     @Override
     public FieldNode visitField(FieldContext ctx) {
-        TypeNode type = visitType(ctx.type());
+        Node type = visitType(ctx.type());
         String id = ctx.ID().getText();
 
-        ExpNode exp = null;
+        Node exp = null;
         if (ctx.exp() != null) {
-            exp = (ExpNode) visit(ctx.exp());
+            exp = visit(ctx.exp());
         }
 
         return new FieldNode(type, id, exp);
@@ -53,108 +53,183 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
     }
 
     @Override
-    public FunctionNode visitFunction(FunctionContext ctx) {
-        TypeNode type = (TypeNode) visit(ctx.type());
-        return null;
-    }
+    public Node visitFunction(FunctionContext ctx) {
+//        System.out.println(ctx.getText());
+        Node type;
+        if (ctx.type() == null) {
+            type = new TypeNode("void");
+        } else {
+            type = visit(ctx.type());
+        }
+        String id = ctx.ID().getText();
 
-    @Override
-    public Node visitDec(DecContext ctx) {
-        return null;
-    }
+        ArrayList<Node> params = new ArrayList<>();
+        for (ParamContext p : ctx.param()) {
+            params.add(visit(p));
+        }
 
-    @Override
-    public Node visitAdec(AdecContext ctx) {
-        return null;
+        ArrayList<Node> assetParams = new ArrayList<>();
+        for (AparamContext a : ctx.aparam()) {
+            assetParams.add(visit(a));
+        }
+
+        ArrayList<Node> bodyParams = new ArrayList<>();
+        for (BparamContext b : ctx.bparam()) {
+            bodyParams.add(visit(b));
+        }
+
+        ArrayList<Node> statements = new ArrayList<>();
+        for (StatementContext s : ctx.statement()) {
+            statements.add(visit(s));
+        }
+
+        return new FunctionNode(type, id, params, assetParams, bodyParams, statements);
     }
 
     @Override
     public Node visitStatement(StatementContext ctx) {
-        return null;
+//        Uno statement produce a sua volta una sola produzione, dunque avrà sempre uno e un solo figlio.
+        return visit(ctx.children.get(0));
     }
 
     @Override
-    public TypeNode visitType(TypeContext ctx) {
-        return null;
+    public Node visitType(TypeContext ctx) {
+        return new TypeNode(ctx.getText());
     }
 
     @Override
     public Node visitAssignment(AssignmentContext ctx) {
-        return null;
+        String id = ctx.ID().getText();
+        Node expNode = visit(ctx.exp());
+
+        return new AssignmentNode(id, expNode);
     }
 
     @Override
     public Node visitMove(MoveContext ctx) {
-        return null;
+        String id1 = ctx.ID(0).getText();
+        String id2 = ctx.ID(1).getText();
+
+        return new MoveNode(id1, id2);
     }
 
     @Override
     public Node visitPrint(PrintContext ctx) {
-        return null;
+        Node expNode = visit(ctx.exp());
+
+        return new PrintNode(expNode);
     }
 
     @Override
     public Node visitTransfer(TransferContext ctx) {
-        return null;
+        String id = ctx.ID().getText();
+
+        return new TransferNode(id);
     }
 
     @Override
     public Node visitRet(RetContext ctx) {
-        return null;
+        Node expNode = visit(ctx.exp());
+
+        return new RetNode(expNode);
     }
 
     @Override
     public Node visitIte(IteContext ctx) {
-        return null;
+        Node expNode = visit(ctx.exp());
+        Node ifStatement = visit(ctx.statement(0));
+        if (ctx.statement(1) != null) {
+            Node elseStatement = visit(ctx.statement(1));
+            return new IteNode(expNode, ifStatement, elseStatement);
+        }
+
+        return new IteNode(expNode, ifStatement);
     }
 
     @Override
     public Node visitCall(CallContext ctx) {
-        return null;
+        String id = ctx.ID(0).getText();
+
+        ArrayList<Node> params = new ArrayList<>();
+        for (ExpContext e : ctx.exp()) {
+            params.add(visit(e));
+        }
+
+        ArrayList<String> assets = new ArrayList<>();
+        for (int i = 1; i < ctx.ID().size(); i++) {
+            assets.add(ctx.ID(i).getText());
+        }
+
+        return new CallNode(id, params, assets);
     }
 
     @Override
     public InitCallNode visitInitcall(InitcallContext ctx) {
-        return null;
+        String id = ctx.ID().getText();
+
+        ArrayList<Node> params = new ArrayList<>();
+        for (ExpContext e : ctx.exp()) {
+            params.add(visit(e));
+        }
+
+        ArrayList<Node> assets = new ArrayList<>();
+        for (AexpContext e : ctx.aexp()) {
+            assets.add(visit(e));
+        }
+
+        return new InitCallNode(id, params, assets);
     }
 
     @Override
     public Node visitBaseExp(BaseExpContext ctx) {
-        return null;
+        Node exp = visit(ctx.exp());
+
+        return new BaseExpNode(exp);
     }
 
     @Override
     public Node visitBinExp(BinExpContext ctx) {
-        return null;
+        Node leftExp = visit(ctx.left);
+        Node rightExp = visit(ctx.right);
+
+        return new BinExpNode(leftExp, rightExp);
     }
 
     @Override
     public Node visitDerExp(DerExpContext ctx) {
-        return null;
+        String id = ctx.ID().getText();
+
+        return new DerExpNode(id);
     }
 
     @Override
     public Node visitValExp(ValExpContext ctx) {
-        return null;
+        String value = ctx.NUMBER().getText();
+
+        return new ValExpNode(value);
     }
 
     @Override
     public Node visitNegExp(NegExpContext ctx) {
-        return null;
+        Node expNode = visit(ctx.exp());
+
+        return new NegExpNode(expNode);
     }
 
     @Override
     public Node visitBoolExp(BoolExpContext ctx) {
-        return null;
+        String bool = ctx.BOOL().getText();
+
+        return new BoolExpNode(bool);
     }
 
     @Override
     public Node visitCallExp(CallExpContext ctx) {
-        return null;
+        return visit(ctx.call());
     }
 
     @Override
-    public NotExpContext visitNotExp(NotExpContext ctx) {
-        return null;
+    public Node visitNotExp(NotExpContext ctx) {
+        return new NotExpNode();
     }
 }

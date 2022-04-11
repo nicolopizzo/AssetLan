@@ -40,17 +40,23 @@ public interface AssetLanVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunction(AssetLanParser.FunctionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AssetLanParser#dec}.
+	 * Visit a parse tree produced by {@link AssetLanParser#param}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDec(AssetLanParser.DecContext ctx);
+	T visitParam(AssetLanParser.ParamContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AssetLanParser#adec}.
+	 * Visit a parse tree produced by {@link AssetLanParser#bparam}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAdec(AssetLanParser.AdecContext ctx);
+	T visitBparam(AssetLanParser.BparamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AssetLanParser#aparam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAparam(AssetLanParser.AparamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AssetLanParser#statement}.
 	 * @param ctx the parse tree
@@ -167,4 +173,10 @@ public interface AssetLanVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNotExp(AssetLanParser.NotExpContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AssetLanParser#aexp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAexp(AssetLanParser.AexpContext ctx);
 }

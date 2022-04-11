@@ -12,13 +12,15 @@ public class FunctionNode implements Node {
     private String id;
     private ArrayList<Node> declarations;
     private ArrayList<Node> assets;
+    private ArrayList<Node> fields;
     private ArrayList<Node> statements;
 
-    public FunctionNode(TypeNode type, String id, ArrayList<Node> declarations, ArrayList<Node> assets, ArrayList<Node> statements) {
+    public FunctionNode(Node type, String id, ArrayList<Node> declarations, ArrayList<Node> assets, ArrayList<Node> fields, ArrayList<Node> statements) {
         this.type = type;
         this.id = id;
         this.declarations = declarations;
         this.assets = assets;
+        this.fields = fields;
         this.statements = statements;
     }
 

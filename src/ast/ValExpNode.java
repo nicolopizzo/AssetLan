@@ -5,9 +5,15 @@ import utils.SemanticError;
 
 import java.util.ArrayList;
 
-public class ValExpNode extends ExpNode {
+public class ValExpNode implements Node {
+    String value;
+
+    public ValExpNode(String value) {
+        this.value = value;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return super.checkSemantics(env);
+        return null;
     }
 }

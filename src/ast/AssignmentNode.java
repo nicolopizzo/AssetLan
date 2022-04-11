@@ -24,6 +24,11 @@ public class AssignmentNode implements Node{
         return false;
     }
 
+    public AssignmentNode(String id, Node exp) {
+        this.id = id;
+        this.exp = exp;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();

@@ -12,7 +12,7 @@ public class FieldNode implements Node {
     private String id;
     private Node exp;
 
-    public FieldNode(TypeNode type, String id, ExpNode exp) {
+    public FieldNode(Node type, String id, Node exp) {
         this.type = type;
         this.id = id;
         this.exp = exp;

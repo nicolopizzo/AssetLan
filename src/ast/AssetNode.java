@@ -14,14 +14,6 @@ public class AssetNode implements Node {
         this.id = id;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     private boolean isVariableDeclared(Environment env) {
         HashMap<String, ArrayList<STEntry>> symTable = env.getSymTable();
         ArrayList<STEntry> listOfLevels = symTable.get(id);

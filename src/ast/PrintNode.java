@@ -9,6 +9,10 @@ public class PrintNode implements Node{
 
     private Node exp;
 
+    public PrintNode(Node exp) {
+        this.exp = exp;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         return null;

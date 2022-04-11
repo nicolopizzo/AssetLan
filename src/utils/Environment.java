@@ -20,14 +20,6 @@ public class Environment {
         return symTable;
     }
 
-    public void incOffset() {
-        offset++;
-    }
-
-    public void decOffset() {
-        offset--;
-    }
-
     public void incNestLevel() {
         nestLevel++;
     }
@@ -44,28 +36,8 @@ public class Environment {
             symTable.put(key, singleton);
         }
     }
-}
 
-class SemanticException extends Exception {
-    public SemanticException(String s) {
-        super(s);
-    }
-}
-
-class DuplicateNestLevelException extends SemanticException {
-    public DuplicateNestLevelException() {
-        super("NestLevelException: This variable has been already declared in this scope.");
-    }
-}
-
-class DuplicateTypeException extends SemanticException {
-    public DuplicateTypeException() {
-        super("Type Exception: this variable has been already declared in this scope with a different type.");
-    }
-}
-
-class EntityNotFoundException extends SemanticException {
-    public EntityNotFoundException() {
-        super("Entity not found exception: this variable/function has not been declared.");
+    public ArrayList<STEntry> lookup(String key) {
+        return symTable.get(key);
     }
 }

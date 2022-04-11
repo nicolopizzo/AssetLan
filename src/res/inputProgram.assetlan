@@ -1,11 +1,9 @@
 int x;
 int y;
-int x;
 
 asset x;
 asset y;
-int a;
-int a;
+
 void f()[asset u, asset v]{
     u -o y ;
     v -o x ;

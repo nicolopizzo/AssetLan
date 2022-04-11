@@ -57,25 +57,35 @@ public interface AssetLanListener extends ParseTreeListener {
 	 */
 	void exitFunction(AssetLanParser.FunctionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AssetLanParser#dec}.
+	 * Enter a parse tree produced by {@link AssetLanParser#param}.
 	 * @param ctx the parse tree
 	 */
-	void enterDec(AssetLanParser.DecContext ctx);
+	void enterParam(AssetLanParser.ParamContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AssetLanParser#dec}.
+	 * Exit a parse tree produced by {@link AssetLanParser#param}.
 	 * @param ctx the parse tree
 	 */
-	void exitDec(AssetLanParser.DecContext ctx);
+	void exitParam(AssetLanParser.ParamContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AssetLanParser#adec}.
+	 * Enter a parse tree produced by {@link AssetLanParser#bparam}.
 	 * @param ctx the parse tree
 	 */
-	void enterAdec(AssetLanParser.AdecContext ctx);
+	void enterBparam(AssetLanParser.BparamContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AssetLanParser#adec}.
+	 * Exit a parse tree produced by {@link AssetLanParser#bparam}.
 	 * @param ctx the parse tree
 	 */
-	void exitAdec(AssetLanParser.AdecContext ctx);
+	void exitBparam(AssetLanParser.BparamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AssetLanParser#aparam}.
+	 * @param ctx the parse tree
+	 */
+	void enterAparam(AssetLanParser.AparamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AssetLanParser#aparam}.
+	 * @param ctx the parse tree
+	 */
+	void exitAparam(AssetLanParser.AparamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AssetLanParser#statement}.
 	 * @param ctx the parse tree
@@ -272,4 +282,14 @@ public interface AssetLanListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNotExp(AssetLanParser.NotExpContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AssetLanParser#aexp}.
+	 * @param ctx the parse tree
+	 */
+	void enterAexp(AssetLanParser.AexpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AssetLanParser#aexp}.
+	 * @param ctx the parse tree
+	 */
+	void exitAexp(AssetLanParser.AexpContext ctx);
 }

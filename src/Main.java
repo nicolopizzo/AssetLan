@@ -43,23 +43,21 @@ public class Main {
             }
             writer.close();
             System.out.println("Lexical Errors encountered. Aborting parsing. You can check the 'lexicalErrors.txt' file.");
-        } else {
-            Environment env = new Environment();
-            if (ast != null) {
-                ArrayList<SemanticError> errors = ast.checkSemantics(env);
-                if (errors.size() > 0) {
-//                  Print all semantic program errors
-                    System.out.println("Semantic errors encountered. Aborting parsing. Semantic errors are:\n");
-                    for (SemanticError e : errors) {
-                        System.out.println(e.getMsg());
-                    }
-                }
-                else {
-
-                }
-            }
-            //there are no syntax errors, can continue to compile executing the parser
-            System.out.println("All good.");
+            System.exit(1);
         }
+
+        Environment env = new Environment();
+        ArrayList<SemanticError> errors = ast.checkSemantics(env);
+        if (errors.size() > 0) {
+//                  Print all semantic program errors
+            System.out.println("Semantic errors encountered. Aborting parsing. Semantic errors are:\n");
+            for (SemanticError e : errors) {
+                System.out.println(e.getMsg());
+            }
+            System.exit(2);
+        }
+
+        //there are no syntax errors, can continue to compile executing the parser
+        System.out.println("All good.");
     }
 }

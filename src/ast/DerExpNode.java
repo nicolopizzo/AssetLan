@@ -5,9 +5,15 @@ import utils.SemanticError;
 
 import java.util.ArrayList;
 
-public class DerExpNode extends ExpNode{
+public class DerExpNode implements Node {
+    String id;
+
+    public DerExpNode(String id) {
+        this.id = id;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return super.checkSemantics(env);
+        return null;
     }
 }

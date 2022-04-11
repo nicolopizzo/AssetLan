@@ -26,6 +26,12 @@ public class CallNode implements Node{
         return false;
     }
 
+    public CallNode(String id, ArrayList<Node> exp, ArrayList<String> ids) {
+        this.id = id;
+        this.exp = exp;
+        this.ids = ids;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();

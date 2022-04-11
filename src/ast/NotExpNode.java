@@ -5,9 +5,9 @@ import utils.SemanticError;
 
 import java.util.ArrayList;
 
-public class NotExpNode extends ExpNode {
+public class NotExpNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return super.checkSemantics(env);
+        return null;
     }
 }

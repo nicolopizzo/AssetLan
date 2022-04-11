@@ -5,9 +5,17 @@ import utils.SemanticError;
 
 import java.util.ArrayList;
 
-public class BinExpNode extends ExpNode{
+public class BinExpNode implements Node {
+    Node left;
+    Node right;
+
+    public BinExpNode(Node left, Node right) {
+        this.left = left;
+        this.right = right;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return super.checkSemantics(env);
+        return null;
     }
 }
