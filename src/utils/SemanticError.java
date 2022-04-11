@@ -8,11 +8,11 @@ public class SemanticError {
     }
 
     public static SemanticError duplicateDeclaration(String id){
-        return new SemanticError("Variable " + id + " already declared.");
+        return new SemanticError("ID " + id + " already declared.");
     }
 
     public static SemanticError variableNotDeclared(String id){
-        return new SemanticError("Variable " + id + " is not declared.");
+        return new SemanticError("ID " + id + " is not declared.");
     }
 
     public String getMsg() {

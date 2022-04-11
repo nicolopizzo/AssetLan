@@ -1,9 +1,11 @@
 package ast;
 
 import utils.Environment;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FunctionNode implements Node {
     private Node type;
@@ -20,8 +22,28 @@ public class FunctionNode implements Node {
         this.statements = statements;
     }
 
+    public boolean isVariableDeclared(Environment env) {
+        HashMap<String, ArrayList<STEntry>> symTable = env.getSymTable();
+        ArrayList<STEntry> listOfLevels = symTable.get(id);
+        if (symTable.containsKey(id)) {
+            for (STEntry l : listOfLevels) {
+                if (l.getNestLevel() == env.getNestLevel()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> errors = new ArrayList<>();
+        if (isVariableDeclared(env)) {
+            errors.add(SemanticError.duplicateDeclaration(id));
+        } else {
+            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
+            env.incNestLevel();
+        }
+        return errors;
     }
 }
