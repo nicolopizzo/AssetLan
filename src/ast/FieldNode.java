@@ -37,7 +37,7 @@ public class FieldNode implements Node {
         if (!isVariableDeclared(env)) {
             env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
         } else {
-            errors.add(SemanticError.duplicateError(id));
+            errors.add(SemanticError.duplicateDeclaration(id));
         }
         return errors;
     }

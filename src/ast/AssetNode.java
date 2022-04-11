@@ -42,7 +42,7 @@ public class AssetNode implements Node {
         if (!isVariableDeclared(env)) {
             env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
         } else {
-            semanticErrors.add(SemanticError.duplicateError(id));
+            semanticErrors.add(SemanticError.duplicateDeclaration(id));
         }
 
         return semanticErrors;
