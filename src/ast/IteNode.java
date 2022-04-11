@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class IteNode implements Node{
 
-    private StatementNode statementIf;
-    private StatementNode statementElse;
-    private ExpNode exp;
+    private Node statementIf;
+    private Node statementElse;
+    private Node exp;
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

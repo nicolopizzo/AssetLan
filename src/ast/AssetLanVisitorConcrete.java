@@ -1,15 +1,11 @@
 package ast;
 
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.RuleNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
+import parser.AssetLanBaseVisitor;
 import parser.AssetLanParser.*;
-import parser.AssetLanVisitor;
 
 import java.util.ArrayList;
 
-public class AssetLanVisitorConcrete implements AssetLanVisitor<Node> {
+public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
     @Override
     public Node visitInit(InitContext ctx) {
         return visitProgram(ctx.program());
@@ -19,20 +15,20 @@ public class AssetLanVisitorConcrete implements AssetLanVisitor<Node> {
     public ProgramNode visitProgram(ProgramContext ctx) {
         ArrayList<FieldNode> fields = new ArrayList<>();
         for (FieldContext field : ctx.field()) {
-            fields.add(visitField(field));
+            fields.add((FieldNode) visit(field));
         }
 
         ArrayList<AssetNode> assets = new ArrayList<>();
         for (AssetContext asset : ctx.asset()) {
-            assets.add(visitAsset(asset));
+            assets.add((AssetNode) visit(asset));
         }
 
         ArrayList<FunctionNode> functions = new ArrayList<>();
         for (FunctionContext function : ctx.function()) {
-            functions.add(visitFunction(function));
+            functions.add((FunctionNode) visit(function));
         }
 
-        InitCallNode initCall = visitInitcall(ctx.initcall());
+        InitCallNode initCall = (InitCallNode) visit(ctx.initcall());
 
         return new ProgramNode(fields, assets, functions, initCall);
     }
@@ -41,17 +37,24 @@ public class AssetLanVisitorConcrete implements AssetLanVisitor<Node> {
     public FieldNode visitField(FieldContext ctx) {
         TypeNode type = visitType(ctx.type());
         String id = ctx.ID().getText();
+
         ExpNode exp = null;
+        if (ctx.exp() != null) {
+            exp = (ExpNode) visit(ctx.exp());
+        }
+
         return new FieldNode(type, id, exp);
     }
 
     @Override
     public AssetNode visitAsset(AssetContext ctx) {
-        return null;
+        String id = ctx.ID().getText();
+        return new AssetNode(id);
     }
 
     @Override
     public FunctionNode visitFunction(FunctionContext ctx) {
+        TypeNode type = (TypeNode) visit(ctx.type());
         return null;
     }
 
@@ -152,30 +155,6 @@ public class AssetLanVisitorConcrete implements AssetLanVisitor<Node> {
 
     @Override
     public NotExpContext visitNotExp(NotExpContext ctx) {
-        return null;
-    }
-
-    private ExpNode visitExp(ExpContext ctx) {
-        return null;
-    }
-
-    @Override
-    public Node visit(ParseTree parseTree) {
-        return null;
-    }
-
-    @Override
-    public Node visitChildren(RuleNode ruleNode) {
-        return null;
-    }
-
-    @Override
-    public Node visitTerminal(TerminalNode terminalNode) {
-        return null;
-    }
-
-    @Override
-    public Node visitErrorNode(ErrorNode errorNode) {
         return null;
     }
 }

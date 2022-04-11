@@ -6,13 +6,13 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class FunctionNode implements Node {
-    private TypeNode type;
+    private Node type;
     private String id;
-    private ArrayList<DecNode> declarations;
-    private ArrayList<AdecNode> assets;
-    private ArrayList<StatementNode> statements;
+    private ArrayList<Node> declarations;
+    private ArrayList<Node> assets;
+    private ArrayList<Node> statements;
 
-    public FunctionNode(TypeNode type, String id, ArrayList<DecNode> declarations, ArrayList<AdecNode> assets, ArrayList<StatementNode> statements) {
+    public FunctionNode(TypeNode type, String id, ArrayList<Node> declarations, ArrayList<Node> assets, ArrayList<Node> statements) {
         this.type = type;
         this.id = id;
         this.declarations = declarations;

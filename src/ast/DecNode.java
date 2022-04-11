@@ -6,7 +6,7 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class DecNode implements Node{
-    private ArrayList<TypeNode> typeNodes;
+    private ArrayList<Node> typeNodes;
     private ArrayList<String> ids;
 
     @Override

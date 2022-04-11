@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CallNode implements Node{
 
     private String id;
-    private ArrayList<ExpNode> exp;
+    private ArrayList<Node> exp;
     private ArrayList<String> ids;
 
     @Override

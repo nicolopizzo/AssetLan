@@ -8,26 +8,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FieldNode implements Node {
-    private TypeNode type;
+    private Node type;
     private String id;
-    private ExpNode exp;
+    private Node exp;
 
     public FieldNode(TypeNode type, String id, ExpNode exp) {
         this.type = type;
         this.id = id;
         this.exp = exp;
-    }
-
-    public TypeNode getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public ExpNode getExp() {
-        return exp;
     }
 
     private boolean isVariableDeclared(Environment env) {

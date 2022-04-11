@@ -6,9 +6,9 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class RetNode implements Node {
-    private ExpNode returendExpression;
+    private Node returendExpression;
 
-    public RetNode(ExpNode returendExpression) {
+    public RetNode(Node returendExpression) {
         this.returendExpression = returendExpression;
     }
 

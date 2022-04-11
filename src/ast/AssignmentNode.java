@@ -6,9 +6,8 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class AssignmentNode implements Node{
-
     private String id;
-    private ExpNode exp;
+    private Node exp;
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
