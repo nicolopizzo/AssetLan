@@ -39,7 +39,10 @@ public class AssetLanVisitorConcrete implements AssetLanVisitor<Node> {
 
     @Override
     public FieldNode visitField(FieldContext ctx) {
-        return null;
+        TypeNode type = visitType(ctx.type());
+        String id = ctx.ID().getText();
+        ExpNode exp = null;
+        return new FieldNode(type, id, exp);
     }
 
     @Override
@@ -68,7 +71,7 @@ public class AssetLanVisitorConcrete implements AssetLanVisitor<Node> {
     }
 
     @Override
-    public Node visitType(TypeContext ctx) {
+    public TypeNode visitType(TypeContext ctx) {
         return null;
     }
 
@@ -148,7 +151,11 @@ public class AssetLanVisitorConcrete implements AssetLanVisitor<Node> {
     }
 
     @Override
-    public Node visitNotExp(NotExpContext ctx) {
+    public NotExpContext visitNotExp(NotExpContext ctx) {
+        return null;
+    }
+
+    private ExpNode visitExp(ExpContext ctx) {
         return null;
     }
 

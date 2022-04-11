@@ -38,6 +38,11 @@ public class Environment {
 
     public void addEntry(String key, STEntry entry) {
         ArrayList<STEntry> entries = symTable.get(key);
+        if (entries == null) {
+            ArrayList<STEntry> singleton = new ArrayList<>();
+            singleton.add(entry);
+            symTable.put(key, singleton);
+        }
     }
 }
 

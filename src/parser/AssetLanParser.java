@@ -1,8 +1,13 @@
 package parser;// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.9.2
+import ast.Node;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
+import utils.Environment;
+import utils.SemanticError;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
@@ -1491,7 +1496,7 @@ public class AssetLanParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class NotExpContext extends ExpContext {
+	public static class NotExpContext extends ExpContext implements Node {
 		public ExpContext exp() {
 			return getRuleContext(ExpContext.class,0);
 		}
@@ -1508,6 +1513,11 @@ public class AssetLanParser extends Parser {
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AssetLanVisitor ) return ((AssetLanVisitor<? extends T>)visitor).visitNotExp(this);
 			else return visitor.visitChildren(this);
+		}
+
+		@Override
+		public ArrayList<SemanticError> checkSemantics(Environment env) {
+			return null;
 		}
 	}
 
