@@ -1,9 +1,11 @@
 package ast;
 
 import utils.Environment;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AssetNode implements Node {
     private String id;
@@ -12,8 +14,37 @@ public class AssetNode implements Node {
         this.id = id;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private boolean isVariableDeclared(Environment env) {
+        HashMap<String, ArrayList<STEntry>> symTable = env.getSymTable();
+        ArrayList<STEntry> listOfLevels = symTable.get(id);
+
+        for (STEntry l : listOfLevels) {
+            if (l.getNestLevel() == env.getNestLevel()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> semanticErrors = new ArrayList<>();
+
+        if (!isVariableDeclared(env)) {
+            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
+        } else {
+            semanticErrors.add(SemanticError.duplicateError(id));
+        }
+
+        return semanticErrors;
     }
 }

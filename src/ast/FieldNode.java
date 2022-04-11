@@ -30,12 +30,12 @@ public class FieldNode implements Node {
         return exp;
     }
 
-    private boolean isVariableDeclared (Environment env){
+    private boolean isVariableDeclared(Environment env) {
         HashMap<String, ArrayList<STEntry>> symTable = env.getSymTable();
         ArrayList<STEntry> listOfLevels = symTable.get(id);
-        if (symTable.containsKey(id) ){
-            for (STEntry l : listOfLevels){
-                if (l.getNestLevel() == env.getNestLevel()){
+        if (symTable.containsKey(id)) {
+            for (STEntry l : listOfLevels) {
+                if (l.getNestLevel() == env.getNestLevel()) {
                     return true;
                 }
             }
