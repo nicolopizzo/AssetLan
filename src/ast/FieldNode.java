@@ -5,6 +5,7 @@ import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FieldNode implements Node {
     private TypeNode type;
@@ -29,17 +30,27 @@ public class FieldNode implements Node {
         return exp;
     }
 
-//    TODO: inserire la logica della checksemantics in una funzione separata; in questo caso se non è dichiarata la var.
+    private boolean isVariableDeclared (Environment env){
+        HashMap<String, ArrayList<STEntry>> symTable = env.getSymTable();
+        ArrayList<STEntry> listOfLevels = symTable.get(id);
+        if (symTable.containsKey(id) ){
+            for (STEntry l : listOfLevels){
+                if (l.getNestLevel() == env.getNestLevel()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
-        try {
+        if (!isVariableDeclared(env)) {
             env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
-        } catch (Exception e) {
-            errors.add(new SemanticError(e.getMessage()));
-        } finally {
-            return errors;
+        } else {
+            errors.add(SemanticError.duplicateError(id));
         }
+        return errors;
     }
 }

@@ -7,6 +7,10 @@ public class SemanticError {
         msg = message;
     }
 
+    public static SemanticError duplicateError(String id){
+        return new SemanticError("Variable " + id + " already declared.");
+    }
+
     public String getMsg() {
         return msg;
     }

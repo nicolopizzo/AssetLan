@@ -36,18 +36,8 @@ public class Environment {
         nestLevel--;
     }
 
-    public SemanticError addEntry(String key, STEntry entry) throws SemanticException {
+    public void addEntry(String key, STEntry entry) {
         ArrayList<STEntry> entries = symTable.get(key);
-        for (STEntry e : entries) {
-            if (e.getNestLevel() == entry.getNestLevel()) {
-                throw new DuplicateNestLevelException();
-            }
-        }
-        return null;
-    }
-
-    private boolean checkTable(String key, STEntry entry) throws SemanticException {
-        return false;
     }
 }
 

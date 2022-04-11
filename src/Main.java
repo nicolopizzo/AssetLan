@@ -46,7 +46,14 @@ public class Main {
             if (ast != null) {
                 ArrayList<SemanticError> errors = ast.checkSemantics(env);
                 if (errors.size() > 0) {
-//                    Stampa errori e chiudi programma.
+//                  Print all semantic program errors
+                    System.out.println("Semantic errors encountered. Aborting parsing. Semantic errors are:\n");
+                    for (SemanticError e : errors) {
+                        System.out.println(e.getMsg());
+                    }
+                }
+                else {
+
                 }
             }
             //there are no syntax errors, can continue to compile executing the parser
