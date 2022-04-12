@@ -1,11 +1,12 @@
 package ast;
 
 import utils.Environment;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
 
-public class PrintNode implements Node{
+public class PrintNode implements Node {
 
     private Node exp;
 
@@ -15,6 +16,6 @@ public class PrintNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        return exp.checkSemantics(env);
     }
 }

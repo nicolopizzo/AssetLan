@@ -14,28 +14,15 @@ public class AssetNode implements Node {
         this.id = id;
     }
 
-    private boolean isVariableDeclared(Environment env) {
-        HashMap<String, ArrayList<STEntry>> symTable = env.getSymTable();
-        ArrayList<STEntry> listOfLevels = symTable.get(id);
-
-        for (STEntry l : listOfLevels) {
-            if (l.getNestLevel() == env.getNestLevel()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> semanticErrors = new ArrayList<>();
 
-        if (!isVariableDeclared(env)) {
+        if (!env.isEntityDeclared(id))
             env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
-        } else {
+        else
             semanticErrors.add(SemanticError.duplicateDeclaration(id));
-        }
 
         return semanticErrors;
     }
