@@ -38,7 +38,7 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
         Node type = visitType(ctx.type());
         String id = ctx.ID().getText();
 
-        Node exp = null;
+        Node exp = ctx.exp() == null ? null : visit(ctx.exp());
         if (ctx.exp() != null) {
             exp = visit(ctx.exp());
         }
@@ -54,28 +54,25 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
 
     @Override
     public Node visitFunction(FunctionContext ctx) {
-//        System.out.println(ctx.getText());
-        Node type;
-        if (ctx.type() == null) {
-            type = new TypeNode("void");
-        } else {
-            type = visit(ctx.type());
-        }
+        Node type = visit(ctx.type());
         String id = ctx.ID().getText();
 
         ArrayList<Node> params = new ArrayList<>();
         for (ParamContext p : ctx.param()) {
-            params.add(visit(p));
+            Node pType = visit(p.type());
+            String pId = p.ID().getText();
+            params.add(new ParamNode(pType, pId));
         }
 
         ArrayList<Node> assetParams = new ArrayList<>();
         for (AparamContext a : ctx.aparam()) {
-            assetParams.add(visit(a));
+            String assetId = a.ID().getText();
+            assetParams.add(new ParamNode(new TypeNode("asset"), assetId));
         }
 
-        ArrayList<Node> bodyParams = new ArrayList<>();
-        for (BparamContext b : ctx.bparam()) {
-            bodyParams.add(visit(b));
+        ArrayList<Node> fields = new ArrayList<>();
+        for (FieldContext b : ctx.field()) {
+            fields.add(visit(b));
         }
 
         ArrayList<Node> statements = new ArrayList<>();
@@ -83,7 +80,7 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
             statements.add(visit(s));
         }
 
-        return new FunctionNode(type, id, params, assetParams, bodyParams, statements);
+        return new FunctionNode(type, id, params, assetParams, fields, statements);
     }
 
     @Override

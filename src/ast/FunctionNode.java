@@ -5,7 +5,6 @@ import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class FunctionNode implements Node {
     private Node type;
@@ -24,28 +23,30 @@ public class FunctionNode implements Node {
         this.statements = statements;
     }
 
-    public boolean isVariableDeclared(Environment env) {
-        HashMap<String, ArrayList<STEntry>> symTable = env.getSymTable();
-        ArrayList<STEntry> listOfLevels = symTable.get(id);
-        if (symTable.containsKey(id)) {
-            for (STEntry l : listOfLevels) {
-                if (l.getNestLevel() == env.getNestLevel()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
-        if (isVariableDeclared(env)) {
+        if (env.isEntityDeclared(id)) {
             errors.add(SemanticError.duplicateDeclaration(id));
-        } else {
-            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
-            env.incNestLevel();
+            return errors;
         }
+        env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
+
+        env.incNestLevel();
+        for (Node d : declarations) {
+            errors.addAll(d.checkSemantics(env));
+        }
+        for (Node a : assets) {
+            errors.addAll(a.checkSemantics(env));
+        }
+        for (Node f : fields) {
+            errors.addAll(f.checkSemantics(env));
+        }
+        for (Node s : statements) {
+            errors.addAll(s.checkSemantics(env));
+        }
+        env.decNestLevel();
+
         return errors;
     }
 }

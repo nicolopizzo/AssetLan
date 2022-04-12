@@ -40,4 +40,24 @@ public class Environment {
     public ArrayList<STEntry> lookup(String key) {
         return symTable.get(key);
     }
+
+    public STEntry lastInScope(String key) {
+        ArrayList<STEntry> entries = symTable.get(key);
+        if (entries == null) {
+            return null;
+        }
+        return entries.get(entries.size() - 1);
+    }
+
+    public boolean hasKey(String key) {
+        return symTable.containsKey(key);
+    }
+
+    public boolean isEntityDeclared(String key) {
+        ArrayList<STEntry> entries = symTable.get(key);
+        if (entries == null) {
+            return false;
+        }
+        return lastInScope(key).getNestLevel() == nestLevel;
+    }
 }
