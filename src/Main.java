@@ -12,6 +12,15 @@ import utils.SemanticError;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
+
+class ExitCode {
+    public static final int SUCCESS = 0;
+    public static final int LEXER_ERROR = 1;
+    public static final int SYNTAX_ERROR = 2;
+    public static final int SEMANTIC_ERROR = 3;
+    public static final int UNKNOWN_ERROR = 4;
+}
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -35,29 +44,32 @@ public class Main {
         AssetLanParser parser = new AssetLanParser(tokenStream);
         AssetLanVisitorConcrete visitor = new AssetLanVisitorConcrete();
         Node ast = visitor.visitInit(parser.init());
+
         //if there are syntax errors stop the compiler and return errors in lexicalErrors.txt file
-        if (lexerErrorListener.getLexerErrors().size() > 0) {
+        List<SyntaxError> lexicalErrors = lexerErrorListener.getLexerErrors();
+        if (lexicalErrors.size() > 0) {
             PrintWriter writer = new PrintWriter("lexicalErrors.txt");
-            for (SyntaxError e : lexerErrorListener.getLexerErrors()) {
+            for (SyntaxError e : lexicalErrors) {
                 writer.println(e.getMessage());
             }
             writer.close();
             System.out.println("Lexical Errors encountered. Aborting parsing. You can check the 'lexicalErrors.txt' file.");
-            System.exit(1);
+            System.exit(ExitCode.LEXER_ERROR);
         }
 
         Environment env = new Environment();
-        ArrayList<SemanticError> errors = ast.checkSemantics(env);
-        if (errors.size() > 0) {
-//                  Print all semantic program errors
+        ArrayList<SemanticError> semanticErrors = ast.checkSemantics(env);
+        if (semanticErrors.size() > 0) {
+            // Print all semantic program errors
             System.out.println("Semantic errors encountered. Aborting parsing. Semantic errors are:\n");
-            for (SemanticError e : errors) {
+            for (SemanticError e : semanticErrors) {
                 System.out.println(e.getMsg());
             }
-            System.exit(2);
+            System.exit(ExitCode.SEMANTIC_ERROR);
         }
 
         //there are no syntax errors, can continue to compile executing the parser
         System.out.println("All good.");
+        System.exit(ExitCode.SUCCESS);
     }
 }

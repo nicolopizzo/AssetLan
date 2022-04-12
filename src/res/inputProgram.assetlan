@@ -1,5 +1,5 @@
-int x;
-int y;
+int x2 = true;
+int y = ?;
 
 asset x;
 asset y;
@@ -8,10 +8,10 @@ void f()[asset u, asset v]{
     u -o y ;
     v -o x ;
 }
-void main()[asset u, asset v]{
+void main(int x_)[asset u, asset v]{
     u -o x ;
     u -o y ;
     f()[x,y] ;
     x = 12 ;
 }
-main()[2,3]
+main(!)[2,3]

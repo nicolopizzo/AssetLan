@@ -8,15 +8,15 @@ field       : type ID ('=' exp)? ';' ;
 
 asset       : 'asset' ID ';' ;
 
-function    : (type | 'void') ID
+function    : type ID
               '(' (param (',' param)* )? ')'
               '[' (aparam (',' aparam)* )? ']'
-	          '{' bparam* statement* '}' ;
+	          '{' field* statement* '}' ;
 
 param       : type ID ;
 bparam      : param ';' ;
 
-aparam       : 'asset' ID;
+aparam       : 'asset' ID ;
 
 statement   : assignment ';'
             | move ';'     // sposta un asset da una parte all'altra
@@ -27,7 +27,8 @@ statement   : assignment ';'
             | call ';' ;
 
 type        : 'int'
-            | 'bool' ;
+            | 'bool'
+            | 'void' ;
 
 assignment  : ID '=' exp ;
 
@@ -48,7 +49,7 @@ initcall    : ID '(' (exp (',' exp)* )? ')' '[' (aexp (',' aexp)* )? ']' ;
 
 exp	        : '(' exp ')'				                        #baseExp
             | '-' exp					                        #negExp
-            | '!'                                               #notExp
+            | '!' exp                                              #notExp
             | ID						                        #derExp
             | left=exp op=('*' | '/')               right=exp   #binExp
             | left=exp op=('+' | '-')               right=exp   #binExp
