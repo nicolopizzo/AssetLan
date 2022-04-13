@@ -1,14 +1,9 @@
 package ast;
 
 import utils.Environment;
-import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MoveNode implements Node {
 
@@ -24,16 +19,13 @@ public class MoveNode implements Node {
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> semanticErrors = new ArrayList<>();
 
-        if (!env.isEntityDeclared(id1))
-            env.addEntry(id1, new STEntry(env.getNestLevel(), env.getOffset()));
-        else
-            semanticErrors.add(SemanticError.duplicateDeclaration(id1));
+        if (!env.isDeclared(id1)) {
+            semanticErrors.add(SemanticError.variableNotDeclared(id1));
+        }
 
-
-        if (!env.isEntityDeclared(id2))
-            env.addEntry(id2, new STEntry(env.getNestLevel(), env.getOffset()));
-        else
-            semanticErrors.add(SemanticError.duplicateDeclaration(id2));
+        if (!env.isDeclared(id2)) {
+            semanticErrors.add(SemanticError.variableNotDeclared(id2));
+        }
 
         return semanticErrors;
     }

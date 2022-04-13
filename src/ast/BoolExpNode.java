@@ -6,14 +6,14 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class BoolExpNode implements Node {
-    String bool;
+    private boolean bool;
 
     public BoolExpNode(String bool) {
-        this.bool = bool;
+        this.bool = Boolean.parseBoolean(bool);
     }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        return new ArrayList<>();
     }
 }

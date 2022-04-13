@@ -1,7 +1,6 @@
 package ast;
 
 import utils.Environment;
-import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
@@ -18,10 +17,8 @@ public class TransferNode implements Node {
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> semanticErrors = new ArrayList<>();
 
-        if (!env.isEntityDeclared(id))
-            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
-        else
-            semanticErrors.add(SemanticError.duplicateDeclaration(id));
+        if (!env.isDeclared(id))
+            semanticErrors.add(SemanticError.variableNotDeclared(id));
 
         return semanticErrors;
     }

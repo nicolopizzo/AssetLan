@@ -126,9 +126,12 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
 
     @Override
     public Node visitRet(RetContext ctx) {
-        Node expNode = visit(ctx.exp());
+        if (ctx.exp() != null) {
+            Node expNode = visit(ctx.exp());
+            return new RetNode(expNode);
+        }
 
-        return new RetNode(expNode);
+        return new RetNode();
     }
 
     @Override

@@ -6,14 +6,14 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class ValExpNode implements Node {
-    String value;
+    private int value;
 
     public ValExpNode(String value) {
-        this.value = value;
+        this.value = Integer.parseInt(value);
     }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        return new ArrayList<>();
     }
 }

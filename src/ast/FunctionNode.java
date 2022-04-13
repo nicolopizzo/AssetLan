@@ -26,13 +26,13 @@ public class FunctionNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
-        if (env.isEntityDeclared(id)) {
+        if (env.isDeclaredInScope(id)) {
             errors.add(SemanticError.duplicateDeclaration(id));
             return errors;
         }
         env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
 
-        env.incNestLevel();
+        env.enterScope();
         for (Node d : declarations) {
             errors.addAll(d.checkSemantics(env));
         }
@@ -45,7 +45,7 @@ public class FunctionNode implements Node {
         for (Node s : statements) {
             errors.addAll(s.checkSemantics(env));
         }
-        env.decNestLevel();
+        env.exitScope();
 
         return errors;
     }

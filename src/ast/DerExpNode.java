@@ -14,6 +14,10 @@ public class DerExpNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> res = new ArrayList<>();
+        if (!env.isDeclared(id)) {
+            res.add(SemanticError.variableNotDeclared(id));
+        }
+        return res;
     }
 }

@@ -18,9 +18,11 @@ public class AssignmentNode implements Node{
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
-        if (env.isEntityDeclared(id)) {
+        if (!env.isDeclared(id)) {
             errors.add(SemanticError.variableNotDeclared(id));
         }
+
+        errors.addAll(exp.checkSemantics(env));
         return errors;
     }
 }

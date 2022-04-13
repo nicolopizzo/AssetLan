@@ -1,13 +1,14 @@
 package ast;
 
 import utils.Environment;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
 
 public class ParamNode implements Node {
-    Node type;
-    String id;
+    private Node type;
+    private String id;
 
     public ParamNode(Node type, String id) {
         this.type = type;
@@ -16,6 +17,13 @@ public class ParamNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> errors = new ArrayList<>();
+        if (env.isDeclaredInScope(id)) {
+            errors.add(SemanticError.duplicateDeclaration(id));
+        } else {
+            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
+        }
+
+        return errors;
     }
 }

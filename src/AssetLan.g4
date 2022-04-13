@@ -14,7 +14,6 @@ function    : type ID
 	          '{' field* statement* '}' ;
 
 param       : type ID ;
-bparam      : param ';' ;
 
 aparam       : 'asset' ID ;
 
@@ -49,7 +48,7 @@ initcall    : ID '(' (exp (',' exp)* )? ')' '[' (aexp (',' aexp)* )? ']' ;
 
 exp	        : '(' exp ')'				                        #baseExp
             | '-' exp					                        #negExp
-            | '!' exp                                              #notExp
+            | '!' exp                                           #notExp
             | ID						                        #derExp
             | left=exp op=('*' | '/')               right=exp   #binExp
             | left=exp op=('+' | '-')               right=exp   #binExp

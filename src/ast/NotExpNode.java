@@ -6,8 +6,10 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class NotExpNode implements Node {
+    private Node exp;
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        return exp.checkSemantics(env);
     }
 }

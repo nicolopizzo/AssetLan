@@ -21,11 +21,13 @@ public class FieldNode implements Node {
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
 
-        if(!env.isEntityDeclared(id)) {
-            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset())); ;
-        } else {
+        if (env.isDeclaredInScope(id)) {
             errors.add(SemanticError.duplicateDeclaration(id));
+        } else {
+            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
         }
+
+        errors.addAll(exp.checkSemantics(env));
         return errors;
     }
 }
