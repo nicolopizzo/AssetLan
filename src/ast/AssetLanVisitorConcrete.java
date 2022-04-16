@@ -7,13 +7,16 @@ import java.util.ArrayList;
 
 public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
     @Override
+    //visit() automatically (based on the parameter type - in this case ctx.program() ) redirects to the correct function (in this case visitProgram)
     public Node visitInit(InitContext ctx) {
-        return visitProgram(ctx.program());
+        return visit(ctx.program());
     }
 
     @Override
     public ProgramNode visitProgram(ProgramContext ctx) {
+        //ctx contains the actual node and his children
         ArrayList<Node> fields = new ArrayList<>();
+        //for every 'field' children of ctx call his visit() function to return all his descendant (in a different form - custom classes)
         for (FieldContext field : ctx.field()) {
             fields.add(visit(field));
         }
