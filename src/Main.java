@@ -42,14 +42,14 @@ public class Main {
         //create the parser
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         AssetLanParser parser = new AssetLanParser(tokenStream);
-        AssetLanVisitorConcrete visitor = new AssetLanVisitorConcrete();
+        AssetLanParser.InitContext syntaxTree = parser.init();
 
-        //parser.init() returns (automatically implemented) a ctx that includes all nodes properties (children nodes)
-        //this ctx is the parameter for visit()
-        //visit() (automatically implemented) visits the parser tree (the ctx) and returns a new tree (the tree root) with custom nodes
-        //nodes refers to custom classes implementing the 'Node' interface
-        //visit() calls visitInit(). See AssetLanVisitorConcrete
-        Node ast = visitor.visit(parser.init());
+        // parser.init() returns (automatically implemented) a ctx that includes all nodes properties (children nodes)
+        // this ctx is the parameter for visit()
+        // visit() (automatically implemented) visits the syntax tree (the ctx) and returns a new abstract syntax tree
+        // (the root) with custom nodes
+        // nodes refers to custom classes implementing the 'Node' interface
+        // visit() calls visitInit(). See AssetLanVisitorConcrete
 
         //if there are syntax errors stop the compiler and return errors in lexicalErrors.txt file
         List<SyntaxError> lexicalErrors = lexerErrorListener.getLexerErrors();
@@ -62,19 +62,24 @@ public class Main {
             System.out.println("Lexical Errors encountered. Aborting parsing. You can check the 'lexicalErrors.txt' file.");
             System.exit(ExitCode.LEXER_ERROR);
         }
+        System.out.println("No lexical errors encountered.");
+        System.out.println("No syntax errors encountered.");
 
+        AssetLanVisitorConcrete visitor = new AssetLanVisitorConcrete();
+        Node ast = visitor.visit(syntaxTree);
         //Environment contains the sym table populated by checkSemantics (from custom classes)
         Environment env = new Environment();
         //semanticErrors is a list containing semantic errors (to print on terminal)
         ArrayList<SemanticError> semanticErrors = ast.checkSemantics(env);
         if (semanticErrors.size() > 0) {
             //Print all semantic program errors
-            System.out.println("Semantic errors encountered. Aborting parsing. Semantic errors are:\n");
+            System.out.println("Semantic errors encountered. Semantic errors are:\n");
             for (SemanticError e : semanticErrors) {
                 System.out.println(e.getMsg());
             }
             System.exit(ExitCode.SEMANTIC_ERROR);
         }
+        System.out.println("No semantic errors encountered.");
 
         //there are no syntax errors, can continue to compile executing the parser
         System.out.println("All good.");
