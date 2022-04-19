@@ -1,0 +1,12 @@
+asset x;
+asset y;
+
+void f()[asset x, asset y]{
+    print (x + y, \n); // Errore lessicale "," token non riconosciuto
+}
+
+void main()[]{
+    f[x,y]; // Errore sintattico
+}
+
+main()[]

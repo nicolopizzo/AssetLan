@@ -1,0 +1,9 @@
+asset x;
+asset y;
+
+void main()[asset x, asset _]{ //Errore lessicale "_"
+    if (x === y) //Errore sintattico
+        return x //Errore sintattico
+}
+
+main() //Errore sintattico manca "[]"

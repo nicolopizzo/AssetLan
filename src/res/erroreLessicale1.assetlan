@@ -1,0 +1,7 @@
+asset x;
+asset y;
+
+void main(int x)[]{
+    x -o y //Errore sintattico
+}
+main(?)[] //Errore lessicale "?"
