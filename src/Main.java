@@ -26,7 +26,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //import file containing the example program to compile
-        String fileName = "src/res/inputProgram.assetlan";
+        String fileName = "src/res/lexicalErrorsExamples.assetlan";
 
         //create an instance of a lexer
         //AssetLanLexer is a class that extends the Antlr Lexer
