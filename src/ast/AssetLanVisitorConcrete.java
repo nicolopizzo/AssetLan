@@ -13,10 +13,10 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
     }
 
     @Override
-    public ProgramNode visitProgram(ProgramContext ctx) {
+    public Node visitProgram(ProgramContext ctx) {
         //ctx contains the actual node and his children
         ArrayList<Node> fields = new ArrayList<>();
-        //for every 'field' children of ctx call his visit() function to return all his descendant (in a different form - custom classes)
+        //for every 'field' child of ctx call his visit() function to return all his descendant (in a different form - custom classes)
         for (FieldContext field : ctx.field()) {
             fields.add(visit(field));
         }
@@ -37,20 +37,21 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
     }
 
     @Override
-    public FieldNode visitField(FieldContext ctx) {
-        Node type = visitType(ctx.type());
+    public Node visitField(FieldContext ctx) {
+        Node type = visit(ctx.type());
         String id = ctx.ID().getText();
 
-        Node exp = ctx.exp() == null ? null : visit(ctx.exp());
+        Node exp;
         if (ctx.exp() != null) {
             exp = visit(ctx.exp());
+            return new FieldNode(type, id, exp);
         }
 
-        return new FieldNode(type, id, exp);
+        return new FieldNode(type, id);
     }
 
     @Override
-    public AssetNode visitAsset(AssetContext ctx) {
+    public Node visitAsset(AssetContext ctx) {
         String id = ctx.ID().getText();
         return new AssetNode(id);
     }
@@ -88,7 +89,7 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
 
     @Override
     public Node visitStatement(StatementContext ctx) {
-//        Uno statement produce a sua volta una sola produzione, dunque avrà sempre uno e un solo figlio.
+        // A statement rule can only have one child
         return visit(ctx.children.get(0));
     }
 

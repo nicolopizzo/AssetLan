@@ -20,7 +20,8 @@ public class CallNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
-//        Se il nome della funzione non è dichiarato
+
+        // Check if the function is defined somewhere
         if (!env.isDeclared(id)) {
             errors.add(SemanticError.variableNotDeclared(id));
         }
@@ -29,7 +30,7 @@ public class CallNode implements Node {
             errors.addAll(e.checkSemantics(env));
         }
 
-//        Se uno o più parametri non sono dichiarati
+        // Check if some assets are not declared
         for (String myId : ids){
             if (!env.isDeclared(myId)) {
                 errors.add(SemanticError.variableNotDeclared(myId));

@@ -17,6 +17,11 @@ public class FieldNode implements Node {
         this.exp = exp;
     }
 
+    public FieldNode(Node type, String id) {
+        this.type = type;
+        this.id = id;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
@@ -27,7 +32,9 @@ public class FieldNode implements Node {
             env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
         }
 
-        errors.addAll(exp.checkSemantics(env));
+        if (exp != null) {
+            errors.addAll(exp.checkSemantics(env));
+        }
         return errors;
     }
 }

@@ -6,7 +6,7 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class TypeNode implements Node{
-    private String type;
+    private final String type;
 
     public TypeNode(String type) {
         this.type = type;

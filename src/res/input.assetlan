@@ -1,10 +1,15 @@
 asset x;
 asset y;
+asset z;
+
+/* commento */
 
 void f()[asset u, asset v]{
     u -o y ;
     v -o x ;
 }
+
+void g()[] {}
 void main(int x)[asset u, asset v]{
     u -o x ;
     u -o y ;
@@ -13,4 +18,4 @@ void main(int x)[asset u, asset v]{
     x = 12 ;
     g()[];
 }
-main()[2-z,3]
+main()[]

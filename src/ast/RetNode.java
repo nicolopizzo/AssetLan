@@ -12,9 +12,7 @@ public class RetNode implements Node {
         this.returendExpression = returendExpression;
     }
 
-    public RetNode() {
-        returendExpression = null;
-    }
+    public RetNode() {}
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

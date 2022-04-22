@@ -1,0 +1,9 @@
+asset x;
+asset y;
+
+void main(bool b, int x)[]{
+    x -o y ;
+    a = 3.; //lexical error NUMBER="3."
+    print (a);
+}
+main(myBool, ?)[] //lexical error ID="?"

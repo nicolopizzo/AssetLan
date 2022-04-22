@@ -1,0 +1,10 @@
+int x#;
+
+void main(bool b_)[asset x, asset y]{ //Errore lessicale "_"
+    if (b)
+        return x;
+}
+
+bool myBool;
+myBool = true_;
+main(myBool)[x, y]

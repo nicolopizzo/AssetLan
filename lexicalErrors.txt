@@ -1,2 +1,1 @@
-Error at 6:9 token recognition error at: '.'
-Error at 11:13 token recognition error at: '?'
+Error at 7:8 token recognition error at: '?'
