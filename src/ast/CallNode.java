@@ -40,7 +40,7 @@ public class CallNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Enviroment env) {
+    public Node typeCheck(Environment env) {
         return null;
     }
 }

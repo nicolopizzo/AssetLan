@@ -7,14 +7,14 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class FunctionNode implements Node {
-    private Node type;
+    private TypeNode type;
     private String id;
     private ArrayList<Node> declarations;
     private ArrayList<Node> assets;
     private ArrayList<Node> fields;
     private ArrayList<Node> statements;
 
-    public FunctionNode(Node type, String id, ArrayList<Node> declarations, ArrayList<Node> assets, ArrayList<Node> fields, ArrayList<Node> statements) {
+    public FunctionNode(TypeNode type, String id, ArrayList<Node> declarations, ArrayList<Node> assets, ArrayList<Node> fields, ArrayList<Node> statements) {
         this.type = type;
         this.id = id;
         this.declarations = declarations;
@@ -30,7 +30,7 @@ public class FunctionNode implements Node {
             errors.add(SemanticError.duplicateDeclaration(id));
             return errors;
         }
-        env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
+        env.addEntry(id, new STEntry(env.getNestLevel(), type, env.getOffset()));
 
         env.enterScope();
         for (Node d : declarations) {

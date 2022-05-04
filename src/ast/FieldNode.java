@@ -7,17 +7,17 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class FieldNode implements Node {
-    private Node type;
+    private TypeNode type;
     private String id;
     private Node exp;
 
-    public FieldNode(Node type, String id, Node exp) {
+    public FieldNode(TypeNode type, String id, Node exp) {
         this.type = type;
         this.id = id;
         this.exp = exp;
     }
 
-    public FieldNode(Node type, String id) {
+    public FieldNode(TypeNode type, String id) {
         this.type = type;
         this.id = id;
     }
@@ -40,13 +40,13 @@ public class FieldNode implements Node {
 
     @Override
     public Node typeCheck(Environment env) {
-
+/*
         ArrayList<SemanticError> errors = new ArrayList<>();
         if (exp != null) {
             if (type != exp.typeCheck(env)) {
                 errors.add(SemanticError.typeError(id, "right expression"));
             }
-        }
+        }*/
         return null;
     }
 }

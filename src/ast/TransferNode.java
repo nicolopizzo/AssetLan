@@ -22,4 +22,9 @@ public class TransferNode implements Node {
 
         return semanticErrors;
     }
+
+    @Override
+    public Node typeCheck(Environment env) {
+        return null;
+    }
 }

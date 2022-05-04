@@ -21,9 +21,14 @@ public class ParamNode implements Node {
         if (env.isDeclaredInScope(id)) {
             errors.add(SemanticError.duplicateDeclaration(id));
         } else {
-            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
+            env.addEntry(id, new STEntry(env.getNestLevel(), type, env.getOffset()));
         }
 
         return errors;
+    }
+
+    @Override
+    public Node typeCheck(Environment env) {
+        return null;
     }
 }

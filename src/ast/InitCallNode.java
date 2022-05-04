@@ -31,4 +31,9 @@ public class InitCallNode implements Node {
 
         return errors;
     }
+
+    @Override
+    public Node typeCheck(Environment env) {
+        return null;
+    }
 }

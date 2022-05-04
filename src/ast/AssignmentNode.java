@@ -28,7 +28,6 @@ public class AssignmentNode implements Node{
 
     @Override
     public Node typeCheck(Environment env) {
-        if (exp.typeCheck(env) )
         return null;
     }
 }

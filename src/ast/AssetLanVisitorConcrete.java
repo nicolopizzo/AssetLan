@@ -4,6 +4,7 @@ import parser.AssetLanBaseVisitor;
 import parser.AssetLanParser.*;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
     @Override
@@ -38,16 +39,17 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
 
     @Override
     public Node visitField(FieldContext ctx) {
-        Node type = visit(ctx.type());
+        // Node type = visit(ctx.type());
         String id = ctx.ID().getText();
+        String type = ctx.type().getText().toUpperCase();
 
         Node exp;
         if (ctx.exp() != null) {
             exp = visit(ctx.exp());
-            return new FieldNode(type, id, exp);
+            return new FieldNode(TypeNode.valueOf(type), id, exp);
         }
 
-        return new FieldNode(type, id);
+        return new FieldNode(TypeNode.valueOf(type), id);
     }
 
     @Override
@@ -58,12 +60,15 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
 
     @Override
     public Node visitFunction(FunctionContext ctx) {
-        Node type = visit(ctx.type());
+        // Node type = visit(ctx.type());
         String id = ctx.ID().getText();
+        String type = ctx.type().getText().toUpperCase();
+
 
         ArrayList<Node> params = new ArrayList<>();
         for (ParamContext p : ctx.param()) {
-            Node pType = visit(p.type());
+            // Node pType = visit(p.type());
+            TypeNode pType = TypeNode.valueOf(p.type().getText().toUpperCase());
             String pId = p.ID().getText();
             params.add(new ParamNode(pType, pId));
         }
@@ -84,7 +89,7 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
             statements.add(visit(s));
         }
 
-        return new FunctionNode(type, id, params, assetParams, fields, statements);
+        return new FunctionNode(TypeNode.valueOf(type), id, params, assetParams, fields, statements);
     }
 
     @Override
@@ -95,7 +100,8 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
 
     @Override
     public Node visitType(TypeContext ctx) {
-        return new TypeNode(ctx.getText());
+        //return new TypeNode(ctx.getText());
+        return null;
     }
 
     @Override
