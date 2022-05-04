@@ -52,6 +52,26 @@ public class FunctionNode implements Node {
 
     @Override
     public Node typeCheck(Environment env) {
+        ArrayList<SemanticError> errors = new ArrayList<>();
+
+        for (Node d : declarations) {
+            d.typeCheck(env);
+        }
+        for (Node a : assets) {
+            a.typeCheck(env);
+        }
+        for (Node f : fields) {
+            f.typeCheck(env);
+        }
+        for (Node s : statements) {
+            s.typeCheck(env);
+            if(s.getClass() == new RetNode().getClass()){
+                if(type != s.typeCheck(env)){
+                    errors.add(SemanticError.typeError(id, "function return type"));
+                }
+            }
+        }
+
 
         return null;
     }
