@@ -25,4 +25,10 @@ public class AssignmentNode implements Node{
         errors.addAll(exp.checkSemantics(env));
         return errors;
     }
+
+    @Override
+    public Node typeCheck(Environment env) {
+        if (exp.typeCheck(env) )
+        return null;
+    }
 }

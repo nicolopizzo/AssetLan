@@ -40,4 +40,25 @@ public class ProgramNode implements Node {
 
         return errors;
     }
+
+    @Override
+    public Node typeCheck(Environment env) {
+        for (Node f : fields) {
+            f.typeCheck(env);
+        }
+
+        for (Node a : assets) {
+            a.typeCheck(env);
+        }
+
+        for (Node f : functions) {
+            f.typeCheck(env);
+        }
+
+        if (initCall != null) {
+            initCall.typeCheck(env);
+        }
+
+        return null;
+    }
 }

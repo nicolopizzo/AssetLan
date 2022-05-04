@@ -29,12 +29,24 @@ public class FieldNode implements Node {
         if (env.isDeclaredInScope(id)) {
             errors.add(SemanticError.duplicateDeclaration(id));
         } else {
-            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
+            env.addEntry(id, new STEntry(env.getNestLevel(), type, env.getOffset()));
         }
 
         if (exp != null) {
             errors.addAll(exp.checkSemantics(env));
         }
         return errors;
+    }
+
+    @Override
+    public Node typeCheck(Environment env) {
+
+        ArrayList<SemanticError> errors = new ArrayList<>();
+        if (exp != null) {
+            if (type != exp.typeCheck(env)) {
+                errors.add(SemanticError.typeError(id, "right expression"));
+            }
+        }
+        return null;
     }
 }

@@ -1,13 +1,18 @@
 # Progetto di Compilatori A.A. 2021-22
 La repository contiene i file sorgenti per il progetto AssetLan del corso di Compilatori e Interpreti.
 
+## Configurazione del progetto
+Per far partire il progetto bisogna effettuare le seguenti operazioni:
+- Aprire il progetto su Intellij IDEA
+- Inserire la libreria di ANTLR presente nella directory `lib` (File -> Project Structure -> Libraries -> + -> Java) 
+
 ## Specifiche del progetto
 AssetLan è un semplice linguaggio imperativo con ASSET, in cui i parametri possono essere sia standard che asset, con RICORSIONE e senza MUTUA RICORSIONE. 
 
 ## Esercizi
 
-- [ ] Esercizio 1
-- [ ] Esercizio 2
+- [ x ] Esercizio 1
+- [ x ] Esercizio 2
 - [ ] Esercizio 3
 - [ ] Esercizio 4
 

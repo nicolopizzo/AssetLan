@@ -71,7 +71,7 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
         ArrayList<Node> assetParams = new ArrayList<>();
         for (AparamContext a : ctx.aparam()) {
             String assetId = a.ID().getText();
-            assetParams.add(new ParamNode(new TypeNode("asset"), assetId));
+            assetParams.add(new ParamNode(TypeNode.ASSET, assetId));
         }
 
         ArrayList<Node> fields = new ArrayList<>();

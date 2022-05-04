@@ -31,11 +31,16 @@ public class CallNode implements Node {
         }
 
         // Check if some assets are not declared
-        for (String myId : ids){
+        for (String myId : ids) {
             if (!env.isDeclared(myId)) {
                 errors.add(SemanticError.variableNotDeclared(myId));
             }
         }
         return errors;
+    }
+
+    @Override
+    public Node typeCheck(Enviroment env) {
+        return null;
     }
 }

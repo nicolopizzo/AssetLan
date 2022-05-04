@@ -21,4 +21,13 @@ public class BinExpNode implements Node {
         errors.addAll(right.checkSemantics(env));
         return errors;
     }
+
+    @Override
+    public Node typeCheck(Environment env) {
+        if(left.typeCheck(env) != right.typeCheck(env)) {
+        // TODO: gestire errore di tipo
+        System.out.println("Errore di tipo in BinExpNode");
+        }
+        return null;
+    }
 }

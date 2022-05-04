@@ -19,10 +19,15 @@ public class AssetNode implements Node {
         ArrayList<SemanticError> semanticErrors = new ArrayList<>();
 
         if (!env.isDeclaredInScope(id))
-            env.addEntry(id, new STEntry(env.getNestLevel(), env.getOffset()));
+            env.addEntry(id, new STEntry(env.getNestLevel(), TypeNode.ASSET, env.getOffset()));
         else
             semanticErrors.add(SemanticError.duplicateDeclaration(id));
 
         return semanticErrors;
+    }
+
+    @Override
+    public Node typeCheck(Environment env) {
+        return null;
     }
 }

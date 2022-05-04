@@ -7,10 +7,10 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class ParamNode implements Node {
-    private Node type;
+    private TypeNode type;
     private String id;
 
-    public ParamNode(Node type, String id) {
+    public ParamNode(TypeNode type, String id) {
         this.type = type;
         this.id = id;
     }

@@ -29,4 +29,9 @@ public class MoveNode implements Node {
 
         return semanticErrors;
     }
+
+    @Override
+    public Node typeCheck(Environment env) {
+        return null;
+    }
 }

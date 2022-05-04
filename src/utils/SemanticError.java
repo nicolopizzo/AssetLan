@@ -15,6 +15,10 @@ public class SemanticError {
         return new SemanticError("ID " + id + " is not declared.");
     }
 
+    public static SemanticError typeError(String id, String id2) {
+        return new SemanticError(id + " has type different from " + id2);
+    }
+
     public String getMsg() {
         return msg;
     }
