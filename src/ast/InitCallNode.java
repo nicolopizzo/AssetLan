@@ -33,7 +33,18 @@ public class InitCallNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
-        return null;
+    public TypeNode typeCheck(Environment env) {
+        ArrayList<TypeNode> paramsType = env.getParamsType(id);
+
+
+        for (Node p : params) {
+            p.typeCheck(env);
+        }
+
+        for (Node a : assets) {
+            a.typeCheck(env);
+        }
+
+        return TypeNode.NULL;
     }
 }

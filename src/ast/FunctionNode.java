@@ -51,7 +51,7 @@ public class FunctionNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
+    public TypeNode typeCheck(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
 
         for (Node d : declarations) {
@@ -74,6 +74,6 @@ public class FunctionNode implements Node {
         }
 
 
-        return null;
+        return TypeNode.NULL;
     }
 }

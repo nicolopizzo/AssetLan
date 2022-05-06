@@ -34,15 +34,13 @@ public class ProgramNode implements Node {
             errors.addAll(f.checkSemantics(env));
         }
 
-        if (initCall != null) {
-            errors.addAll(initCall.checkSemantics(env));
-        }
+        errors.addAll(initCall.checkSemantics(env));
 
         return errors;
     }
 
     @Override
-    public Node typeCheck(Environment env) {
+    public TypeNode typeCheck(Environment env) {
         for (Node f : fields) {
             f.typeCheck(env);
         }
@@ -55,10 +53,8 @@ public class ProgramNode implements Node {
             f.typeCheck(env);
         }
 
-        if (initCall != null) {
-            initCall.typeCheck(env);
-        }
+        initCall.typeCheck(env);
 
-        return null;
+        return TypeNode.NULL;
     }
 }

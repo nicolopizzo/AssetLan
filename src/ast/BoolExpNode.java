@@ -18,7 +18,7 @@ public class BoolExpNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
-        return null;
+    public TypeNode typeCheck(Environment env) {
+        return TypeNode.BOOL;
     }
 }

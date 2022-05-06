@@ -40,7 +40,20 @@ public class CallNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
-        return null;
+    public TypeNode typeCheck(Environment env) {
+        // TODO: check the given parameters correspond to the ones in the definition of the function.
+        ArrayList<TypeNode> paramsType = env.getParamsType(id);
+
+        for (int i = 0; i < paramsType.size(); i++){
+            TypeNode t1 = paramsType.get(i);
+            TypeNode t2 = exp.get(i).typeCheck(env);
+
+            if (t1 != t2) {
+            // TODO: handle type errors
+
+            }
+        }
+
+        return env.getType(id);
     }
 }

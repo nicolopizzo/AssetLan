@@ -24,7 +24,7 @@ public class TransferNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
-        return null;
+    public TypeNode typeCheck(Environment env) {
+        return TypeNode.NULL;
     }
 }

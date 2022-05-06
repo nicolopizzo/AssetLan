@@ -25,7 +25,7 @@ public class RetNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
-        return null;
+    public TypeNode typeCheck(Environment env) {
+        return returendExpression.typeCheck(env);
     }
 }

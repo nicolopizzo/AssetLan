@@ -46,7 +46,7 @@ public class FieldNode implements Node {
             if (type != exp.typeCheck(env)) {
                 errors.add(SemanticError.typeError(id, "right expression"));
             }
-        }*/
-        return null;
+        }
+        return TypeNode.NULL;
     }
 }
