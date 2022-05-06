@@ -63,6 +63,7 @@ public class FunctionNode implements Node {
         for (Node f : fields) {
             f.typeCheck(env);
         }
+
         for (Node s : statements) {
             s.typeCheck(env);
             if(s.getClass() == new RetNode().getClass()){

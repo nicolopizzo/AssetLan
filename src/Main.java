@@ -19,7 +19,8 @@ class ExitCode {
     public static final int LEXER_ERROR = 1;
     public static final int SYNTAX_ERROR = 2;
     public static final int SEMANTIC_ERROR = 3;
-    public static final int UNKNOWN_ERROR = 4;
+    public static final int TYPE_ERROR = 4;
+    public static final int UNKNOWN_ERROR = 5;
 }
 
 public class Main {

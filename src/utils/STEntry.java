@@ -28,4 +28,8 @@ public class STEntry {
     public int getOffset() {
         return offset;
     }
+
+    public ArrayList<TypeNode> getTypes() {
+        return types;
+    }
 }

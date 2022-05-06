@@ -31,7 +31,14 @@ public class MoveNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
-        return null;
+    public TypeNode typeCheck(Environment env) {
+        TypeNode t1 = env.getType(id1);
+        TypeNode t2 = env.getType(id2);
+
+        ArrayList<SemanticError> errors = new ArrayList<>();
+        if (t1 != t2){
+            errors.add(SemanticError.typeError(id1, id2));
+        }
+        return TypeNode.NULL;
     }
 }

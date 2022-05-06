@@ -39,8 +39,8 @@ public class FieldNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
-/*
+    public TypeNode typeCheck(Environment env) {
+
         ArrayList<SemanticError> errors = new ArrayList<>();
         if (exp != null) {
             if (type != exp.typeCheck(env)) {

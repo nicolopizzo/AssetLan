@@ -20,7 +20,8 @@ public class PrintNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
-        return null;
+    public TypeNode typeCheck(Environment env) {
+        exp.typeCheck(env);
+        return TypeNode.NULL;
     }
 }

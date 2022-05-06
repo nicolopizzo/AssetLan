@@ -1,5 +1,7 @@
 package utils;
 
+import ast.TypeNode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +41,41 @@ public class Environment {
             return false;
         }
         return entries.size() > 0;
+    }
+
+    // Prototipo
+    public TypeNode getType(String key) {
+        ArrayList<STEntry> entries = symTable.get(key);
+        if (entries == null) {
+            return null;
+        }
+
+        ArrayList<TypeNode> types = entries.get(entries.size() - 1).getTypes();
+        return types.get(types.size() - 1);
+    }
+
+    public ArrayList<TypeNode> getParamsType(String key) {
+        STEntry entry = getLastEntry(key);
+        if (entry == null) {
+            return null;
+        }
+
+        ArrayList<TypeNode> res = new ArrayList<>();
+        ArrayList<TypeNode> types = entry.getTypes();
+        if (types.size() > 1) {
+            res.addAll(types.subList(0, types.size()-2));
+        }
+
+        return res;
+    }
+
+    public STEntry getLastEntry(String key) {
+        ArrayList<STEntry> entries = symTable.get(key);
+        if (entries.isEmpty()){
+            return null;
+        }
+
+        return entries.get(entries.size() - 1);
     }
 
     // isDeclaredInScope() verifies that the variable is declared in the last context

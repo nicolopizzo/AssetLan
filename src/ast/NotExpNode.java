@@ -14,7 +14,11 @@ public class NotExpNode implements Node {
     }
 
     @Override
-    public Node typeCheck(Environment env) {
-        return null;
+    public TypeNode typeCheck(Environment env) {
+        TypeNode t = exp.typeCheck(env);
+        if (t != TypeNode.BOOL) {
+            // TODO: handle the type error
+        }
+        return TypeNode.BOOL;
     }
 }

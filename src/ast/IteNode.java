@@ -41,6 +41,21 @@ public class IteNode implements Node {
         return errors;
     }
 
+    public boolean hasReturnNode() {
+        if(ifStatement instanceof IteNode) {
+            return ((IteNode) ifStatement).hasReturnNode();
+        }
+
+        if (elseStatement != null && elseStatement instanceof IteNode) {
+            return ((IteNode) elseStatement).hasReturnNode();
+        }
+
+        boolean b1 = ifStatement instanceof RetNode;
+        boolean b2 = elseStatement != null && elseStatement instanceof RetNode;
+
+        return b1 || b2;
+    }
+
     @Override
     public Node typeCheck(Environment env) {
         return null;

@@ -7,11 +7,11 @@ public class SemanticError {
         msg = message;
     }
 
-    public static SemanticError duplicateDeclaration(String id){
+    public static SemanticError duplicateDeclaration(String id) {
         return new SemanticError("ID " + id + " already declared.");
     }
 
-    public static SemanticError variableNotDeclared(String id){
+    public static SemanticError variableNotDeclared(String id) {
         return new SemanticError("ID " + id + " is not declared.");
     }
 
