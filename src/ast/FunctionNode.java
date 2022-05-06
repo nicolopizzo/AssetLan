@@ -65,9 +65,29 @@ public class FunctionNode implements Node {
         }
 
         for (Node s : statements) {
-            s.typeCheck(env);
-            if(s.getClass() == new RetNode().getClass()){
-                if(type != s.typeCheck(env)){
+            TypeNode t1 = s.typeCheck(env);
+
+            // Se il nodo a runtime è di tipo ReturnNode verifico che il tipo restituito sia corretto
+            // TODO: refactoring per return dentro ITE.
+            if((s instanceof IteNode) && ((IteNode) s).hasReturnNode()) {
+                if (type != t1) {
+                    errors.add(SemanticError.typeError(id, "function return type"));
+                }
+            }
+
+            /*
+            * int f()[] {
+            *   if (c) {
+            *       g() //bool
+            *   }
+            *
+            *   return 2;
+            * }
+            *
+            * */
+
+            if(s instanceof RetNode){
+                if(type != t1){
                     errors.add(SemanticError.typeError(id, "function return type"));
                 }
             }
