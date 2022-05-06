@@ -52,7 +52,7 @@ public class FunctionNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        ArrayList<SemanticError> errors = new ArrayList<>();
+        //ArrayList<SemanticError> errors = new ArrayList<>();
 
         for (Node d : declarations) {
             d.typeCheck(env);
@@ -71,7 +71,8 @@ public class FunctionNode implements Node {
             // TODO: refactoring per return dentro ITE.
             if((s instanceof IteNode) && ((IteNode) s).hasReturnNode()) {
                 if (type != t1) {
-                    errors.add(SemanticError.typeError(id, "function return type"));
+                    //errors.add(SemanticError.typeError(id, "function return type"));
+                    throw new RuntimeException("Type Error - " + id + " has type different from " + "function return type");
                 }
             }
 
@@ -88,7 +89,8 @@ public class FunctionNode implements Node {
 
             if(s instanceof RetNode){
                 if(type != t1){
-                    errors.add(SemanticError.typeError(id, "function return type"));
+                    //errors.add(SemanticError.typeError(id, "function return type"));
+                    throw new RuntimeException("Type Error - " + id + " has type different from " + "function return type");
                 }
             }
         }

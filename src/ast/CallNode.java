@@ -50,7 +50,7 @@ public class CallNode implements Node {
 
             if (t1 != t2) {
             // TODO: handle type errors
-
+                throw new RuntimeException("Type Error - " + "formal parameter" + " has type different from " + "actual parameter");
             }
         }
 

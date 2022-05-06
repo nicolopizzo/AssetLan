@@ -35,9 +35,10 @@ public class MoveNode implements Node {
         TypeNode t1 = env.getType(id1);
         TypeNode t2 = env.getType(id2);
 
-        ArrayList<SemanticError> errors = new ArrayList<>();
+        //ArrayList<SemanticError> errors = new ArrayList<>();
         if (t1 != t2){
-            errors.add(SemanticError.typeError(id1, id2));
+            //errors.add(SemanticError.typeError(id1, id2));
+            throw new RuntimeException("Type Error - " + id1 + " has type different from " + id2);
         }
         return TypeNode.NULL;
     }

@@ -30,9 +30,10 @@ public class AssignmentNode implements Node{
     public TypeNode typeCheck(Environment env) {
         TypeNode idType = env.getType(id);
 
-        ArrayList<SemanticError> errors = new ArrayList<>();
+        //ArrayList<SemanticError> errors = new ArrayList<>();
         if (idType != exp.typeCheck(env)){
-            errors.add(SemanticError.typeError(id, "right expression"));
+            //errors.add(SemanticError.typeError(id, "right expression"));
+            throw new RuntimeException("Type Error - " + id + " has type different from " + "right expression");
         }
 
         return TypeNode.NULL;

@@ -24,9 +24,10 @@ public class BinExpNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        ArrayList<SemanticError> errors = new ArrayList<>();
+        //ArrayList<SemanticError> errors = new ArrayList<>();
         if(left.typeCheck(env) != right.typeCheck(env)) {
-            errors.add(SemanticError.typeError("left expression","right expression"));
+            //errors.add(SemanticError.typeError("left expression","right expression"));
+            throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
         }
         return left.typeCheck(env);
     }

@@ -39,12 +39,13 @@ public class FieldNode implements Node {
     }
 
     @Override
-    public TypeNode typeCheck(Environment env) {
+    public TypeNode typeCheck(Environment env){
 
-        ArrayList<SemanticError> errors = new ArrayList<>();
+        //ArrayList<SemanticError> errors = new ArrayList<>();
         if (exp != null) {
             if (type != exp.typeCheck(env)) {
-                errors.add(SemanticError.typeError(id, "right expression"));
+                //errors.add(SemanticError.typeError(id, "right expression"));
+                throw new RuntimeException("Type Error - " + id + " has type different from " + "right expression");
             }
         }
         return TypeNode.NULL;
