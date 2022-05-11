@@ -1,5 +1,5 @@
 package ast;
-
+//enum used to manage the exp operator
 public enum BinaryOperator {
     ADD, SUB, MUL, DIV, AND, OR, EQ, NE, LT, GT, LE, GE;
 
@@ -21,6 +21,7 @@ public enum BinaryOperator {
         };
     }
 
+    //methods called in typeCheck()
     public boolean isArithmetic() {
         return this == ADD || this == SUB || this == MUL || this == DIV;
     }

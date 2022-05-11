@@ -8,6 +8,7 @@ public class STEntry {
     private ArrayList<TypeNode> types = new ArrayList<>();
     private int nestLevel;
     private int offset;
+    //status is used to manage the status of an asset (if zero)
     private boolean status;
 
     public STEntry(int nl, TypeNode type, int o) {

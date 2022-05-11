@@ -69,13 +69,14 @@ public class Environment {
         return res;
     }
 
+    //used to save entries that are removed from the symtable after checkSemantics()
     public STEntry getLastEntry(String key) {
         ArrayList<STEntry> entries = symTable.get(key);
         if (entries.isEmpty()){
             return null;
+        } else {
+            return entries.get(entries.size() - 1);
         }
-
-        return entries.get(entries.size() - 1);
     }
 
     // isDeclaredInScope() verifies that the variable is declared in the last context

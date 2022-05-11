@@ -32,12 +32,13 @@ public class BinExpNode implements Node {
             throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
         }
 
-        // If the the binary expression has an arithmetic operator (+, -, *, /) return INT type
+        // If the binary expression has an arithmetic operator (+, -, *, /) return INT type
         // Else the binary expression has boolean operator (&&, ||, !=, ==, <, <=, >, >=)
         if (op.isArithmetic()) {
             return TypeNode.INT;
+        } else{
+            return TypeNode.BOOL;
         }
 
-        return TypeNode.BOOL;
     }
 }
