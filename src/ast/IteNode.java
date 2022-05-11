@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class IteNode implements Node {
 
-    private Node condition;
-    private Node ifStatement;
+    private final Node condition;
+    private final Node ifStatement;
     private Node elseStatement;
 
     public IteNode(Node condition, Node ifStatement, Node statementElse) {
@@ -42,7 +42,7 @@ public class IteNode implements Node {
     }
 
     public boolean hasReturnNode() {
-        if(ifStatement instanceof IteNode) {
+        if (ifStatement instanceof IteNode) {
             return ((IteNode) ifStatement).hasReturnNode();
         }
 

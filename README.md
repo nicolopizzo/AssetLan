@@ -32,8 +32,8 @@ Il codice sviluppato deve controllare
 Sviluppare un'analisi semantica che verifica 
 - La correttezza dei tipi (in particolare numero e tipo dei parametri attuali se conformi al numero e tipo dei parametri formali)
 - Liquidity significa che: 
-   a. per ogni funzione, i parametri formali asset devono essere 0 alla fine della sua esecuzione (i valori sono stati spostati nei campi asset oppure trasferiti con una transfer)
-   b. alla fine del programma i campi asset sono 0.
+   - per ogni funzione, i parametri formali asset devono essere 0 alla fine della sua esecuzione (i valori sono stati spostati nei campi asset oppure trasferiti con una transfer)
+   - alla fine del programma i campi asset sono 0.
 
 Il report deve contenere **TUTTE** le regole semantiche utilizzate e relativa discussione. Si faccia attenzione all'aliasing.
 

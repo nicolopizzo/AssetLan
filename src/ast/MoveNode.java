@@ -1,6 +1,7 @@
 package ast;
 
 import utils.Environment;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
@@ -9,6 +10,9 @@ public class MoveNode implements Node {
 
     private String id1;
     private String id2;
+
+    private STEntry entry1;
+    private STEntry entry2;
 
     public MoveNode(String id1, String id2) {
         this.id1 = id1;
@@ -21,10 +25,14 @@ public class MoveNode implements Node {
 
         if (!env.isDeclared(id1)) {
             semanticErrors.add(SemanticError.variableNotDeclared(id1));
+        } else {
+            entry1 = env.getLastEntry(id1);
         }
 
         if (!env.isDeclared(id2)) {
             semanticErrors.add(SemanticError.variableNotDeclared(id2));
+        } else {
+            entry2 = env.getLastEntry(id2);
         }
 
         return semanticErrors;
@@ -32,11 +40,11 @@ public class MoveNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        TypeNode t1 = env.getType(id1);
-        TypeNode t2 = env.getType(id2);
+        TypeNode t1 = entry1.getTypes().get(0);
+        TypeNode t2 = entry2.getTypes().get(0);
 
         //ArrayList<SemanticError> errors = new ArrayList<>();
-        if (t1 != t2){
+        if (t1 != TypeNode.ASSET || t2 != TypeNode.ASSET){
             //errors.add(SemanticError.typeError(id1, id2));
             throw new RuntimeException("Type Error - " + id1 + " has type different from " + id2);
         }

@@ -4,7 +4,6 @@ import parser.AssetLanBaseVisitor;
 import parser.AssetLanParser.*;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
     @Override
@@ -201,8 +200,9 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
     public Node visitBinExp(BinExpContext ctx) {
         Node leftExp = visit(ctx.left);
         Node rightExp = visit(ctx.right);
+        BinaryOperator op = BinaryOperator.fromString(ctx.op.getText());
 
-        return new BinExpNode(leftExp, rightExp);
+        return new BinExpNode(leftExp, rightExp, op);
     }
 
     @Override
@@ -240,6 +240,6 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
 
     @Override
     public Node visitNotExp(NotExpContext ctx) {
-        return new NotExpNode();
+        return new NotExpNode(visit(ctx.exp()));
     }
 }

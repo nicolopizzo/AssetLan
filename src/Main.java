@@ -83,6 +83,9 @@ public class Main {
         }
         System.out.println("No semantic errors encountered.");
 
+        // Type checking
+        ast.typeCheck(env);
+
         //there are no syntax errors, can continue to compile executing the parser
         System.out.println("All good.");
         System.exit(ExitCode.SUCCESS);

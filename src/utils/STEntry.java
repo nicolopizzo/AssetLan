@@ -16,7 +16,7 @@ public class STEntry {
     }
 
     public STEntry(int nl, ArrayList<TypeNode> types, int o) {
-        types.addAll(types);
+        this.types.addAll(types);
         nestLevel = nl;
         offset = o;
     }

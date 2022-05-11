@@ -123,4 +123,20 @@ public class Environment {
 
         nestLevel--;
     }
+
+    public static List<TypeNode> getParamsType(STEntry entry) {
+        ArrayList<TypeNode> types = entry.getTypes();
+        if (types.size() < 2)
+            return new ArrayList<>();
+
+        return types.subList(0, types.size() - 1);
+    }
+
+    public static TypeNode getType(STEntry entry) {
+        ArrayList<TypeNode> types = entry.getTypes();
+        if (types.size() < 1)
+            return null;
+
+        return types.get(types.size()-1);
+    }
 }

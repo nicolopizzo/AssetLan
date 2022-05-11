@@ -15,6 +15,10 @@ public class ParamNode implements Node {
         this.id = id;
     }
 
+    public TypeNode getType() {
+        return type;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();

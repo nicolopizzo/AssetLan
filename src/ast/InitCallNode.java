@@ -1,14 +1,18 @@
 package ast;
 
 import utils.Environment;
+import utils.Functional;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InitCallNode implements Node {
     private String id;
     private ArrayList<Node> params;
     private ArrayList<Node> assets;
+    private STEntry symEntry;
 
     public InitCallNode(String id, ArrayList<Node> params, ArrayList<Node> assets) {
         this.id = id;
@@ -21,6 +25,8 @@ public class InitCallNode implements Node {
         ArrayList<SemanticError> errors = new ArrayList<>();
         if (!env.isDeclared(id)) {
             errors.add(SemanticError.variableNotDeclared(id));
+        } else {
+            symEntry = env.getLastEntry(id);
         }
         for (Node param : params) {
             errors.addAll(param.checkSemantics(env));
@@ -34,17 +40,28 @@ public class InitCallNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        ArrayList<TypeNode> paramsType = env.getParamsType(id);
+        // TODO: check the given parameters correspond to the ones in the definition of the function.
+        List<TypeNode> toCompare = Environment.getParamsType(symEntry);
 
+        ArrayList<TypeNode> paramsTypes = new ArrayList<>();
+        paramsTypes.addAll(Functional.mapList(params, p -> p.typeCheck(env)));
+        paramsTypes.addAll(Functional.mapList(assets, a -> a.typeCheck(env)));
 
-        for (Node p : params) {
-            p.typeCheck(env);
+        if (toCompare.size() != paramsTypes.size()) {
+            // TODO: handle type errors
+            throw new RuntimeException("Type error: wrong number of parameters");
         }
 
-        for (Node a : assets) {
-            a.typeCheck(env);
+        for (int i = 0; i < toCompare.size(); i++){
+            TypeNode t1 = toCompare.get(i);
+            TypeNode t2 = paramsTypes.get(i);
+
+            if (t1 != t2) {
+                // TODO: handle type errors
+                throw new RuntimeException("Type error: wrong type of parameter (" + t1 + " != " + t2 + ")");
+            }
         }
 
-        return TypeNode.NULL;
+        return env.getType(id);
     }
 }

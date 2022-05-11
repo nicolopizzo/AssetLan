@@ -1,8 +1,7 @@
 asset x;
-asset y;
 asset z;
+asset y;
 
-/* commento */
 
 void f()[asset u, asset v]{
     u -o y ;
@@ -11,11 +10,12 @@ void f()[asset u, asset v]{
 
 void g()[] {}
 void main(int x)[asset u, asset v]{
-    u -o x ;
+    bool b;
     u -o y ;
     u -o z ;
     f()[x,y] ;
-    x = 12 ;
+    x = 2 ;
+    b = !((1+2) == 3);
     g()[];
 }
-main()[]
+main(2)[x, y]

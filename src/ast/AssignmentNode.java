@@ -1,6 +1,7 @@
 package ast;
 
 import utils.Environment;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 public class AssignmentNode implements Node{
     private String id;
     private Node exp;
+    private STEntry symEntry;
 
 
     public AssignmentNode(String id, Node exp) {
@@ -20,6 +22,8 @@ public class AssignmentNode implements Node{
         ArrayList<SemanticError> errors = new ArrayList<>();
         if (!env.isDeclared(id)) {
             errors.add(SemanticError.variableNotDeclared(id));
+        } else {
+            symEntry = env.getLastEntry(id);
         }
 
         errors.addAll(exp.checkSemantics(env));
@@ -28,7 +32,9 @@ public class AssignmentNode implements Node{
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        TypeNode idType = env.getType(id);
+//        TypeNode idType = env.getType(id);
+        TypeNode idType = Environment.getType(symEntry);
+//        System.out.println(idType);
 
         //ArrayList<SemanticError> errors = new ArrayList<>();
         if (idType != exp.typeCheck(env)){

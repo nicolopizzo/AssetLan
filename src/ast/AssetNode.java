@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class AssetNode implements Node {
     private String id;
+    private final TypeNode type = TypeNode.ASSET;
+
 
     public AssetNode(String id) {
         this.id = id;
@@ -28,6 +30,6 @@ public class AssetNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        return TypeNode.NULL;
+        return type;
     }
 }

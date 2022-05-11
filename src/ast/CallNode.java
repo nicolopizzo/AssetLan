@@ -1,15 +1,18 @@
 package ast;
 
 import utils.Environment;
+import utils.Functional;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CallNode implements Node {
-
     private String id;
     private ArrayList<Node> exp;
     private ArrayList<String> ids;
+    private STEntry symEntry;
 
     public CallNode(String id, ArrayList<Node> exp, ArrayList<String> ids) {
         this.id = id;
@@ -24,6 +27,8 @@ public class CallNode implements Node {
         // Check if the function is defined somewhere
         if (!env.isDeclared(id)) {
             errors.add(SemanticError.variableNotDeclared(id));
+        } else {
+            symEntry = env.getLastEntry(id);
         }
 
         for (Node e : exp) {
@@ -36,21 +41,30 @@ public class CallNode implements Node {
                 errors.add(SemanticError.variableNotDeclared(myId));
             }
         }
+
         return errors;
     }
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        // TODO: check the given parameters correspond to the ones in the definition of the function.
-        ArrayList<TypeNode> paramsType = env.getParamsType(id);
+        List<TypeNode> paramsType = Environment.getParamsType(symEntry);
+
+        ArrayList<TypeNode> givenParams = new ArrayList<>();
+        givenParams.addAll(Functional.mapList(exp, e -> e.typeCheck(env)));
+        givenParams.addAll(Functional.mapList(ids, id -> env.getType(id)));
+
+        if (paramsType.size() != givenParams.size()) {
+            // TODO: handle type errors
+            throw new RuntimeException("Type error: wrong number of parameters");
+        }
 
         for (int i = 0; i < paramsType.size(); i++){
             TypeNode t1 = paramsType.get(i);
-            TypeNode t2 = exp.get(i).typeCheck(env);
+            TypeNode t2 = givenParams.get(i);
 
             if (t1 != t2) {
-            // TODO: handle type errors
-                throw new RuntimeException("Type Error - " + "formal parameter" + " has type different from " + "actual parameter");
+                // TODO: handle type errors
+                throw new RuntimeException("Type error: wrong type of parameter (" + t1 + " != " + t2 + ")");
             }
         }
 
