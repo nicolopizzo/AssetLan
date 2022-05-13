@@ -32,4 +32,8 @@ public class AssetNode implements Node {
     public TypeNode typeCheck(Environment env) {
         return type;
     }
+
+    public String getId() {
+        return id;
+    }
 }

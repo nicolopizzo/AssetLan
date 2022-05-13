@@ -23,16 +23,16 @@ public class MoveNode implements Node {
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> semanticErrors = new ArrayList<>();
 
-        if (!env.isDeclared(id1)) {
-            semanticErrors.add(SemanticError.variableNotDeclared(id1));
-        } else {
-            entry1 = env.getLastEntry(id1);
-        }
-
         if (!env.isDeclared(id2)) {
             semanticErrors.add(SemanticError.variableNotDeclared(id2));
         } else {
             entry2 = env.getLastEntry(id2);
+        }
+
+        if (!env.isDeclared(id1)) {
+            semanticErrors.add(SemanticError.variableNotDeclared(id1));
+        } else {
+            entry1 = env.getLastEntry(id1);
         }
 
         return semanticErrors;
@@ -44,10 +44,22 @@ public class MoveNode implements Node {
         TypeNode t2 = entry2.getTypes().get(0);
 
         //ArrayList<SemanticError> errors = new ArrayList<>();
-        if (t1 != TypeNode.ASSET || t2 != TypeNode.ASSET){
+        if (t1 != TypeNode.ASSET || t2 != TypeNode.ASSET) {
             //errors.add(SemanticError.typeError(id1, id2));
             throw new RuntimeException("Type Error - " + id1 + " has type different from " + id2);
         }
+
+        applyEffect();
+
         return TypeNode.NULL;
+    }
+
+    private void applyEffect() {
+        if (entry1.isFilled() || entry2.isFilled()) {
+            entry2.fill();
+            System.out.println(entry2 + " -> " + id2 + ". Filled = " + entry2.isFilled());
+        }
+
+        entry1.empty();
     }
 }

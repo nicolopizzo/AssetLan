@@ -1,6 +1,7 @@
 package ast;
 
 import utils.Environment;
+import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class ProgramNode implements Node {
     private ArrayList<Node> fields;
     private ArrayList<Node> assets;
     private ArrayList<Node> functions;
+    private ArrayList<STEntry> entries = new ArrayList<>();
     private Node initCall;
 
     public ProgramNode(ArrayList<Node> fields, ArrayList<Node> assets, ArrayList<Node> functions, Node initCall) {
@@ -28,6 +30,7 @@ public class ProgramNode implements Node {
 
         for (Node a : assets) {
             errors.addAll(a.checkSemantics(env));
+            entries.add(env.getLastEntry(((AssetNode) a).getId()));
         }
 
         for (Node f : functions) {
@@ -54,7 +57,8 @@ public class ProgramNode implements Node {
         }
 
         initCall.typeCheck(env);
-
+        System.out.println("Global: " + entries);
+        Environment.checkLiquidity(entries);
         return TypeNode.NULL;
     }
 }

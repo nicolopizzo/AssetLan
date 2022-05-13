@@ -35,4 +35,8 @@ public class ParamNode implements Node {
     public TypeNode typeCheck(Environment env){
         return TypeNode.NULL;
     }
+
+    public String getId() {
+        return id;
+    }
 }

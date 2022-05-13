@@ -9,13 +9,13 @@ public class STEntry {
     private int nestLevel;
     private int offset;
     //status is used to manage the status of an asset (if zero)
-    private boolean status;
+    private boolean isFilled;
 
     public STEntry(int nl, TypeNode type, int o) {
         types.add(type);
         nestLevel = nl;
         offset = o;
-        status = false;
+        isFilled = false;
     }
 
     public STEntry(int nl, ArrayList<TypeNode> types, int o) {
@@ -36,11 +36,15 @@ public class STEntry {
         return types;
     }
 
-    public boolean getStatus() {
-        return status;
+    public boolean isFilled() {
+        return isFilled;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void fill() {
+        this.isFilled = true;
+    }
+
+    public void empty() {
+        this.isFilled = false;
     }
 }

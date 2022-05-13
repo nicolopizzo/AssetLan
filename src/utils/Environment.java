@@ -63,7 +63,7 @@ public class Environment {
         ArrayList<TypeNode> res = new ArrayList<>();
         ArrayList<TypeNode> types = entry.getTypes();
         if (types.size() > 1) {
-            res.addAll(types.subList(0, types.size()-2));
+            res.addAll(types.subList(0, types.size() - 2));
         }
 
         return res;
@@ -72,7 +72,7 @@ public class Environment {
     //used to save entries that are removed from the symtable after checkSemantics()
     public STEntry getLastEntry(String key) {
         ArrayList<STEntry> entries = symTable.get(key);
-        if (entries.isEmpty()){
+        if (entries.isEmpty()) {
             return null;
         } else {
             return entries.get(entries.size() - 1);
@@ -138,6 +138,15 @@ public class Environment {
         if (types.size() < 1)
             return null;
 
-        return types.get(types.size()-1);
+        return types.get(types.size() - 1);
+    }
+
+    public static void checkLiquidity(ArrayList<STEntry> entries) {
+        for (STEntry e : entries) {
+            System.out.println(e + " " + e.isFilled());
+            if (e.isFilled()) {
+                throw new RuntimeException("Liquidity error");
+            }
+        }
     }
 }

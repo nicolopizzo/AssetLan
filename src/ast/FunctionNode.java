@@ -13,6 +13,7 @@ public class FunctionNode implements Node {
     private final ArrayList<Node> assets;
     private final ArrayList<Node> fields;
     private final ArrayList<Node> statements;
+    private final ArrayList<STEntry> assetEntries = new ArrayList<>();
 
     public FunctionNode(TypeNode type, String id, ArrayList<Node> declarations, ArrayList<Node> assets, ArrayList<Node> fields, ArrayList<Node> statements) {
         this.type = type;
@@ -49,6 +50,7 @@ public class FunctionNode implements Node {
         }
         for (Node a : assets) {
             errors.addAll(a.checkSemantics(env));
+            assetEntries.add(env.getLastEntry(((ParamNode) a).getId()));
         }
         for (Node f : fields) {
             errors.addAll(f.checkSemantics(env));
@@ -94,7 +96,7 @@ public class FunctionNode implements Node {
             }
         }
 
-
+        Environment.checkLiquidity(assetEntries);
         return TypeNode.NULL;
     }
 }
