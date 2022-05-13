@@ -6,7 +6,7 @@ import utils.SemanticError;
 
 import java.util.ArrayList;
 
-public class AssignmentNode implements Node{
+public class AssignmentNode implements Node {
     private String id;
     private Node exp;
     private STEntry symEntry;
@@ -32,14 +32,13 @@ public class AssignmentNode implements Node{
 
     @Override
     public TypeNode typeCheck(Environment env) {
-//        TypeNode idType = env.getType(id);
         TypeNode idType = Environment.getType(symEntry);
-//        System.out.println(idType);
+        TypeNode expType = exp.typeCheck(env);
 
-        //ArrayList<SemanticError> errors = new ArrayList<>();
-        if (idType != exp.typeCheck(env)){
-            //errors.add(SemanticError.typeError(id, "right expression"));
-            throw new RuntimeException("Type Error - " + id + " has type different from " + "right expression");
+        if (idType == TypeNode.INT && expType == TypeNode.BOOL) {
+            throw new RuntimeException("Type Error: " + id + " has type " + idType + ", right expression has type " + expType);
+        } else if (idType != TypeNode.INT && idType != expType) {
+            throw new RuntimeException("Type Error: " + id + " has type " + idType + ", right expression has type " + expType);
         }
 
         return TypeNode.NULL;

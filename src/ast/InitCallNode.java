@@ -56,6 +56,11 @@ public class InitCallNode implements Node {
             TypeNode t1 = toCompare.get(i);
             TypeNode t2 = paramsTypes.get(i);
 
+            if (t1 == TypeNode.ASSET && (t2 == TypeNode.ASSET || t2 == TypeNode.INT)) {
+                System.out.println("Bubu");
+                continue;
+            }
+
             if (t1 != t2) {
                 // TODO: handle type errors
                 throw new RuntimeException("Type error: wrong type of parameter (" + t1 + " != " + t2 + ")");

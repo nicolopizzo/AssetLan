@@ -65,7 +65,7 @@ public class FunctionNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        //ArrayList<SemanticError> errors = new ArrayList<>();
+        assetEntries.forEach(stEntry -> stEntry.fill());
 
         for (Node d : declarations) {
             d.typeCheck(env);

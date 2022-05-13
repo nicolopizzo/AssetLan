@@ -13,6 +13,7 @@ public class CallNode implements Node {
     private ArrayList<Node> exp;
     private ArrayList<String> ids;
     private STEntry symEntry;
+    private ArrayList<STEntry> assetEntries = new ArrayList<>();
 
     public CallNode(String id, ArrayList<Node> exp, ArrayList<String> ids) {
         this.id = id;
@@ -39,6 +40,8 @@ public class CallNode implements Node {
         for (String myId : ids) {
             if (!env.isDeclared(myId)) {
                 errors.add(SemanticError.variableNotDeclared(myId));
+            } else {
+                assetEntries.add(env.getLastEntry(myId));
             }
         }
 
@@ -68,6 +71,11 @@ public class CallNode implements Node {
             }
         }
 
+        applyEffect();
         return env.getType(id);
+    }
+
+    private void applyEffect() {
+        assetEntries.forEach(stEntry -> stEntry.empty());
     }
 }

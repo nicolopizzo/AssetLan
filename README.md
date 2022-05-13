@@ -42,7 +42,7 @@ Codici da verificare/discutere:
 Codice 1
 ```
 asset x, y ;
-     void f()[u,v]{
+     void f()[asset u, asset v]{
         u -o y ;
         v -o x ;
      }
@@ -77,7 +77,7 @@ int a ;
 asset x ;
 void f(int n)[asset u, asset v, asset w]{ 
   u -o x ; 
-  f(v,w,u) ;
+  f(a)[v,w,u] ;
 }
 void main()[asset a, asset b, asset c]{
   f()[a,b,c] ;

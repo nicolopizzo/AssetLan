@@ -28,7 +28,7 @@ public class Main {
 
         //import file containing the example program to compile
 //        String fileName = "src/res/lexicalErrorsExamples.assetlan";
-        String fileName = "src/res/input.assetlan";
+        String fileName = "src/res/codice1.assetlan";
 
         //create an instance of a lexer
         //AssetLanLexer is a class that extends the Antlr Lexer
@@ -85,6 +85,9 @@ public class Main {
 
         // Type checking
         ast.typeCheck(env);
+
+        // TODO: codice1 non funziona, checkLiquidity: potrebbe essere necessario memorizzare all'interno di call il
+        //       FunctionNode
 
         //there are no syntax errors, can continue to compile executing the parser
         System.out.println("All good.");
