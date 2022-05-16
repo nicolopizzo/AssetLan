@@ -43,4 +43,9 @@ public class AssignmentNode implements Node {
 
         return TypeNode.NULL;
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

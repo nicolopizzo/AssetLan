@@ -72,4 +72,9 @@ public class IteNode implements Node {
 
         return ifStatement.typeCheck(env);
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

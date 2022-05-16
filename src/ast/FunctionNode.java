@@ -99,4 +99,9 @@ public class FunctionNode implements Node {
         Environment.checkLiquidity(assetEntries);
         return TypeNode.NULL;
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

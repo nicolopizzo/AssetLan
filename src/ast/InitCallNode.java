@@ -69,4 +69,9 @@ public class InitCallNode implements Node {
 
         return env.getType(id);
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

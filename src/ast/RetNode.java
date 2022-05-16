@@ -28,4 +28,9 @@ public class RetNode implements Node {
     public TypeNode typeCheck(Environment env) {
         return returendExpression.typeCheck(env);
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

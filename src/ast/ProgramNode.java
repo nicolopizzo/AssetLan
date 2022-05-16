@@ -61,4 +61,9 @@ public class ProgramNode implements Node {
         Environment.checkLiquidity(entries);
         return TypeNode.NULL;
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

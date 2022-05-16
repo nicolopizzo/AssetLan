@@ -54,6 +54,11 @@ public class MoveNode implements Node {
         return TypeNode.NULL;
     }
 
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
+
     private void applyEffect() {
         if (entry1.isFilled() || entry2.isFilled()) {
             entry2.fill();

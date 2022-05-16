@@ -24,4 +24,9 @@ public class PrintNode implements Node {
         exp.typeCheck(env);
         return TypeNode.NULL;
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

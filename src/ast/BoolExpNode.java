@@ -21,4 +21,9 @@ public class BoolExpNode implements Node {
     public TypeNode typeCheck(Environment env) {
         return TypeNode.BOOL;
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

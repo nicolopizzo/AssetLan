@@ -41,4 +41,9 @@ public class BinExpNode implements Node {
         }
 
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

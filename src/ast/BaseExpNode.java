@@ -21,4 +21,9 @@ public class BaseExpNode implements Node {
     public TypeNode typeCheck(Environment env){
         return exp.typeCheck(env);
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

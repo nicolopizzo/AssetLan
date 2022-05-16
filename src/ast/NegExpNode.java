@@ -26,4 +26,9 @@ public class NegExpNode implements Node {
         }
         return TypeNode.INT;
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

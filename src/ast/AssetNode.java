@@ -33,6 +33,11 @@ public class AssetNode implements Node {
         return type;
     }
 
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
+
     public String getId() {
         return id;
     }
