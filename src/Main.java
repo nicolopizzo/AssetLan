@@ -28,7 +28,7 @@ public class Main {
 
         //import file containing the example program to compile
 //        String fileName = "src/res/lexicalErrorsExamples.assetlan";
-        String fileName = "src/res/codice1.assetlan";
+        String fileName = "src/res/input.assetlan";
 
         //create an instance of a lexer
         //AssetLanLexer is a class that extends the Antlr Lexer

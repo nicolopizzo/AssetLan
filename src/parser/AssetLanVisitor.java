@@ -1,4 +1,4 @@
-package parser;// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.9.2
+package parser;// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.10.1
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -45,12 +45,6 @@ public interface AssetLanVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParam(AssetLanParser.ParamContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AssetLanParser#bparam}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBparam(AssetLanParser.BparamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AssetLanParser#aparam}.
 	 * @param ctx the parse tree
@@ -106,6 +100,12 @@ public interface AssetLanVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIte(AssetLanParser.IteContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AssetLanParser#statementList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementList(AssetLanParser.StatementListContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AssetLanParser#call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -117,6 +117,12 @@ public interface AssetLanVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInitcall(AssetLanParser.InitcallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AssetLanParser#expList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpList(AssetLanParser.ExpListContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code baseExp}
 	 * labeled alternative in {@link AssetLanParser#exp}.
@@ -173,10 +179,4 @@ public interface AssetLanVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNotExp(AssetLanParser.NotExpContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AssetLanParser#aexp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAexp(AssetLanParser.AexpContext ctx);
 }

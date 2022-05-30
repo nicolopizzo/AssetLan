@@ -146,13 +146,19 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
     @Override
     public Node visitIte(IteContext ctx) {
         Node expNode = visit(ctx.exp());
-        Node ifStatement = visit(ctx.statement(0));
-        if (ctx.statement(1) != null) {
-            Node elseStatement = visit(ctx.statement(1));
-            return new IteNode(expNode, ifStatement, elseStatement);
+        ArrayList<Node> ifStatements = new ArrayList<>();
+        for (StatementContext s : ctx.ifStatements.statement()) {
+            ifStatements.add(visit(s));
+        }
+        ArrayList<Node> elseStatements = new ArrayList<>();
+        if (ctx.elseStatements != null) {
+            for (StatementContext s : ctx.elseStatements.statement()) {
+                elseStatements.add(visit(s));
+            }
+            return new IteNode(expNode, ifStatements, elseStatements);
         }
 
-        return new IteNode(expNode, ifStatement);
+        return new IteNode(expNode, ifStatements);
     }
 
     @Override
@@ -177,12 +183,12 @@ public class AssetLanVisitorConcrete extends AssetLanBaseVisitor<Node> {
         String id = ctx.ID().getText();
 
         ArrayList<Node> params = new ArrayList<>();
-        for (ExpContext e : ctx.exp()) {
+        for (ExpContext e : ctx.params.exp()) {
             params.add(visit(e));
         }
 
         ArrayList<Node> assets = new ArrayList<>();
-        for (AexpContext e : ctx.aexp()) {
+        for (ExpContext e : ctx.assets.exp()) {
             assets.add(visit(e));
         }
 

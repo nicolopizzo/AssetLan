@@ -8,18 +8,18 @@ import java.util.ArrayList;
 public class IteNode implements Node {
 
     private final Node condition;
-    private final Node ifStatement;
-    private Node elseStatement;
+    private final ArrayList<Node> ifStatement;
+    private ArrayList<Node> elseStatement;
 
-    public IteNode(Node condition, Node ifStatement, Node statementElse) {
+    public IteNode(Node condition, ArrayList<Node> ifStatement) {
         this.condition = condition;
         this.ifStatement = ifStatement;
-        this.elseStatement = statementElse;
     }
 
-    public IteNode(Node condition, Node ifBody) {
+    public IteNode(Node condition, ArrayList<Node> ifStatement, ArrayList<Node> elseStatement) {
         this.condition = condition;
-        this.ifStatement = ifBody;
+        this.ifStatement = ifStatement;
+        this.elseStatement = elseStatement;
     }
 
     @Override
@@ -29,47 +29,24 @@ public class IteNode implements Node {
         errors.addAll(condition.checkSemantics(env));
 
         env.enterScope();
-        errors.addAll(ifStatement.checkSemantics(env));
+        for (Node node : ifStatement) {
+            errors.addAll(node.checkSemantics(env));
+        }
         env.exitScope();
 
         if (elseStatement != null) {
             env.enterScope();
-            errors.addAll(elseStatement.checkSemantics(env));
+            for (Node node : elseStatement) {
+                errors.addAll(node.checkSemantics(env));
+            }
             env.exitScope();
         }
 
         return errors;
     }
 
-    public boolean hasReturnNode() {
-        if (ifStatement instanceof IteNode) {
-            return ((IteNode) ifStatement).hasReturnNode();
-        }
-
-        if (elseStatement != null && elseStatement instanceof IteNode) {
-            return ((IteNode) elseStatement).hasReturnNode();
-        }
-
-        boolean b1 = ifStatement instanceof RetNode;
-        boolean b2 = elseStatement != null && elseStatement instanceof RetNode;
-
-        return b1 || b2;
-    }
-
     @Override
     public TypeNode typeCheck(Environment env) {
-        //ArrayList<SemanticError> errors = new ArrayList<>();
-
-        if (condition.typeCheck(env) != TypeNode.BOOL) {
-            //errors.add(SemanticError.typeError("condition in if statement","bool"));
-            throw new RuntimeException("Type Error - " + "condition in if statement" + " has type different from " + "bool");
-        }
-
-        if (ifStatement.typeCheck(env) != elseStatement.typeCheck(env)) {
-            //errors.add(SemanticError.typeError("ifStatement","elseStatement"));
-            throw new RuntimeException("Type Error - " + "ifStatement" + " has type different from " + "elseStatement");
-        }
-
-        return ifStatement.typeCheck(env);
+        return null;
     }
 }

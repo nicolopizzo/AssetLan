@@ -8,14 +8,11 @@ void f()[asset u, asset v]{
     v -o x ;
 }
 
-void g()[] {}
-void main(int x)[asset u, asset v]{
-    bool b;
+void main(int a)[asset u, asset v, asset w]{
     u -o y ;
-    u -o z ;
-    f()[x,y] ;
-    x = 2 ;
-    b = !((1+2) == 3);
-    g()[];
+    v -o z ;
+    w -o x ;
+
+
 }
-main(2)[x, y]
+main(2)[x, y, z]

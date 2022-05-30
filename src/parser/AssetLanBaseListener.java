@@ -1,4 +1,4 @@
-package parser;// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.9.2
+package parser;// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.10.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -82,18 +82,6 @@ public class AssetLanBaseListener implements AssetLanListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParam(AssetLanParser.ParamContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBparam(AssetLanParser.BparamContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBparam(AssetLanParser.BparamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -207,6 +195,18 @@ public class AssetLanBaseListener implements AssetLanListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStatementList(AssetLanParser.StatementListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatementList(AssetLanParser.StatementListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCall(AssetLanParser.CallContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -226,6 +226,18 @@ public class AssetLanBaseListener implements AssetLanListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInitcall(AssetLanParser.InitcallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpList(AssetLanParser.ExpListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpList(AssetLanParser.ExpListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -322,18 +334,6 @@ public class AssetLanBaseListener implements AssetLanListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNotExp(AssetLanParser.NotExpContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAexp(AssetLanParser.AexpContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAexp(AssetLanParser.AexpContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

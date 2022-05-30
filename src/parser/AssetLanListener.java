@@ -1,4 +1,4 @@
-package parser;// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.9.2
+package parser;// Generated from /home/nizzo/Documents/Projects/AssetLan/src/AssetLan.g4 by ANTLR 4.10.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -66,16 +66,6 @@ public interface AssetLanListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParam(AssetLanParser.ParamContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AssetLanParser#bparam}.
-	 * @param ctx the parse tree
-	 */
-	void enterBparam(AssetLanParser.BparamContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AssetLanParser#bparam}.
-	 * @param ctx the parse tree
-	 */
-	void exitBparam(AssetLanParser.BparamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AssetLanParser#aparam}.
 	 * @param ctx the parse tree
@@ -167,6 +157,16 @@ public interface AssetLanListener extends ParseTreeListener {
 	 */
 	void exitIte(AssetLanParser.IteContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AssetLanParser#statementList}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatementList(AssetLanParser.StatementListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AssetLanParser#statementList}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatementList(AssetLanParser.StatementListContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AssetLanParser#call}.
 	 * @param ctx the parse tree
 	 */
@@ -186,6 +186,16 @@ public interface AssetLanListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInitcall(AssetLanParser.InitcallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AssetLanParser#expList}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpList(AssetLanParser.ExpListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AssetLanParser#expList}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpList(AssetLanParser.ExpListContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code baseExp}
 	 * labeled alternative in {@link AssetLanParser#exp}.
@@ -282,14 +292,4 @@ public interface AssetLanListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNotExp(AssetLanParser.NotExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AssetLanParser#aexp}.
-	 * @param ctx the parse tree
-	 */
-	void enterAexp(AssetLanParser.AexpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AssetLanParser#aexp}.
-	 * @param ctx the parse tree
-	 */
-	void exitAexp(AssetLanParser.AexpContext ctx);
 }
