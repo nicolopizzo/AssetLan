@@ -31,6 +31,11 @@ public enum BinaryOperator {
     }
 
     public boolean isRelational() {
-        return this == EQ || this == NE || this == LT || this == GT || this == LE || this == GE;
+        return this == LT || this == GT || this == LE || this == GE;
     }
+
+    public boolean isEquality() {
+        return this == EQ || this == NE;
+    }
+
 }

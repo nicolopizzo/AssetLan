@@ -47,7 +47,31 @@ public class IteNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        return null;
+        //ArrayList<SemanticError> errors = new ArrayList<>();
+
+        if (condition.typeCheck(env) != TypeNode.BOOL) {
+            //errors.add(SemanticError.typeError("condition in if statement","bool"));
+            throw new RuntimeException("Type Error - " + "condition in if statement" + " has type different from " + "bool");
+        }
+        for (Node ifNode : ifStatement) {
+            ifNode.typeCheck(env);
+        }
+
+        if (elseStatement != null) {
+            Node lastIf = ifStatement.get(ifStatement.size() - 1);
+            Node lastElse = elseStatement.get(elseStatement.size() - 1);
+
+            if (lastIf != lastElse) {
+                //errors.add(SemanticError.typeError("last if statement","last else statement"));
+                throw new RuntimeException("Type Error - " + "last if statement" + " has type different from " + "last else statement");
+            }
+
+            for (Node elseNode : elseStatement) {
+                elseNode.typeCheck(env);
+            }
+        }
+
+        return TypeNode.NULL;
     }
 
     @Override

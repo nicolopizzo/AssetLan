@@ -26,17 +26,38 @@ public class BinExpNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        //ArrayList<SemanticError> errors = new ArrayList<>();
-        if (left.typeCheck(env) != right.typeCheck(env)) {
-            //errors.add(SemanticError.typeError("left expression","right expression"));
-            throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
-        }
-
+        //ArrayList<SemanticError> errors = new ArrayList<>()
         // If the binary expression has an arithmetic operator (+, -, *, /) return INT type
         // Else the binary expression has boolean operator (&&, ||, !=, ==, <, <=, >, >=)
+        // relational (!=, ==, <, <=, >, >=)
+        TypeNode leftExp = left.typeCheck(env);
+        TypeNode rightExp = right.typeCheck(env);
+
         if (op.isArithmetic()) {
+
+            if ((leftExp != TypeNode.ASSET && leftExp != TypeNode.INT) || (rightExp != TypeNode.ASSET && rightExp != TypeNode.INT)) {
+                throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
+            }
+
             return TypeNode.INT;
-        } else{
+
+        } else if (op.isRelational()) {
+            if ((leftExp != TypeNode.ASSET && leftExp != TypeNode.INT) || (rightExp != TypeNode.ASSET && rightExp != TypeNode.INT)) {
+                throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
+            }
+            return TypeNode.BOOL;
+
+        } else if (op.isEquality()) {
+            if ((leftExp != TypeNode.ASSET || leftExp != TypeNode.INT) || (rightExp != TypeNode.ASSET || rightExp != TypeNode.INT)
+                    || (leftExp != TypeNode.BOOL || leftExp != TypeNode.BOOL)) {
+                throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
+            }
+            return TypeNode.BOOL;
+
+        } else {
+            if (leftExp != TypeNode.BOOL || rightExp != TypeNode.BOOL) {
+                throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
+            }
             return TypeNode.BOOL;
         }
 
