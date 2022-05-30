@@ -21,4 +21,9 @@ public class ValExpNode implements Node {
     public TypeNode typeCheck(Environment env) {
         return TypeNode.INT;
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

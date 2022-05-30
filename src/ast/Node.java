@@ -9,4 +9,6 @@ public interface Node {
     ArrayList<SemanticError> checkSemantics(Environment env);
 
     TypeNode typeCheck(Environment env);
+
+    String codeGeneration(Environment env);
 }

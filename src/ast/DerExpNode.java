@@ -29,4 +29,9 @@ public class DerExpNode implements Node {
     public TypeNode typeCheck(Environment env) {
         return Environment.getType(symEntry);
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }

@@ -75,6 +75,11 @@ public class CallNode implements Node {
         return env.getType(id);
     }
 
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
+
     private void applyEffect() {
         assetEntries.forEach(stEntry -> stEntry.empty());
     }

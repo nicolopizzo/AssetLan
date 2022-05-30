@@ -26,4 +26,9 @@ public class NotExpNode implements Node {
         }
         return TypeNode.BOOL;
     }
+
+    @Override
+    public String codeGeneration(Environment env) {
+        return null;
+    }
 }
