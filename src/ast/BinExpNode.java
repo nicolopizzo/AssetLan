@@ -24,39 +24,47 @@ public class BinExpNode implements Node {
         return errors;
     }
 
+    boolean isIntOrAsset(TypeNode type1, TypeNode type2) {
+        return (type1 != TypeNode.ASSET && type1 != TypeNode.INT) || (type2 != TypeNode.ASSET && type2 != TypeNode.INT);
+    }
+
+    boolean isBool(TypeNode type1, TypeNode type2) {
+        return (type1 != TypeNode.BOOL || type2 != TypeNode.BOOL);
+    }
+
+    // If the binary expression has an arithmetic operator (+, -, *, /) return INT type
+    // If the binary expression has a relational operator (>, <, >=, <=) return BOOL type
+    // If the binary expression has a logical operator (&&, ||) return BOOL type
+    // If the binary expression has an equality operator (==, !=) return BOOL type
     @Override
     public TypeNode typeCheck(Environment env) {
-        //ArrayList<SemanticError> errors = new ArrayList<>()
-        // If the binary expression has an arithmetic operator (+, -, *, /) return INT type
-        // Else the binary expression has boolean operator (&&, ||, !=, ==, <, <=, >, >=)
-        // relational (!=, ==, <, <=, >, >=)
+
         TypeNode leftExp = left.typeCheck(env);
         TypeNode rightExp = right.typeCheck(env);
 
         if (op.isArithmetic()) {
 
-            if ((leftExp != TypeNode.ASSET && leftExp != TypeNode.INT) || (rightExp != TypeNode.ASSET && rightExp != TypeNode.INT)) {
-                throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
+            if (isIntOrAsset(leftExp, rightExp)) {
+                throw new RuntimeException("Type Error - " + "expression" + " has type different from " + "int or asset");
             }
 
             return TypeNode.INT;
 
         } else if (op.isRelational()) {
-            if ((leftExp != TypeNode.ASSET && leftExp != TypeNode.INT) || (rightExp != TypeNode.ASSET && rightExp != TypeNode.INT)) {
-                throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
+            if (isIntOrAsset(leftExp, rightExp)) {
+                throw new RuntimeException("Type Error - " + "expression" + " has type different from " + "int or asset");
             }
             return TypeNode.BOOL;
 
         } else if (op.isEquality()) {
-            if ((leftExp != TypeNode.ASSET || leftExp != TypeNode.INT) || (rightExp != TypeNode.ASSET || rightExp != TypeNode.INT)
-                    || (leftExp != TypeNode.BOOL || leftExp != TypeNode.BOOL)) {
-                throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
+            if ( isIntOrAsset(leftExp, rightExp) && isBool(leftExp, rightExp) ) {
+                throw new RuntimeException("Type Error - " + "expression" + " has type different from " + "int or asset or bool");
             }
             return TypeNode.BOOL;
 
         } else {
-            if (leftExp != TypeNode.BOOL || rightExp != TypeNode.BOOL) {
-                throw new RuntimeException("Type Error - " + "left expression" + " has type different from " + "right expression");
+            if (isBool(leftExp, rightExp)) {
+                throw new RuntimeException("Type Error - " + "expression" + " has type different from " + "bool");
             }
             return TypeNode.BOOL;
         }
