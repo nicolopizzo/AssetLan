@@ -46,10 +46,8 @@ public class MoveNode implements Node {
         //ArrayList<SemanticError> errors = new ArrayList<>();
         if (t1 != TypeNode.ASSET || t2 != TypeNode.ASSET) {
             //errors.add(SemanticError.typeError(id1, id2));
-            throw new RuntimeException("Type Error - " + id1 + " has type different from " + id2);
+            throw new RuntimeException("Type Error - " + "the asset" + " has type different from " + "ASSET");
         }
-
-        applyEffect();
 
         return TypeNode.NULL;
     }
