@@ -57,8 +57,7 @@ public class ProgramNode implements Node {
         }
 
         initCall.typeCheck(env);
-        System.out.println("Global: " + entries);
-        Environment.checkLiquidity(entries);
+
         return TypeNode.NULL;
     }
 
