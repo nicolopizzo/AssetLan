@@ -22,7 +22,7 @@ public class PrintNode implements Node {
     @Override
     public TypeNode typeCheck(Environment env) {
         exp.typeCheck(env);
-        return TypeNode.NULL;
+        return TypeNode.VOID;
     }
 
     @Override

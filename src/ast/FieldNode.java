@@ -39,20 +39,27 @@ public class FieldNode implements Node {
     }
 
     @Override
-    public TypeNode typeCheck(Environment env){
+    public TypeNode typeCheck(Environment env) {
 
-        //ArrayList<SemanticError> errors = new ArrayList<>();
         if (exp != null) {
-            if (type != exp.typeCheck(env)) {
-                //errors.add(SemanticError.typeError(id, "right expression"));
-                throw new RuntimeException("Type Error - " + id + " has type different from " + "right expression");
+            if (type == TypeNode.INT || type == TypeNode.ASSET) {
+                if (exp.typeCheck(env) != TypeNode.ASSET && exp.typeCheck(env) != TypeNode.INT)
+                    throw new RuntimeException("Type Error - " + id + " has type different from " + "right expression");
             }
+
+            if (type == TypeNode.BOOL) {
+                if (exp.typeCheck(env) != TypeNode.BOOL)
+                    throw new RuntimeException("Type Error - " + id + " has type different from " + "right expression");
+            }
+
+            return TypeNode.VOID;
         }
-        return TypeNode.NULL;
+        return TypeNode.VOID;
     }
 
     @Override
     public String codeGeneration(Environment env) {
         return null;
     }
+
 }

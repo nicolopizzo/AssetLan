@@ -34,7 +34,7 @@ public class TransferNode implements Node {
             throw new RuntimeException("Type Error - " + id + " has type different from " + "ASSET");
         }
         applyEffect();
-        return TypeNode.NULL;
+        return TypeNode.VOID;
     }
 
     @Override
