@@ -65,38 +65,25 @@ public class FunctionNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        assetEntries.forEach(stEntry -> stEntry.fill());
-
-        for (Node d : declarations) {
-            d.typeCheck(env);
-        }
-        for (Node a : assets) {
-            a.typeCheck(env);
-        }
+//        for (Node d : declarations) {
+//            d.typeCheck(env);
+//        }
+//        for (Node a : assets) {
+//            a.typeCheck(env);
+//        }
         for (Node f : fields) {
             f.typeCheck(env);
         }
 
+        TypeNode t1 = TypeNode.NULL;
         for (Node s : statements) {
-            TypeNode t1 = s.typeCheck(env);
-
-            // Se il nodo a runtime è di tipo ReturnNode verifico che il tipo restituito sia corretto
-            // TODO: refactoring per return dentro ITE.
-            if ((s instanceof IteNode) && ((IteNode) s).hasReturnNode()) {
-                if (type != t1) {
-                    //errors.add(SemanticError.typeError(id, "function return type"));
-                    throw new RuntimeException("Type Error - " + id + " has type different from " + "function return type");
-                }
-            }
-            if (s instanceof RetNode) {
-                if (type != t1) {
-                    //errors.add(SemanticError.typeError(id, "function return type"));
-                    throw new RuntimeException("Type Error - " + id + " has type different from " + "function return type");
-                }
-            }
+            t1 = s.typeCheck(env);
         }
 
-        Environment.checkLiquidity(assetEntries);
+        if (t1 != type) {
+            throw new RuntimeException("Return type does not match function type");
+        }
+
         return TypeNode.NULL;
     }
 
