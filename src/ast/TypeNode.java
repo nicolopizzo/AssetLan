@@ -4,6 +4,5 @@ public enum TypeNode {
     INT,
     BOOL,
     VOID,
-    ASSET,
-    NULL
+    ASSET
 }

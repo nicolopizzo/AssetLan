@@ -43,7 +43,7 @@ public class AssignmentNode implements Node {
             throw new RuntimeException("Type Error: " + id + " has type " + idType + ", right expression has type " + expType);
         }
 
-        return TypeNode.NULL;
+        return TypeNode.VOID;
     }
 
     @Override

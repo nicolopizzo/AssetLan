@@ -41,6 +41,10 @@ public class FieldNode implements Node {
     @Override
     public TypeNode typeCheck(Environment env) {
 
+        if(type == TypeNode.VOID) {
+            throw new RuntimeException("Field cannot be of type void");
+        }
+
         if (exp != null) {
             if (type == TypeNode.INT || type == TypeNode.ASSET) {
                 if (exp.typeCheck(env) != TypeNode.ASSET && exp.typeCheck(env) != TypeNode.INT)
@@ -51,8 +55,6 @@ public class FieldNode implements Node {
                 if (exp.typeCheck(env) != TypeNode.BOOL)
                     throw new RuntimeException("Type Error - " + id + " has type different from " + "right expression");
             }
-
-            return TypeNode.VOID;
         }
         return TypeNode.VOID;
     }

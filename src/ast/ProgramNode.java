@@ -58,7 +58,7 @@ public class ProgramNode implements Node {
 
         initCall.typeCheck(env);
 
-        return TypeNode.NULL;
+        return TypeNode.VOID;
     }
 
     @Override

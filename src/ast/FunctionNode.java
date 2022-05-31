@@ -84,7 +84,7 @@ public class FunctionNode implements Node {
             throw new RuntimeException("Return type does not match function type");
         }
 
-        return TypeNode.NULL;
+        return TypeNode.VOID;
     }
 
     @Override

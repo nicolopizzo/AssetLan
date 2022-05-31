@@ -49,7 +49,7 @@ public class MoveNode implements Node {
             throw new RuntimeException("Type Error - " + "the asset" + " has type different from " + "ASSET");
         }
 
-        return TypeNode.NULL;
+        return TypeNode.VOID;
     }
 
     @Override

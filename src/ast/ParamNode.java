@@ -33,7 +33,7 @@ public class ParamNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env){
-        return TypeNode.NULL;
+        return TypeNode.VOID;
     }
 
     @Override
