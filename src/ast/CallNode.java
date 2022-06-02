@@ -76,11 +76,16 @@ public class CallNode implements Node {
     }
 
     @Override
+    public void checkEffects(Environment env) {
+
+    }
+
+    @Override
     public String codeGeneration(Environment env) {
         return null;
     }
 
     private void applyEffect() {
-        assetEntries.forEach(stEntry -> stEntry.empty());
+     //  assetEntries.forEach(stEntry -> stEntry.empty());
     }
 }

@@ -10,5 +10,7 @@ public interface Node {
 
     TypeNode typeCheck(Environment env);
 
+    void checkEffects(Environment env);
+
     String codeGeneration(Environment env);
 }

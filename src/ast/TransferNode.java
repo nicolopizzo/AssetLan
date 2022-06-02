@@ -1,5 +1,6 @@
 package ast;
 
+import utils.Effect;
 import utils.Environment;
 import utils.STEntry;
 import utils.SemanticError;
@@ -33,8 +34,13 @@ public class TransferNode implements Node {
             //System.out.println("Error: " + id + " is not an asset");
             throw new RuntimeException("Type Error - " + id + " has type different from " + "ASSET");
         }
-        applyEffect();
+        //applyEffect();
         return TypeNode.VOID;
+    }
+
+    @Override
+    public void checkEffects(Environment env) {
+        entry.setEffect(Effect.EMPTY);
     }
 
     @Override
@@ -42,7 +48,7 @@ public class TransferNode implements Node {
         return null;
     }
 
-    private void applyEffect() {
+   /* private void applyEffect() {
         entry.empty();
-    }
+    }*/
 }

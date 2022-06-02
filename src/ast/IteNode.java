@@ -75,6 +75,24 @@ public class IteNode implements Node {
     }
 
     @Override
+    public void checkEffects(Environment env) {
+        condition.checkEffects(env);
+
+        for (Node node : ifStatement) {
+            node.checkEffects(env);
+        }
+
+        if (elseStatement != null) {
+            for (Node node : elseStatement) {
+                node.checkEffects(env);
+            }
+        }
+
+
+    }
+
+
+    @Override
     public String codeGeneration(Environment env) {
         return null;
     }

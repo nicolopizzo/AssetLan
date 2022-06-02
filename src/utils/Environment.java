@@ -141,6 +141,7 @@ public class Environment {
         return types.get(types.size() - 1);
     }
 
+    /*
     public static void checkLiquidity(ArrayList<STEntry> entries) {
         for (STEntry e : entries) {
             System.out.println(e + " " + e.isFilled());
@@ -148,5 +149,5 @@ public class Environment {
                 throw new RuntimeException("Liquidity error");
             }
         }
-    }
+    }*/
 }

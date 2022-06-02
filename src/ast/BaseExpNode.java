@@ -23,6 +23,12 @@ public class BaseExpNode implements Node {
     }
 
     @Override
+    public void checkEffects(Environment env) {
+        exp.checkEffects(env);
+    }
+
+
+    @Override
     public String codeGeneration(Environment env) {
         return null;
     }

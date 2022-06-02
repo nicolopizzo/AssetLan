@@ -1,7 +1,6 @@
 package ast;
 
 import utils.Environment;
-import utils.STEntry;
 import utils.SemanticError;
 
 import java.util.ArrayList;
@@ -23,6 +22,11 @@ public class PrintNode implements Node {
     public TypeNode typeCheck(Environment env) {
         exp.typeCheck(env);
         return TypeNode.VOID;
+    }
+
+    @Override
+    public void checkEffects(Environment env) {
+        exp.checkEffects(env);
     }
 
     @Override

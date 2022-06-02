@@ -47,6 +47,13 @@ public class AssignmentNode implements Node {
     }
 
     @Override
+    public void checkEffects(Environment env) {
+        exp.checkEffects(env);
+        symEntry.setEffect(symEntry.getEffect().leftExp());
+    }
+
+
+    @Override
     public String codeGeneration(Environment env) {
         return null;
     }

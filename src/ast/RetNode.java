@@ -30,6 +30,11 @@ public class RetNode implements Node {
     }
 
     @Override
+    public void checkEffects(Environment env) {
+           returendExpression.checkEffects(env);
+    }
+
+    @Override
     public String codeGeneration(Environment env) {
         return null;
     }

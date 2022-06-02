@@ -75,7 +75,7 @@ public class FunctionNode implements Node {
             f.typeCheck(env);
         }
 
-        TypeNode t1 = TypeNode.NULL;
+        TypeNode t1 = TypeNode.VOID;
         for (Node s : statements) {
             t1 = s.typeCheck(env);
         }
@@ -85,6 +85,11 @@ public class FunctionNode implements Node {
         }
 
         return TypeNode.VOID;
+    }
+
+    @Override
+    public void checkEffects(Environment env) {
+
     }
 
     @Override

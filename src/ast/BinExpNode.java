@@ -72,6 +72,12 @@ public class BinExpNode implements Node {
     }
 
     @Override
+    public void checkEffects(Environment env) {
+        left.checkEffects(env);
+        right.checkEffects(env);
+    }
+
+    @Override
     public String codeGeneration(Environment env) {
         return null;
     }

@@ -62,6 +62,11 @@ public class ProgramNode implements Node {
     }
 
     @Override
+    public void checkEffects(Environment env) {
+
+    }
+
+    @Override
     public String codeGeneration(Environment env) {
         return null;
     }

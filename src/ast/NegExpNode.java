@@ -29,6 +29,12 @@ public class NegExpNode implements Node {
     }
 
     @Override
+    public void checkEffects(Environment env) {
+        exp.checkEffects(env);
+    }
+
+
+    @Override
     public String codeGeneration(Environment env) {
         return null;
     }

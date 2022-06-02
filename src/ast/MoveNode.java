@@ -1,5 +1,6 @@
 package ast;
 
+import utils.Effect;
 import utils.Environment;
 import utils.STEntry;
 import utils.SemanticError;
@@ -53,10 +54,18 @@ public class MoveNode implements Node {
     }
 
     @Override
+    public void checkEffects(Environment env) {
+        Effect effect = entry2.getEffect();
+        entry1.setEffect(entry1.getEffect().assetMax(effect));
+    }
+
+
+    @Override
     public String codeGeneration(Environment env) {
         return null;
     }
 
+    /*
     private void applyEffect() {
         if (entry1.isFilled() || entry2.isFilled()) {
             entry2.fill();
@@ -64,5 +73,5 @@ public class MoveNode implements Node {
         }
 
         entry1.empty();
-    }
+    }*/
 }
