@@ -94,6 +94,36 @@ public class FunctionNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        /*
+        String declCode="";
+        if (declist!=null) for (Node dec:declist)
+            declCode+=dec.codeGeneration();
+
+        String popDecl="";
+        if (declist!=null)
+            for (Node dec:declist) popDecl+="pop\n";
+
+        String popParl="";
+        for (Node dec:parlist) popParl+="pop\n";
+
+        String funl=SimpLanlib.freshFunLabel();
+        SimpLanlib.putCode(funl+":\n"+
+                "cfp\n"+ 		// setta $fp a $sp
+                "lra\n"+ 		// inserimento return address
+                declCode+ 		// inserimento dichiarazioni locali
+                body.codeGeneration()+
+                "srv\n"+ 		// pop del return value
+                popDecl+
+                "sra\n"+ 		// pop del return address
+                "pop\n"+ 		// pop di AL
+                popParl+
+                "sfp\n"+  		// setto $fp a valore del CL
+                "lrv\n"+ 		// risultato della funzione sullo stack
+                "lra\n"+"js\n"  // salta a $ra
+        );
+
+        return "push "+ funl +"\n";
+         */
+        return "";
     }
 }

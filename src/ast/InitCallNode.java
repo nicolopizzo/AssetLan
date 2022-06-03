@@ -77,6 +77,25 @@ public class InitCallNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        /*
+        String parCode="";
+	    for (int i=parlist.size()-1; i>=0; i--)
+	    	parCode+=parlist.get(i).codeGeneration();
+
+	    String getAR="";
+		  for (int i=0; i<nestinglevel-entry.getNestinglevel(); i++)
+		    	 getAR+="lw\n";
+		  					// formato AR: control_link+parameters+access_link+dich_locali
+		return "lfp\n"+ 				// CL
+               parCode+
+               "lfp\n"+getAR+ 		// setto AL risalendo la catena statica
+               						// ora recupero l'indirizzo a cui saltare e lo metto sullo stack
+               "push "+entry.getOffset()+"\n"+ // metto offset sullo stack
+		       "lfp\n"+getAR+ 		// risalgo la catena statica
+			   "add\n"+
+               "lw\n"+ 				// carico sullo stack il valore all'indirizzo ottenuto
+		       "js\n";
+         */
+        return "";
     }
 }
