@@ -45,7 +45,18 @@ public class TransferNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        String getAR="";
+        for (int i=0; i<env.getNestLevel()-entry.getNestLevel(); i++)
+            getAR+="lw\n";
+        return "push "+entry.getOffset()+"\n"+ //metto offset sullo stack
+                "lfp\n"+getAR+ //risalgo la catena statica
+                "add\n"+
+                "lw\n"+
+                "push 0\n"+
+                "push "+entry.getOffset()+"\n"+ //metto offset sullo stack
+                "lfp\n"+getAR+ //risalgo la catena statica
+                "add\n"+
+                "sw\n";
     }
 
    /* private void applyEffect() {

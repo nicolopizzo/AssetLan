@@ -36,6 +36,6 @@ public class RetNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        return returendExpression.codeGeneration(env);
     }
 }

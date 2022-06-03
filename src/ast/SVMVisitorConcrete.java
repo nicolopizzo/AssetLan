@@ -71,6 +71,18 @@ public class SVMVisitorConcrete extends SVMBaseVisitor<Void> {
                 code[i++] = SVMParser.BRANCHLESSEQ;
                 labelRef.put(i++,(ctx.l!=null? ctx.l.getText():null));
                 break;
+            case SVMLexer.BRANCHLESST:
+                code[i++] = SVMParser.BRANCHLESST;
+                labelRef.put(i++,(ctx.l!=null? ctx.l.getText():null));
+                break;
+            case SVMLexer.BRANCHGREATEREQ:
+                code[i++] = SVMParser.BRANCHGREATEREQ;
+                labelRef.put(i++,(ctx.l!=null? ctx.l.getText():null));
+                break;
+            case SVMLexer.BRANCHGREATERT:
+                code[i++] = SVMParser.BRANCHGREATERT;
+                labelRef.put(i++,(ctx.l!=null? ctx.l.getText():null));
+                break;
             case SVMLexer.JS:
                 code[i++] = SVMParser.JS;
                 break;

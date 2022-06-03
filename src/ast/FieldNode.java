@@ -10,6 +10,7 @@ public class FieldNode implements Node {
     private TypeNode type;
     private String id;
     private Node exp;
+    private STEntry symEntry;
 
     public FieldNode(TypeNode type, String id, Node exp) {
         this.type = type;
@@ -30,6 +31,7 @@ public class FieldNode implements Node {
             errors.add(SemanticError.duplicateDeclaration(id));
         } else {
             env.addEntry(id, new STEntry(env.getNestLevel(), type, env.getOffset()));
+            symEntry = env.getLastEntry(id);
         }
 
         if (exp != null) {
@@ -66,7 +68,13 @@ public class FieldNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        if (exp != null) {
+            return exp.codeGeneration(env)+
+                    "push "+symEntry.getOffset()+"\n"+
+                    "sw\n";
+        } else {
+            return ""; //or return null?
+        }
     }
 
 }

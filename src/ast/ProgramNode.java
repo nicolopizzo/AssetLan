@@ -66,8 +66,18 @@ public class ProgramNode implements Node {
 
     }
 
+    private String fieldsString(Environment env) {
+        String s = new String();
+        for (Node node : fields) {
+            s += node.codeGeneration(env);
+        }
+        return s;
+    }
+
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        return fieldsString(env)+
+                initCall.codeGeneration(env)+
+                "halt\n";
     }
 }

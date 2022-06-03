@@ -30,6 +30,6 @@ public class BaseExpNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        return exp.codeGeneration(env);
     }
 }

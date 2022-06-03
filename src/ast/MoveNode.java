@@ -62,7 +62,30 @@ public class MoveNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        String getARx="";
+        for (int i=0; i<env.getNestLevel()-entry1.getNestLevel(); i++)
+            getARx+="lw\n";
+        String getARy="";
+        for (int i=0; i<env.getNestLevel()-entry2.getNestLevel(); i++)
+            getARy+="lw\n";
+        return "push "+entry1.getOffset()+"\n"+ //metto offset sullo stack
+                "lfp\n"+getARx+ //risalgo la catena statica
+                "add\n"+
+                "lw\n"+
+                "push "+entry2.getOffset()+"\n"+ //metto offset sullo stack
+                "lfp\n"+getARy+ //risalgo la catena statica
+                "add\n"+
+                "lw\n"+
+                "add\n"+
+                "push "+entry2.getOffset()+"\n"+ //metto offset sullo stack
+                "lfp\n"+getARy+ //risalgo la catena statica
+                "add\n"+
+                "sw\n"+
+                "push 0\n"+
+                "push "+entry1.getOffset()+"\n"+ //metto offset sullo stack
+                "lfp\n"+getARx+ //risalgo la catena statica
+                "add\n"+
+                "sw\n";
     }
 
     /*

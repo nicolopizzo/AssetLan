@@ -1,5 +1,6 @@
 package ast;
 
+import utils.AssetLanLib;
 import utils.Environment;
 import utils.SemanticError;
 
@@ -91,9 +92,42 @@ public class IteNode implements Node {
 
     }
 
+    private String ifStatementString(Environment env) {
+        String s = new String();
+        for (Node node : ifStatement) {
+            s += node.codeGeneration(env);
+        }
+        return s;
+    }
+
+    private String elseStatementString(Environment env) {
+        String s = new String();
+        for (Node node : elseStatement) {
+            s += node.codeGeneration(env);
+        }
+        return s;
+    }
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        String ELSE = AssetLanLib.freshLabel();
+        String END = AssetLanLib.freshLabel();
+        if (elseStatement != null) {
+            return condition.codeGeneration(env)+
+                    "push 0\n"+
+                    "beq "+ ELSE +"\n"+
+                    ifStatementString(env)+
+                    "b "+ END +"\n"+
+                    ELSE + ":"+ elseStatementString(env)+ "\n"+
+                    END + ":\n";
+        } else {
+            return condition.codeGeneration(env)+
+                    "push 0\n"+
+                    "beq "+ END +"\n"+
+                    ifStatementString(env)+
+                    END + ":\n";
+        }
+
+
     }
 }
