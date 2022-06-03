@@ -1,5 +1,6 @@
 package ast;
 
+import utils.AssetLanLib;
 import utils.Environment;
 import utils.SemanticError;
 
@@ -80,6 +81,9 @@ public class BinExpNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
+        String TRUE = AssetLanLib.freshLabel();
+        String END = AssetLanLib.freshLabel();
+        String FALSE = AssetLanLib.freshLabel();
         if (op.isArithmetic())
             return left.codeGeneration(env) +
                     right.codeGeneration(env) +
@@ -91,24 +95,78 @@ public class BinExpNode implements Node {
                         default -> null;
                     };
         else if (op.isRelational())
-            /*
-            case "<" -> LT;
-            case ">" -> GT;
-            case "<=" -> LE;
-            case ">=" -> GE;
-             */
-            return "";
+            return left.codeGeneration(env) +
+                    right.codeGeneration(env) +
+                    switch (op) {
+                        case LE ->
+                            "bleq "+ TRUE +"\n"+
+                            "push 0\n"+
+                            "b " + END + "\n" +
+                            TRUE + ":push 1\n"+
+                            END + ":\n";
+                        case GT ->
+                            "bgt "+ TRUE +"\n"+
+                            "push 0\n"+
+                            "b " + END + "\n" +
+                            TRUE + ":push 1\n"+
+                            END + ":\n";
+                        case LT ->
+                            "blt "+ TRUE +"\n"+
+                            "push 0\n"+
+                            "b " + END + "\n" +
+                            TRUE + ":push 1\n"+
+                            END + ":\n";
+                        case GE ->
+                            "bgeq "+ TRUE +"\n"+
+                            "push 0\n"+
+                            "b " + END + "\n" +
+                            TRUE + ":push 1\n"+
+                            END + ":\n";
+                        default -> null;
+                    };
         else if (op.isEquality())
-            /*
-            case "==" -> EQ;
-            case "!=" -> NE;
-            */
-            return "";
+            return left.codeGeneration(env) +
+                    right.codeGeneration(env) +
+                    switch (op) {
+                        case EQ ->
+                                "beq "+ TRUE +"\n"+
+                                        "push 0\n"+
+                                        "b " + END + "\n" +
+                                        TRUE + ":push 1\n"+
+                                        END + ":\n";
+                        case NE ->
+                                "beq "+ FALSE +"\n"+
+                                        "push 0\n"+
+                                        "b " + END + "\n" +
+                                        FALSE + ":push 1\n"+
+                                        END + ":\n";
+                        default -> null;
+                    };
         else
-            /*
-            case "&&" -> AND;
-            case "||" -> OR;
-            */
-            return "";
+            return switch (op) {
+                        case AND ->
+                                left.codeGeneration(env) +
+                                "push 0\n"+
+                                "beq "+ FALSE +"\n"+
+                                right.codeGeneration(env) +
+                                "push 0\n"+
+                                "beq "+ FALSE +"\n"+
+                                "push 1\n"+
+                                "b " + END + "\n" +
+                                FALSE + ":push 0\n"+
+                                END + ":\n";
+                        case OR ->
+                                left.codeGeneration(env) +
+                                "push 1\n"+
+                                "beq "+ TRUE +"\n"+
+                                right.codeGeneration(env) +
+                                "push 1\n"+
+                                "beq "+ TRUE +"\n"+
+                                "push 0\n"+
+                                "b " + END + "\n" +
+                                TRUE + ":push 1\n"+
+                                END + ":\n";
+                        default -> null;
+                    };
     }
 }
