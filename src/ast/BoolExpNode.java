@@ -30,6 +30,9 @@ public class BoolExpNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        if(bool)
+            return "push "+1+"\n";
+        else
+            return "push "+0+"\n";
     }
 }

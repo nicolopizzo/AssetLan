@@ -5,6 +5,7 @@ import utils.SemanticError;
 
 import java.util.ArrayList;
 
+
 public class BinExpNode implements Node {
     Node left;
     Node right;
@@ -79,6 +80,35 @@ public class BinExpNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        if (op.isArithmetic())
+            return left.codeGeneration(env) +
+                    right.codeGeneration(env) +
+                    switch (op) {
+                        case ADD -> "add\n";
+                        case SUB -> "sub\n";
+                        case MUL -> "mult\n";
+                        case DIV -> "div\n";
+                        default -> null;
+                    };
+        else if (op.isRelational())
+            /*
+            case "<" -> LT;
+            case ">" -> GT;
+            case "<=" -> LE;
+            case ">=" -> GE;
+             */
+            return "";
+        else if (op.isEquality())
+            /*
+            case "==" -> EQ;
+            case "!=" -> NE;
+            */
+            return "";
+        else
+            /*
+            case "&&" -> AND;
+            case "||" -> OR;
+            */
+            return "";
     }
 }

@@ -2,6 +2,7 @@ package ast;
 
 import utils.Environment;
 import utils.SemanticError;
+import utils.AssetLanLib;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,14 @@ public class NotExpNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        String ELSE = AssetLanLib.freshLabel();
+        String END = AssetLanLib.freshLabel();
+        return exp.codeGeneration(env)+
+                "push 0\n"+
+                "beq "+ ELSE +"\n"+
+                "push 0\n"+
+                "b " + END + "\n" +
+                ELSE + ":push 1\n"+
+                END + ":\n";
     }
 }

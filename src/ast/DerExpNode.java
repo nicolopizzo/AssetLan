@@ -41,6 +41,12 @@ public class DerExpNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        String getAR="";
+        for (int i=0; i<env.getNestLevel()-symEntry.getNestLevel(); i++)
+            getAR+="lw\n";
+        return "push "+symEntry.getOffset()+"\n"+ //metto offset sullo stack
+                "lfp\n"+getAR+ //risalgo la catena statica
+                "add\n"+
+                "lw\n"; //carico sullo stack il valore all'indirizzo ottenuto
     }
 }
