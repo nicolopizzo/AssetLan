@@ -79,17 +79,22 @@ public class IteNode implements Node {
     public void checkEffects(Environment env) {
         condition.checkEffects(env);
 
+        Environment env1 = env.deepCopy();
         for (Node node : ifStatement) {
-            node.checkEffects(env);
+            node.checkEffects(env1);
         }
+        env1 = Environment.ifSeq(env, env1);
 
+        Environment env2 = env.deepCopy();
         if (elseStatement != null) {
             for (Node node : elseStatement) {
-                node.checkEffects(env);
+                node.checkEffects(env2);
             }
+            env2 = Environment.ifSeq(env, env2);
         }
 
 
+        env = Environment.ifSeq(env1, env2);
     }
 
     private String ifStatementString(Environment env) {

@@ -62,12 +62,14 @@ public class MoveNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        String getARx="";
+        StringBuilder getARx = new StringBuilder();
         for (int i=0; i<env.getNestLevel()-entry1.getNestLevel(); i++)
-            getARx+="lw\n";
-        String getARy="";
-        for (int i=0; i<env.getNestLevel()-entry2.getNestLevel(); i++)
-            getARy+="lw\n";
+            getARx.append("lw\n");
+
+        StringBuilder getARy = new StringBuilder();
+        for (int i=0; i<env.getNestLevel()-entry1.getNestLevel(); i++)
+            getARy.append("lw\n");
+
         return "push "+entry1.getOffset()+"\n"+ //metto offset sullo stack
                 "lfp\n"+getARx+ //risalgo la catena statica
                 "add\n"+
@@ -87,14 +89,4 @@ public class MoveNode implements Node {
                 "add\n"+
                 "sw\n";
     }
-
-    /*
-    private void applyEffect() {
-        if (entry1.isFilled() || entry2.isFilled()) {
-            entry2.fill();
-            System.out.println(entry2 + " -> " + id2 + ". Filled = " + entry2.isFilled());
-        }
-
-        entry1.empty();
-    }*/
 }

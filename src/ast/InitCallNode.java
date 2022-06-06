@@ -57,7 +57,6 @@ public class InitCallNode implements Node {
             TypeNode t2 = paramsTypes.get(i);
 
             if (t1 == TypeNode.ASSET && (t2 == TypeNode.ASSET || t2 == TypeNode.INT)) {
-                System.out.println("Bubu");
                 continue;
             }
 
@@ -72,7 +71,7 @@ public class InitCallNode implements Node {
 
     @Override
     public void checkEffects(Environment env) {
-
+        // TODO: handle effects
     }
 
     @Override

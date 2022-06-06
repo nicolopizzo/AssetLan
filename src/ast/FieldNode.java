@@ -27,16 +27,18 @@ public class FieldNode implements Node {
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
 
-        if (env.isDeclaredInScope(id)) {
-            errors.add(SemanticError.duplicateDeclaration(id));
-        } else {
-            env.addEntry(id, new STEntry(env.getNestLevel(), type, env.getOffset()));
-            symEntry = env.getLastEntry(id);
-        }
-
         if (exp != null) {
             errors.addAll(exp.checkSemantics(env));
         }
+
+        if (env.isDeclaredInScope(id)) {
+            errors.add(SemanticError.duplicateDeclaration(id));
+        } else {
+
+            symEntry = new STEntry(env.getNestLevel(), type, env.getOffset());
+            env.addEntry(id, symEntry);
+        }
+
         return errors;
     }
 

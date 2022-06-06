@@ -1,8 +1,6 @@
 package ast;
 
-import utils.Environment;
-import utils.STEntry;
-import utils.SemanticError;
+import utils.*;
 
 import java.util.ArrayList;
 

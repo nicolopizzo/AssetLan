@@ -48,4 +48,11 @@ public class STEntry {
     public void setEffect(Effect effect) {
         this.effect = effect;
     }
+
+    //deepCopy()
+    public STEntry deepCopy() {
+        STEntry copy = new STEntry(nestLevel, types, offset);
+        copy.setEffect(effect);
+        return copy;
+    }
 }

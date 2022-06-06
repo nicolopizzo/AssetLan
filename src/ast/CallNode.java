@@ -77,7 +77,7 @@ public class CallNode implements Node {
 
     @Override
     public void checkEffects(Environment env) {
-
+        // TODO: handle effects, check if function is recursive for fixed point, check local liquidity
     }
 
     @Override

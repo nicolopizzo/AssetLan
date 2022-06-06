@@ -58,8 +58,4 @@ public class TransferNode implements Node {
                 "add\n"+
                 "sw\n";
     }
-
-   /* private void applyEffect() {
-        entry.empty();
-    }*/
 }

@@ -63,15 +63,16 @@ public class ProgramNode implements Node {
 
     @Override
     public void checkEffects(Environment env) {
-
+        // TOOD: handle effects, check liquidity, check everything under top
     }
 
     private String fieldsString(Environment env) {
-        String s = new String();
+        StringBuilder fieldCode = new StringBuilder();
         for (Node node : fields) {
-            s += node.codeGeneration(env);
+            fieldCode.append(node.codeGeneration(env));
         }
-        return s;
+
+        return fieldCode.toString();
     }
 
     @Override
