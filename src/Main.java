@@ -1,11 +1,15 @@
 import ast.AssetLanVisitorConcrete;
 import ast.Node;
+import ast.SVMVisitorConcrete;
+import codegen.ExecuteVM;
 import errorhandler.LexerErrorListener;
 import errorhandler.SyntaxError;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parser.AssetLanLexer;
 import parser.AssetLanParser;
+import parser.SVMLexer;
+import parser.SVMParser;
 import utils.Environment;
 import utils.SemanticError;
 
@@ -25,7 +29,7 @@ class ExitCode {
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
+/*
         //import file containing the example program to compile
 //        String fileName = "src/res/lexicalErrorsExamples.assetlan";
         String fileName = "src/res/input.assetlan";
@@ -91,6 +95,29 @@ public class Main {
 
         //there are no syntax errors, can continue to compile executing the parser
         System.out.println("All good.");
+*/
+        String fileName = "src/res/intermediatecode.svm.asm";
+
+        //create an instance of a lexer
+        //AssetLanLexer is a class that extends the Antlr Lexer
+        SVMLexer lexerSVM = new SVMLexer(CharStreams.fromFileName(fileName));
+        CommonTokenStream tokensSVM = new CommonTokenStream(lexerSVM);
+        SVMParser parserSVM = new SVMParser(tokensSVM);
+
+        SVMVisitorConcrete visitorSVM = new SVMVisitorConcrete();
+        visitorSVM.visit(parserSVM.assembly());
+
+        System.out.println("You had: "+lexerSVM.lexicalErrors+" lexical errors and "+parserSVM.getNumberOfSyntaxErrors()+" syntax errors.");
+        if (lexerSVM.lexicalErrors>0 || parserSVM.getNumberOfSyntaxErrors()>0) System.exit(1);
+
+        System.out.println("Starting Virtual Machine...");
+
+        //System.out.println(visitorSVM.code[0]);
+
+
+        ExecuteVM vm = new ExecuteVM(visitorSVM.code);
+        vm.cpu();
+
         System.exit(ExitCode.SUCCESS);
     }
 }

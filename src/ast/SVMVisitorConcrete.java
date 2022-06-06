@@ -1,23 +1,25 @@
 package ast;
 
+import java.util.HashMap;
+
 import codegen.ExecuteVM;
 import parser.SVMBaseVisitor;
 import parser.SVMLexer;
 import parser.SVMParser;
 
-import java.util.HashMap;
 
 public class SVMVisitorConcrete extends SVMBaseVisitor<Void> {
 
     public int[] code = new int[ExecuteVM.CODESIZE];
     private int i = 0;
-    private HashMap<String, Integer> labelAdd = new HashMap<>();
-    private HashMap<Integer, String> labelRef = new HashMap<>();
+    private HashMap<String,Integer> labelAdd = new HashMap<String,Integer>();
+    private HashMap<Integer,String> labelRef = new HashMap<Integer,String>();
 
     @Override
     public Void visitAssembly(SVMParser.AssemblyContext ctx) {
-        for (Integer refAdd : labelRef.keySet()) {
-            code[refAdd] = labelAdd.get(labelRef.get(refAdd));
+        visitChildren(ctx);
+        for (Integer refAdd: labelRef.keySet()) {
+            code[refAdd]=labelAdd.get(labelRef.get(refAdd));
         }
         return null;
     }
@@ -124,4 +126,7 @@ public class SVMVisitorConcrete extends SVMBaseVisitor<Void> {
         }
         return null;
     }
+
 }
+
+

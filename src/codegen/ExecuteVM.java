@@ -22,7 +22,7 @@ public class ExecuteVM {
     }
 
     public void cpu() {
-        while ( true ) {
+        while ( true && ip < CODESIZE ) {
             if(hp+1>=sp) {
                 System.out.println("\nError: Out of memory");
                 return;
