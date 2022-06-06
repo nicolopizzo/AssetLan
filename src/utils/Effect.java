@@ -29,8 +29,14 @@ public enum Effect {
         }
     }
 
-    public Effect ifOperator() {
-        return this;
+    public Effect ifOperator(Effect e) {
+        if (this == BOT && (e == BOT || e == RW)) {
+            return BOT;
+        } else if (this == RW && e == RW) {
+            return RW;
+        }
+
+        return TOP;
     }
 }
 
