@@ -91,10 +91,12 @@ public class InitCallNode implements Node {
         return "lfp\n"+ 				// CL
                 parCode+
                 aparCode+
-                "lfp\n"+getAR+ 		// setto AL risalendo la catena statica
+                "lfp\n"+
+                getAR+ 		// setto AL risalendo la catena statica
                 // ora recupero l'indirizzo a cui saltare e lo metto sullo stack
                 "push "+symEntry.getOffset()+"\n"+ // metto offset sullo stack
-                "lfp\n"+getAR+ 		// risalgo la catena statica
+                "lfp\n"+
+                getAR+ 		// risalgo la catena statica
                 "add\n"+
                 "lw\n"+ 				// carico sullo stack il valore all'indirizzo ottenuto
                 "js\n";

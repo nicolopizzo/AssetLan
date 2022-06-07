@@ -1,9 +1,17 @@
-void f(int a)[]{
-    print a;
+asset x;
+asset z;
+asset y;
+
+
+void f()[asset u, asset v]{
+    u -o y ;
+    v -o x ;
 }
 
-void main(int a)[]{
-    a = a + 1;
-    f(a);
+void main(int a)[asset u, asset v, asset w]{
+    u -o y ;
+    v -o z ;
+    w -o x ;
 }
-main(2)[]
+main(2)[x, y, z]
+

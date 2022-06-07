@@ -4,8 +4,8 @@ import parser.SVMParser;
 
 public class ExecuteVM {
 
-    public static final int CODESIZE = 10000;
-    public static final int MEMSIZE = 10000;
+    public static final int CODESIZE = 50;
+    public static final int MEMSIZE = 50;
 
     private int[] code;
     private int[] memory = new int[MEMSIZE];

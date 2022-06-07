@@ -37,7 +37,7 @@ public class AssetNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return null;
+        return "";
     }
 
     public String getId() {

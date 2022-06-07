@@ -1,5 +1,6 @@
 package ast;
 
+import utils.AssetLanLib;
 import utils.Environment;
 import utils.STEntry;
 import utils.SemanticError;
@@ -75,10 +76,21 @@ public class ProgramNode implements Node {
         return fieldCode.toString();
     }
 
+    private String functionsString(Environment env) {
+        StringBuilder functionsCode = new StringBuilder();
+        for (Node node : functions) {
+            functionsCode.append(node.codeGeneration(env));
+        }
+
+        return functionsCode.toString();
+    }
+
     @Override
     public String codeGeneration(Environment env) {
         return fieldsString(env)+
+                functionsString(env)+
                 initCall.codeGeneration(env)+
-                "halt\n";
+                "halt\n"+
+                AssetLanLib.getCode();
     }
 }

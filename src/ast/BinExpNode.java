@@ -92,7 +92,7 @@ public class BinExpNode implements Node {
                         case SUB -> "sub\n";
                         case MUL -> "mult\n";
                         case DIV -> "div\n";
-                        default -> null;
+                        default -> "";
                     };
         else if (op.isRelational())
             return left.codeGeneration(env) +
@@ -122,7 +122,7 @@ public class BinExpNode implements Node {
                             "b " + END + "\n" +
                             TRUE + ":push 1\n"+
                             END + ":\n";
-                        default -> null;
+                        default -> "";
                     };
         else if (op.isEquality())
             return left.codeGeneration(env) +
@@ -140,7 +140,7 @@ public class BinExpNode implements Node {
                                         "b " + END + "\n" +
                                         FALSE + ":push 1\n"+
                                         END + ":\n";
-                        default -> null;
+                        default -> "";
                     };
         else
             return switch (op) {
@@ -166,7 +166,7 @@ public class BinExpNode implements Node {
                                 "b " + END + "\n" +
                                 TRUE + ":push 1\n"+
                                 END + ":\n";
-                        default -> null;
+                        default -> "";
                     };
     }
 }

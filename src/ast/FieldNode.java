@@ -75,7 +75,7 @@ public class FieldNode implements Node {
                     "push "+symEntry.getOffset()+"\n"+
                     "sw\n";
         } else {
-            return ""; //or return null?
+            return "";
         }
     }
 
