@@ -4,7 +4,7 @@ import parser.SVMParser;
 
 public class ExecuteVM {
 
-    public static final int CODESIZE = 50;
+    public static final int CODESIZE = 10000;
     public static final int MEMSIZE = 50;
 
     private int[] code;
@@ -22,7 +22,7 @@ public class ExecuteVM {
     }
 
     public void cpu() {
-        while ( true ) {
+        while ( true) {
             if(hp+1>=sp) {
                 System.out.println("\nError: Out of memory");
                 return;

@@ -96,16 +96,22 @@ public class FunctionNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
 
+        /*
         String declCode="";
         if (declarations!=null) for (Node dec:declarations)
             declCode+=dec.codeGeneration(env);
-
+*/
+        String fieldsCode="";
+        if (fields!=null) for (Node field:fields)
+            fieldsCode+=field.codeGeneration(env);
+/*
         String popDecl="";
         if (declarations!=null)
             for (Node dec:declarations) popDecl+="pop\n";
 
         String popAssets="";
         for (Node dec:assets) popAssets+="pop\n";
+        */
 
         String popFields="";
         for (Node dec:fields) popFields+="pop\n";
@@ -117,11 +123,9 @@ public class FunctionNode implements Node {
         AssetLanLib.putCode(funl+":\n"+
                 "cfp\n"+ 		// setta $fp a $sp
                 "lra\n"+ 		// inserimento return address
-                declCode+ 		// inserimento dichiarazioni locali
+                fieldsCode+ 		// inserimento dichiarazioni locali
                 stmsCode+
                 "srv\n"+ 		// pop del return value
-                popDecl+
-                popAssets+
                 "sra\n"+ 		// pop del return address
                 "pop\n"+ 		// pop di AL
                 popFields+
