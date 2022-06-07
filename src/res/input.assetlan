@@ -12,7 +12,5 @@ void main(int a)[asset u, asset v, asset w]{
     u -o y ;
     v -o z ;
     w -o x ;
-
-
 }
 main(2)[x, y, z]

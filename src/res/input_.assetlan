@@ -1,0 +1,9 @@
+void f(int a)[]{
+    print a;
+}
+
+void main(int a)[]{
+    a = a + 1;
+    f(a);
+}
+main(2)[]

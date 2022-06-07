@@ -82,26 +82,37 @@ public class CallNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        /*
+
         String parCode="";
-	    for (int i=parlist.size()-1; i>=0; i--)
-	    	parCode+=parlist.get(i).codeGeneration();
+	    for (int i=exp.size()-1; i>=0; i--)
+	    	parCode+=exp.get(i).codeGeneration(env);
+
+        String aparCode="";
+        for (STEntry assetEntry : assetEntries) {
+            String getAR = "";
+            for (int i = 0; i < env.getNestLevel() - assetEntry.getNestLevel(); i++)
+                getAR += "lw\n";
+            aparCode += "push " + assetEntry.getOffset() + "\n" + //metto offset sullo stack
+                    "lfp\n" + getAR + //risalgo la catena statica
+                    "add\n" +
+                    "lw\n";
+        }
 
 	    String getAR="";
-		  for (int i=0; i<nestinglevel-entry.getNestinglevel(); i++)
+		  for (int i=0; i<env.getNestLevel()-symEntry.getNestLevel(); i++)
 		    	 getAR+="lw\n";
 		  					// formato AR: control_link+parameters+access_link+dich_locali
 		return "lfp\n"+ 				// CL
                parCode+
+               aparCode+
                "lfp\n"+getAR+ 		// setto AL risalendo la catena statica
                						// ora recupero l'indirizzo a cui saltare e lo metto sullo stack
-               "push "+entry.getOffset()+"\n"+ // metto offset sullo stack
+               "push "+symEntry.getOffset()+"\n"+ // metto offset sullo stack
 		       "lfp\n"+getAR+ 		// risalgo la catena statica
 			   "add\n"+
                "lw\n"+ 				// carico sullo stack il valore all'indirizzo ottenuto
 		       "js\n";
-         */
-        return "";
+
     }
 
     private void applyEffect() {

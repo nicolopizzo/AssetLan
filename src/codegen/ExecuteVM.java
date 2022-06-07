@@ -22,7 +22,7 @@ public class ExecuteVM {
     }
 
     public void cpu() {
-        while ( true && ip < CODESIZE ) {
+        while ( true ) {
             if(hp+1>=sp) {
                 System.out.println("\nError: Out of memory");
                 return;
@@ -122,7 +122,7 @@ public class ExecuteVM {
                     case SVMParser.LOADRV : //
                         push(rv);
                         break;
-                    case SVMParser.LOADFP : //
+                    case SVMParser.LOADFP : // load frame pointer in the stack
                         push(fp);
                         break;
                     case SVMParser.STOREFP : //

@@ -1,5 +1,6 @@
 package ast;
 
+import utils.AssetLanLib;
 import utils.Environment;
 import utils.STEntry;
 import utils.SemanticError;
@@ -94,36 +95,41 @@ public class FunctionNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        /*
+
         String declCode="";
-        if (declist!=null) for (Node dec:declist)
-            declCode+=dec.codeGeneration();
+        if (declarations!=null) for (Node dec:declarations)
+            declCode+=dec.codeGeneration(env);
 
         String popDecl="";
-        if (declist!=null)
-            for (Node dec:declist) popDecl+="pop\n";
+        if (declarations!=null)
+            for (Node dec:declarations) popDecl+="pop\n";
 
-        String popParl="";
-        for (Node dec:parlist) popParl+="pop\n";
+        String popAssets="";
+        for (Node dec:assets) popAssets+="pop\n";
 
-        String funl=SimpLanlib.freshFunLabel();
-        SimpLanlib.putCode(funl+":\n"+
+        String popFields="";
+        for (Node dec:fields) popFields+="pop\n";
+
+        String stmsCode="";
+        for (Node stm:statements) stmsCode+=stm.codeGeneration(env);
+
+        String funl= AssetLanLib.freshFunLabel();
+        AssetLanLib.putCode(funl+":\n"+
                 "cfp\n"+ 		// setta $fp a $sp
                 "lra\n"+ 		// inserimento return address
                 declCode+ 		// inserimento dichiarazioni locali
-                body.codeGeneration()+
+                stmsCode+
                 "srv\n"+ 		// pop del return value
                 popDecl+
+                popAssets+
                 "sra\n"+ 		// pop del return address
                 "pop\n"+ 		// pop di AL
-                popParl+
+                popFields+
                 "sfp\n"+  		// setto $fp a valore del CL
                 "lrv\n"+ 		// risultato della funzione sullo stack
                 "lra\n"+"js\n"  // salta a $ra
         );
 
         return "push "+ funl +"\n";
-         */
-        return "";
     }
 }

@@ -13,6 +13,8 @@ import parser.SVMParser;
 import utils.Environment;
 import utils.SemanticError;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -29,9 +31,8 @@ class ExitCode {
 
 public class Main {
     public static void main(String[] args) throws IOException {
-/*
+
         //import file containing the example program to compile
-//        String fileName = "src/res/lexicalErrorsExamples.assetlan";
         String fileName = "src/res/input.assetlan";
 
         //create an instance of a lexer
@@ -92,15 +93,19 @@ public class Main {
 
         // TODO: codice1 non funziona, checkLiquidity: potrebbe essere necessario memorizzare all'interno di call il
         //       FunctionNode
+        //System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
-        //there are no syntax errors, can continue to compile executing the parser
-        System.out.println("All good.");
-*/
-        String fileName = "src/res/intermediatecode.svm.asm";
+
+        // CODE GENERATION  prova.SimpLan.asm
+        String code=ast.codeGeneration(env);
+        BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
+        out.write(code);
+        out.close();
+        System.out.println("Code generated! Assembling and running generated code.");
 
         //create an instance of a lexer
         //AssetLanLexer is a class that extends the Antlr Lexer
-        SVMLexer lexerSVM = new SVMLexer(CharStreams.fromFileName(fileName));
+        SVMLexer lexerSVM = new SVMLexer(CharStreams.fromFileName(fileName+".asm"));
         CommonTokenStream tokensSVM = new CommonTokenStream(lexerSVM);
         SVMParser parserSVM = new SVMParser(tokensSVM);
 
@@ -108,12 +113,12 @@ public class Main {
         visitorSVM.visit(parserSVM.assembly());
 
         System.out.println("You had: "+lexerSVM.lexicalErrors+" lexical errors and "+parserSVM.getNumberOfSyntaxErrors()+" syntax errors.");
-        if (lexerSVM.lexicalErrors>0 || parserSVM.getNumberOfSyntaxErrors()>0) System.exit(1);
+        if (lexerSVM.lexicalErrors>0)
+            System.exit(ExitCode.LEXER_ERROR);
+        if (parserSVM.getNumberOfSyntaxErrors()>0)
+            System.exit(ExitCode.SYNTAX_ERROR);
 
         System.out.println("Starting Virtual Machine...");
-
-        //System.out.println(visitorSVM.code[0]);
-
 
         ExecuteVM vm = new ExecuteVM(visitorSVM.code);
         vm.cpu();
