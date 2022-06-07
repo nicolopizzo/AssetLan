@@ -35,7 +35,7 @@ public class FieldNode implements Node {
             errors.add(SemanticError.duplicateDeclaration(id));
         } else {
 
-            symEntry = new STEntry(env.getNestLevel(), type, env.getOffset());
+            symEntry = new STEntry(env.getNestLevel(), type, env.offset--);
             env.addEntry(id, symEntry);
         }
 

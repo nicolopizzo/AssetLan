@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Environment {
     private final HashMap<String, ArrayList<STEntry>> symTable = new HashMap<>();
-    private int offset = 0;
+    public int offset = 0;
     //current nestLevel to use when visit the custom tree to create the sym table
     private int nestLevel = -1;
 
@@ -33,6 +33,9 @@ public class Environment {
             entries.add(entry);
         }
 
+        //offset--;
+
+        /*
         if(Environment.getType(entry) == TypeNode.INT) {
             offset += 4;
         } else if(Environment.getType(entry) == TypeNode.BOOL) {
@@ -40,6 +43,7 @@ public class Environment {
         } else if(Environment.getType(entry) == TypeNode.ASSET) {
             offset += 4;
         }
+         */
     }
 
     //isDeclared() verifies that the variable is declared in some context

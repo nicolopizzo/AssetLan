@@ -43,7 +43,7 @@ public class FunctionNode implements Node {
         types.add(type);
 
 
-        env.addEntry(id, new STEntry(env.getNestLevel(), types, env.getOffset()));
+        env.addEntry(id, new STEntry(env.getNestLevel(), types, env.offset--));
 
         env.enterScope();
         for (Node d : declarations) {
@@ -52,6 +52,10 @@ public class FunctionNode implements Node {
         for (Node a : assets) {
             errors.addAll(a.checkSemantics(env));
             assetEntries.add(env.getLastEntry(((ParamNode) a).getId()));
+        }
+
+        if (fields != null) {
+            env.offset = -2;
         }
         for (Node f : fields) {
             errors.addAll(f.checkSemantics(env));
