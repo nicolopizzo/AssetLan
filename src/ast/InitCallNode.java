@@ -13,6 +13,7 @@ public class InitCallNode implements Node {
     private ArrayList<Node> params;
     private ArrayList<Node> assets;
     private STEntry symEntry;
+    private int nestinglevel;
 
     public InitCallNode(String id, ArrayList<Node> params, ArrayList<Node> assets) {
         this.id = id;
@@ -27,6 +28,7 @@ public class InitCallNode implements Node {
             errors.add(SemanticError.variableNotDeclared(id));
         } else {
             symEntry = env.getLastEntry(id);
+            nestinglevel = env.getNestLevel();
         }
         for (Node param : params) {
             errors.addAll(param.checkSemantics(env));
@@ -85,9 +87,9 @@ public class InitCallNode implements Node {
             aparCode+=assets.get(i).codeGeneration(env);
 
         String getAR="";
-        for (int i=0; i<env.getNestLevel()-symEntry.getNestLevel(); i++)
-            getAR+="lw\n";
-        // formato AR: control_link+parameters+access_link+dich_locali
+        for (int i=0; i<nestinglevel-symEntry.getNestLevel(); i++)
+            getAR+="lw\n"; // formato AR: control_link+parameters+access_link+dich_locali
+
         return "lfp\n"+ 				// CL
                 parCode+
                 aparCode+

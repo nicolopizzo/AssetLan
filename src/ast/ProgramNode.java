@@ -87,7 +87,8 @@ public class ProgramNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return fieldsString(env)+
+        return "push 0\n"+
+                fieldsString(env)+
                 functionsString(env)+
                 initCall.codeGeneration(env)+
                 "halt\n"+

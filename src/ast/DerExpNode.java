@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class DerExpNode implements Node {
     String id;
     private STEntry symEntry;
+    private int nestinglevel;
 
     public DerExpNode(String id) {
         this.id = id;
@@ -22,6 +23,7 @@ public class DerExpNode implements Node {
             res.add(SemanticError.variableNotDeclared(id));
         } else {
             symEntry = env.getLastEntry(id);
+            nestinglevel = env.getNestLevel();
         }
         return res;
     }
@@ -42,7 +44,7 @@ public class DerExpNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
         String getAR="";
-        for (int i=0; i<env.getNestLevel()-symEntry.getNestLevel(); i++)
+        for (int i=0; i<nestinglevel-symEntry.getNestLevel(); i++)
             getAR+="lw\n";
         return "push "+symEntry.getOffset()+"\n"+ //metto offset sullo stack
                 "lfp\n"+

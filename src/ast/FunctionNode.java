@@ -104,31 +104,32 @@ public class FunctionNode implements Node {
         String fieldsCode="";
         if (fields!=null) for (Node field:fields)
             fieldsCode+=field.codeGeneration(env);
-/*
+
         String popDecl="";
         if (declarations!=null)
             for (Node dec:declarations) popDecl+="pop\n";
 
         String popAssets="";
         for (Node dec:assets) popAssets+="pop\n";
-        */
+
 
         String popFields="";
-        for (Node dec:fields) popFields+="pop\n";
+        if (fields!=null) for (Node dec:fields) popFields+="pop\n";
 
         String stmsCode="";
-        for (Node stm:statements) stmsCode+=stm.codeGeneration(env);
+        if (statements!=null) for (Node stm:statements) stmsCode+=stm.codeGeneration(env);
 
         String funl= AssetLanLib.freshFunLabel();
         AssetLanLib.putCode(funl+":\n"+
                 "cfp\n"+ 		// setta $fp a $sp
                 "lra\n"+ 		// inserimento return address
-                fieldsCode+ 		// inserimento dichiarazioni locali
                 stmsCode+
                 "srv\n"+ 		// pop del return value
+                popDecl+
+                popAssets+
                 "sra\n"+ 		// pop del return address
                 "pop\n"+ 		// pop di AL
-                popFields+
+                //popFields+
                 "sfp\n"+  		// setto $fp a valore del CL
                 "lrv\n"+ 		// risultato della funzione sullo stack
                 "lra\n"+"js\n"  // salta a $ra

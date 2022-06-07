@@ -14,6 +14,7 @@ public class CallNode implements Node {
     private ArrayList<String> ids;
     private STEntry symEntry;
     private ArrayList<STEntry> assetEntries = new ArrayList<>();
+    private int nestinglevel;
 
     public CallNode(String id, ArrayList<Node> exp, ArrayList<String> ids) {
         this.id = id;
@@ -30,6 +31,7 @@ public class CallNode implements Node {
             errors.add(SemanticError.variableNotDeclared(id));
         } else {
             symEntry = env.getLastEntry(id);
+            nestinglevel = env.getNestLevel();
         }
 
         for (Node e : exp) {
@@ -90,7 +92,7 @@ public class CallNode implements Node {
         String aparCode="";
         for (STEntry assetEntry : assetEntries) {
             String getAR = "";
-            for (int i = 0; i < env.getNestLevel() - assetEntry.getNestLevel(); i++)
+            for (int i = 0; i < nestinglevel - assetEntry.getNestLevel(); i++)
                 getAR += "lw\n";
             aparCode += "push " + assetEntry.getOffset() + "\n" + //metto offset sullo stack
                     "lfp\n" + getAR + //risalgo la catena statica
@@ -99,7 +101,7 @@ public class CallNode implements Node {
         }
 
 	    String getAR="";
-		  for (int i=0; i<env.getNestLevel()-symEntry.getNestLevel(); i++)
+		  for (int i=0; i<nestinglevel-symEntry.getNestLevel(); i++)
 		    	 getAR+="lw\n";
 		  					// formato AR: control_link+parameters+access_link+dich_locali
 		return "lfp\n"+ 				// CL

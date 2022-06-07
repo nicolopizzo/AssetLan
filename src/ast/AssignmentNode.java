@@ -58,10 +58,10 @@ public class AssignmentNode implements Node {
         String getAR="";
         for (int i=0; i<env.getNestLevel()-symEntry.getNestLevel(); i++)
             getAR+="lw\n";
-        return exp.codeGeneration(env)+
-                "push "+symEntry.getOffset()+"\n"+ //metto offset sullo stack
+        return exp.codeGeneration(env)/*+
+               "push "+symEntry.getOffset()+"\n"+ //metto offset sullo stack
                 "lfp\n"+getAR+ //risalgo la catena statica
                 "add\n"+
-                "sw\n";
+                "sw\n"*/;
     }
 }

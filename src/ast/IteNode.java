@@ -123,7 +123,8 @@ public class IteNode implements Node {
                     "beq "+ ELSE +"\n"+
                     ifStatementString(env)+
                     "b "+ END +"\n"+
-                    ELSE + ":"+ elseStatementString(env)+ "\n"+
+                    ELSE + ":\n"+
+                    elseStatementString(env)+
                     END + ":\n";
         } else {
             return condition.codeGeneration(env)+
