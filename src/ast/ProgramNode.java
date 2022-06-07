@@ -64,32 +64,22 @@ public class ProgramNode implements Node {
 
     @Override
     public void checkEffects(Environment env) {
-        // TOOD: handle effects, check liquidity, check everything under top
-    }
-
-    private String fieldsString(Environment env) {
-        StringBuilder fieldCode = new StringBuilder();
-        for (Node node : fields) {
-            fieldCode.append(node.codeGeneration(env));
-        }
-
-        return fieldCode.toString();
-    }
-
-    private String functionsString(Environment env) {
-        StringBuilder functionsCode = new StringBuilder();
-        for (Node node : functions) {
-            functionsCode.append(node.codeGeneration(env));
-        }
-
-        return functionsCode.toString();
+        // TODO: handle effects, check liquidity, check everything under top
     }
 
     @Override
     public String codeGeneration(Environment env) {
+        String fieldsCode="";
+        for (Node field:fields)
+            fieldsCode+=field.codeGeneration(env);
+
+        String fundecsCode="";
+        for (Node fundec:functions)
+            fundecsCode+=fundec.codeGeneration(env);
+
         return "push 0\n"+
-                fieldsString(env)+
-                functionsString(env)+
+                fieldsCode+
+                fundecsCode+
                 initCall.codeGeneration(env)+
                 "halt\n"+
                 AssetLanLib.getCode();
