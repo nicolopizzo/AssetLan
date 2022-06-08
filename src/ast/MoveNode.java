@@ -52,11 +52,19 @@ public class MoveNode implements Node {
 
     @Override
     public void checkEffects(EffectsEnvironment env) {
-        Effect e1 = entry1.getEffect();
-        Effect e2 = entry2.getEffect();
+        Effect e1 = env.getEffect(id1);
+        Effect e2 = env.getEffect(id2);
 
-        env.setEffect(id1, Effect.EMPTY);
-        env.setEffect(id2, Effect.max(e1, e2));
+        if (e1 instanceof AssetEffect a1 && e2 instanceof AssetEffect a2) {
+            env.setEffect(id2, AssetEffect.max(a1, a2));
+            env.setEffect(id1, AssetEffect.Empty());
+        }
+
+        if (e1 instanceof NormalFormEffect n1 && e2 instanceof NormalFormEffect n2) {
+            env.setEffect(id2, NormalFormEffect.max(n1, n2));
+            env.setEffect(id1, new NormalFormEffect("0"));
+        }
+
 //        entry2.setEffect(e1.assetMax(e2));
 //        entry1.setEffect(Effect.EMPTY);
 //        entry1.setEffect(entry1.getEffect().assetMax(effect));

@@ -179,21 +179,4 @@ public class Environment {
         return env;
     }
 
-    public static Environment ifSeq(Environment e1, Environment e2) {
-        Environment env = e1.deepCopy();
-
-        for (Map.Entry<String, ArrayList<STEntry>> entry : e2.symTable.entrySet()) {
-            String key = entry.getKey();
-            if (env.isDeclared(key)) {
-                Effect g1 = env.getLastEntry(key).getEffect();
-                Effect g2 = entry.getValue().get(entry.getValue().size() - 1).getEffect();
-
-                env.getLastEntry(key).setEffect(g1.ifOperator(g2));
-            } else {
-                env.symTable.put(key, entry.getValue());
-            }
-        }
-
-        return env;
-    }
 }

@@ -86,10 +86,14 @@ public class EffectsEnvironment {
         for (String key : sigma.table.keySet()) {
             int size = sigma.table.get(key).size();
             for (int i = 0; i < size; i++) {
-                EffectsSTEntry e0 = sigma0.table.get(key).get(i);
-                EffectsSTEntry e1 = sigma1.table.get(key).get(i);
+                EffectsSTEntry entry = sigma.table.get(key).get(i);
 
-                sigma.table.get(key).get(i).setEffect(Effect.max(e0.getEffect(), e1.getEffect()));
+                Effect e0 = sigma0.table.get(key).get(i).getEffect();
+                Effect e1 = sigma1.table.get(key).get(i).getEffect();
+
+                if (e0 instanceof AssetEffect a0 && e1 instanceof AssetEffect a1) {
+                    entry.setEffect(AssetEffect.max(a0, a1));
+                }
             }
         }
 

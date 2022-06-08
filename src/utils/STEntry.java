@@ -13,11 +13,6 @@ public class STEntry {
     private Effect effect;
 
     public STEntry(int nl, TypeNode type, int o) {
-        if (type == TypeNode.ASSET) {
-            this.effect = Effect.EMPTY;
-        } else {
-            this.effect = Effect.BOT;
-        }
         types.add(type);
         nestLevel = nl;
         offset = o;

@@ -37,7 +37,7 @@ public class TransferNode implements Node {
 
     @Override
     public void checkEffects(EffectsEnvironment env) {
-        env.setEffect(id, Effect.EMPTY);
+        env.setEffect(id, AssetEffect.Empty());
     }
 
     @Override

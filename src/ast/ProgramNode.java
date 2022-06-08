@@ -33,6 +33,7 @@ public class ProgramNode implements Node {
 
         for (Node f : functions) {
             errors.addAll(f.checkSemantics(env));
+            ((FunctionNode) f).setGlobalAssets(assets);
         }
 
         errors.addAll(initCall.checkSemantics(env));
@@ -62,22 +63,14 @@ public class ProgramNode implements Node {
     @Override
     public void checkEffects(EffectsEnvironment env) {
         // TODO: handle effects, check liquidity, check everything under top
-//        ArrayList<SemanticError> errors = new ArrayList<>();
-//        for (Node f : fields) {
-//            errors.addAll(checkSemantics(env));
-//        }
-//
-//        for (Node a : assets) {
-//            errors.addAll(checkSemantics(env));
-//        }
-//
-//        for (Node f : functions) {
-//            errors.addAll(checkSemantics(env));
-//        }
-//
-//        errors.addAll(initCall.checkEffects(env));
-//
-//        return errors;
+        for (Node a : assets) {
+            a.checkEffects(env);
+        }
+
+        for (Node f : functions) {
+            f.checkEffects(env);
+        }
+
     }
 
     @Override

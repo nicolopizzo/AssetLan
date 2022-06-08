@@ -33,7 +33,7 @@ public class AssetNode implements Node {
 
     @Override
     public void checkEffects(EffectsEnvironment env) {
-        env.addEntry(id, new EffectsSTEntry(Effect.EMPTY, env.getNestLevel()));
+        env.addEntry(id, new EffectsSTEntry(AssetEffect.Empty(), env.getNestLevel()));
     }
 
     @Override

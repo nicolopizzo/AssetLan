@@ -19,6 +19,10 @@ public class CallNode implements Node {
         this.ids = ids;
     }
 
+    public String getId() {
+        return id;
+    }
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
@@ -60,7 +64,7 @@ public class CallNode implements Node {
             throw new RuntimeException("Type error: wrong number of parameters");
         }
 
-        for (int i = 0; i < paramsType.size(); i++){
+        for (int i = 0; i < paramsType.size(); i++) {
             TypeNode t1 = paramsType.get(i);
             TypeNode t2 = givenParams.get(i);
 
@@ -82,11 +86,11 @@ public class CallNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
 
-        String parCode="";
-	    for (int i=exp.size()-1; i>=0; i--)
-	    	parCode+=exp.get(i).codeGeneration(env);
+        String parCode = "";
+        for (int i = exp.size() - 1; i >= 0; i--)
+            parCode += exp.get(i).codeGeneration(env);
 
-        String aparCode="";
+        String aparCode = "";
         for (STEntry assetEntry : assetEntries) {
             String getAR = "";
             for (int i = 0; i < nestinglevel - assetEntry.getNestLevel(); i++)
@@ -97,24 +101,24 @@ public class CallNode implements Node {
                     "lw\n";
         }
 
-	    String getAR="";
-		  for (int i=0; i<nestinglevel-symEntry.getNestLevel(); i++)
-		    	 getAR+="lw\n";
-		  					// formato AR: control_link+parameters+access_link+dich_locali
-		return "lfp\n"+ 				// CL
-               parCode+
-               aparCode+
-               "lfp\n"+getAR+ 		// setto AL risalendo la catena statica
-               						// ora recupero l'indirizzo a cui saltare e lo metto sullo stack
-               "push "+symEntry.getOffset()+"\n"+ // metto offset sullo stack
-		       "lfp\n"+getAR+ 		// risalgo la catena statica
-			   "add\n"+
-               "lw\n"+ 				// carico sullo stack il valore all'indirizzo ottenuto
-		       "js\n";
+        String getAR = "";
+        for (int i = 0; i < nestinglevel - symEntry.getNestLevel(); i++)
+            getAR += "lw\n";
+        // formato AR: control_link+parameters+access_link+dich_locali
+        return "lfp\n" +                // CL
+                parCode +
+                aparCode +
+                "lfp\n" + getAR +        // setto AL risalendo la catena statica
+                // ora recupero l'indirizzo a cui saltare e lo metto sullo stack
+                "push " + symEntry.getOffset() + "\n" + // metto offset sullo stack
+                "lfp\n" + getAR +        // risalgo la catena statica
+                "add\n" +
+                "lw\n" +                // carico sullo stack il valore all'indirizzo ottenuto
+                "js\n";
 
     }
 
     private void applyEffect() {
-     //  assetEntries.forEach(stEntry -> stEntry.empty());
+        //  assetEntries.forEach(stEntry -> stEntry.empty());
     }
 }
