@@ -32,18 +32,6 @@ public class Environment {
         } else {
             entries.add(entry);
         }
-
-        //offset--;
-
-        /*
-        if(Environment.getType(entry) == TypeNode.INT) {
-            offset += 4;
-        } else if(Environment.getType(entry) == TypeNode.BOOL) {
-            offset += 1;
-        } else if(Environment.getType(entry) == TypeNode.ASSET) {
-            offset += 4;
-        }
-         */
     }
 
     //isDeclared() verifies that the variable is declared in some context

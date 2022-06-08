@@ -25,21 +25,27 @@ public class ProgramNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> errors = new ArrayList<>();
-        for (Node f : fields) {
-            errors.addAll(f.checkSemantics(env));
-        }
 
-        for (Node a : assets) {
-            errors.addAll(a.checkSemantics(env));
-            entries.add(env.getLastEntry(((AssetNode) a).getId()));
-        }
+        env.enterScope();
+        if(fields != null || assets != null || functions != null) {
+            env.offset = -2;
+            for (Node f : fields) {
+                errors.addAll(f.checkSemantics(env));
+            }
 
-        for (Node f : functions) {
-            errors.addAll(f.checkSemantics(env));
+            for (Node a : assets) {
+                errors.addAll(a.checkSemantics(env));
+                entries.add(env.getLastEntry(((AssetNode) a).getId()));
+            }
+
+            for (Node f : functions) {
+                errors.addAll(f.checkSemantics(env));
+            }
         }
 
         errors.addAll(initCall.checkSemantics(env));
 
+        env.exitScope();
         return errors;
     }
 

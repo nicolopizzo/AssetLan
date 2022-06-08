@@ -29,6 +29,16 @@ public class STEntry {
         offset = o;
     }
 
+    public STEntry(int nl, int o) {
+        types = new ArrayList<>();
+        nestLevel = nl;
+        offset = o;
+    }
+
+    public void setTypes(ArrayList<TypeNode> types) {
+        this.types = types;
+    }
+
     public int getNestLevel() {
         return nestLevel;
     }

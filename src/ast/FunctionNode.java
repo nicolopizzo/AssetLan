@@ -30,41 +30,58 @@ public class FunctionNode implements Node {
         ArrayList<SemanticError> errors = new ArrayList<>();
         if (env.isDeclaredInScope(id)) {
             errors.add(SemanticError.duplicateDeclaration(id));
-            return errors;
-        }
+            //return errors;
+        } else {
+            STEntry entry = new STEntry(env.getNestLevel(), env.offset--);
+            env.addEntry(id, entry);
+            env.enterScope();
 
-        ArrayList<TypeNode> types = new ArrayList<>();
-        for (Node declaration : declarations) {
-            types.add(((ParamNode) declaration).getType());
-        }
-        for (int i = 0; i < assets.size(); i++) {
-            types.add(TypeNode.ASSET);
-        }
-        types.add(type);
+            int paroffset = 1;
+            for (Node declaration : declarations) {
+                ParamNode arg = (ParamNode) declaration;
+                env.addEntry(arg.getId(), new STEntry(env.getNestLevel(), arg.getType(), paroffset++));
+            }
+
+            for (Node asset : assets) {
+                ParamNode arg = (ParamNode) asset;
+                env.addEntry(arg.getId(), new STEntry(env.getNestLevel(), arg.getType(), paroffset++));
+            }
+
+            ArrayList<TypeNode> types = new ArrayList<>();
+            for (Node declaration : declarations) {
+                types.add(((ParamNode) declaration).getType());
+            }
+            for (int i = 0; i < assets.size(); i++) {
+                types.add(TypeNode.ASSET);
+            }
+            entry.setTypes(types);
+            //types.add(type);
 
 
-        env.addEntry(id, new STEntry(env.getNestLevel(), types, env.offset--));
 
-        env.enterScope();
-        for (Node d : declarations) {
-            errors.addAll(d.checkSemantics(env));
-        }
-        for (Node a : assets) {
-            errors.addAll(a.checkSemantics(env));
-            assetEntries.add(env.getLastEntry(((ParamNode) a).getId()));
-        }
 
-        if (fields != null) {
-            env.offset = -2;
-        }
-        for (Node f : fields) {
-            errors.addAll(f.checkSemantics(env));
-        }
-        for (Node s : statements) {
-            errors.addAll(s.checkSemantics(env));
-        }
-        env.exitScope();
+/*
+            for (Node d : declarations) {
+                errors.addAll(d.checkSemantics(env));
+            }
+            for (Node a : assets) {
+                errors.addAll(a.checkSemantics(env));
+                assetEntries.add(env.getLastEntry(((ParamNode) a).getId()));
+            }
+ */
 
+            if (fields != null) {
+                env.offset = -2;
+                for (Node f : fields) {
+                    errors.addAll(f.checkSemantics(env));
+                }
+            }
+
+            for (Node s : statements) {
+                errors.addAll(s.checkSemantics(env));
+            }
+            env.exitScope();
+        }
         return errors;
     }
 

@@ -7,6 +7,7 @@ import utils.SemanticError;
 import java.util.ArrayList;
 
 public class FieldNode implements Node {
+
     private TypeNode type;
     private String id;
     private Node exp;
@@ -21,6 +22,14 @@ public class FieldNode implements Node {
     public FieldNode(TypeNode type, String id) {
         this.type = type;
         this.id = id;
+    }
+
+    public TypeNode getType() {
+        return type;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override
