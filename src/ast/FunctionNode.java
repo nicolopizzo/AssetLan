@@ -1,9 +1,6 @@
 package ast;
 
-import utils.AssetLanLib;
-import utils.Environment;
-import utils.STEntry;
-import utils.SemanticError;
+import utils.*;
 
 import java.util.ArrayList;
 
@@ -15,6 +12,8 @@ public class FunctionNode implements Node {
     private final ArrayList<Node> fields;
     private final ArrayList<Node> statements;
     private final ArrayList<STEntry> assetEntries = new ArrayList<>();
+    private ArrayList<Node> globalAssets;
+    private boolean isRecursive = false;
 
     public FunctionNode(TypeNode type, String id, ArrayList<Node> declarations, ArrayList<Node> assets, ArrayList<Node> fields, ArrayList<Node> statements) {
         this.type = type;
@@ -23,6 +22,10 @@ public class FunctionNode implements Node {
         this.assets = assets;
         this.fields = fields;
         this.statements = statements;
+    }
+
+    public void setGlobalAssets(ArrayList<Node> globalAssets) {
+        this.globalAssets = globalAssets;
     }
 
     @Override
@@ -62,6 +65,12 @@ public class FunctionNode implements Node {
         }
         for (Node s : statements) {
             errors.addAll(s.checkSemantics(env));
+
+            if (s instanceof CallNode f) {
+                if (f.getId().equals(id)) {
+                    isRecursive = true;
+                }
+            }
         }
         env.exitScope();
 
@@ -93,7 +102,43 @@ public class FunctionNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
+    public void checkEffects(EffectsEnvironment env) {
+        EffectsEnvironment sigma0 = env.copy();
+        sigma0.enterScope();
+        if (isRecursive) {
+            for (Node a : assets) {
+                sigma0.addEntry(
+                        ((ParamNode) a).getId(),
+                        new EffectsSTEntry(AssetEffect.Full(), env.getNestLevel())
+                );
+            }
+            fixedPoint(sigma0);
+        }
+
+        // TODO: parametrizzare asset parametri e globali
+        for (Node a : globalAssets) {
+            String id = ((AssetNode) a).getId();
+            sigma0.addEntry(
+                    id,
+                    new EffectsSTEntry(new NormalFormEffect(id), env.getNestLevel())
+            );
+        }
+
+        for (Node a : assets) {
+            String id = ((ParamNode) a).getId();
+            sigma0.addEntry(
+                    id,
+                    new EffectsSTEntry(new NormalFormEffect(id), env.getNestLevel())
+            );
+        }
+
+        EffectsEnvironment sigma1 = sigma0.copy();
+        for (Node s : statements) {
+            s.checkEffects(sigma1);
+        }
+    }
+
+    private void fixedPoint(EffectsEnvironment sigma0) {
 
     }
 
