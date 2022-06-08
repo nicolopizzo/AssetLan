@@ -1,6 +1,9 @@
 package ast;
 
-import utils.*;
+import utils.AssetLanLib;
+import utils.Environment;
+import utils.STEntry;
+import utils.SemanticError;
 
 import java.util.ArrayList;
 
@@ -33,7 +36,6 @@ public class ProgramNode implements Node {
 
         for (Node f : functions) {
             errors.addAll(f.checkSemantics(env));
-            ((FunctionNode) f).setGlobalAssets(assets);
         }
 
         errors.addAll(initCall.checkSemantics(env));
@@ -61,16 +63,8 @@ public class ProgramNode implements Node {
     }
 
     @Override
-    public void checkEffects(EffectsEnvironment env) {
+    public void checkEffects(Environment env) {
         // TODO: handle effects, check liquidity, check everything under top
-        for (Node a : assets) {
-            a.checkEffects(env);
-        }
-
-        for (Node f : functions) {
-            f.checkEffects(env);
-        }
-
     }
 
     @Override

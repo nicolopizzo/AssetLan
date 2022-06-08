@@ -13,13 +13,20 @@ public class AssetNode implements Node {
         this.id = id;
     }
 
+    public TypeNode getType() {
+        return type;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> semanticErrors = new ArrayList<>();
 
         if (!env.isDeclaredInScope(id))
-            env.addEntry(id, new STEntry(env.getNestLevel(), TypeNode.ASSET, env.getOffset()));
+            env.addEntry(id, new STEntry(env.getNestLevel(), TypeNode.ASSET, env.offset--));
         else
             semanticErrors.add(SemanticError.duplicateDeclaration(id));
 
@@ -39,9 +46,5 @@ public class AssetNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
         return "";
-    }
-
-    public String getId() {
-        return id;
     }
 }

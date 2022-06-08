@@ -1,6 +1,9 @@
 package ast;
 
-import utils.*;
+import utils.AssetLanLib;
+import utils.Environment;
+import utils.STEntry;
+import utils.SemanticError;
 
 import java.util.ArrayList;
 
@@ -11,21 +14,15 @@ public class FunctionNode implements Node {
     private final ArrayList<Node> assets;
     private final ArrayList<Node> fields;
     private final ArrayList<Node> statements;
-    private ArrayList<Node> globalAssets;
-    private boolean isRecursive = false;
+    private final ArrayList<STEntry> assetEntries = new ArrayList<>();
 
-    public FunctionNode(TypeNode type, String id, ArrayList<Node> declarations, ArrayList<Node> assets,
-                        ArrayList<Node> fields, ArrayList<Node> statements) {
+    public FunctionNode(TypeNode type, String id, ArrayList<Node> declarations, ArrayList<Node> assets, ArrayList<Node> fields, ArrayList<Node> statements) {
         this.type = type;
         this.id = id;
         this.declarations = declarations;
         this.assets = assets;
         this.fields = fields;
         this.statements = statements;
-    }
-
-    public void setGlobalAssets(ArrayList<Node> globalAssets) {
-        this.globalAssets = globalAssets;
     }
 
     @Override
@@ -54,6 +51,7 @@ public class FunctionNode implements Node {
         }
         for (Node a : assets) {
             errors.addAll(a.checkSemantics(env));
+            assetEntries.add(env.getLastEntry(((ParamNode) a).getId()));
         }
 
         if (fields != null) {
@@ -63,11 +61,6 @@ public class FunctionNode implements Node {
             errors.addAll(f.checkSemantics(env));
         }
         for (Node s : statements) {
-            if (s instanceof CallNode f) {
-                if (f.getId().equals(id)) {
-                    isRecursive = true;
-                }
-            }
             errors.addAll(s.checkSemantics(env));
         }
         env.exitScope();
@@ -100,44 +93,8 @@ public class FunctionNode implements Node {
     }
 
     @Override
-    public void checkEffects(EffectsEnvironment env) {
-        EffectsEnvironment sigma0 = env.copy();
-        sigma0.enterScope();
-        if (isRecursive) {
-            for (Node a : assets) {
-                sigma0.addEntry(
-                        ((ParamNode) a).getId(),
-                        new EffectsSTEntry(AssetEffect.Full(), env.getNestLevel())
-                );
-            }
-            fixedPoint(sigma0);
-        }
+    public void checkEffects(Environment env) {
 
-        // TODO: parametrizzare asset parametri e globali
-        for (Node a : globalAssets) {
-            String id = ((AssetNode) a).getId();
-            sigma0.addEntry(
-                    id,
-                    new EffectsSTEntry(new NormalFormEffect(id), env.getNestLevel())
-            );
-        }
-
-        for (Node a : assets) {
-            String id = ((ParamNode) a).getId();
-            sigma0.addEntry(
-                    id,
-                    new EffectsSTEntry(new NormalFormEffect(id), env.getNestLevel())
-            );
-        }
-
-        EffectsEnvironment sigma1 = sigma0.copy();
-        for (Node s : statements) {
-            s.checkEffects(sigma1);
-        }
-    }
-
-    private void fixedPoint(EffectsEnvironment sigma0) {
-        EffectsEnvironment sigma1 = sigma0.copy();
     }
 
     @Override
@@ -148,40 +105,40 @@ public class FunctionNode implements Node {
         if (declarations!=null) for (Node dec:declarations)
             declCode+=dec.codeGeneration(env);
 */
-        String fieldsCode = "";
-        if (fields != null) for (Node field : fields)
-            fieldsCode += field.codeGeneration(env);
+        String fieldsCode="";
+        if (fields!=null) for (Node field:fields)
+            fieldsCode+=field.codeGeneration(env);
 
-        String popDecl = "";
-        if (declarations != null)
-            for (Node dec : declarations) popDecl += "pop\n";
+        String popDecl="";
+        if (declarations!=null)
+            for (Node dec:declarations) popDecl+="pop\n";
 
-        String popAssets = "";
-        for (Node dec : assets) popAssets += "pop\n";
+        String popAssets="";
+        for (Node dec:assets) popAssets+="pop\n";
 
 
-        String popFields = "";
-        if (fields != null) for (Node dec : fields) popFields += "pop\n";
+        String popFields="";
+        if (fields!=null) for (Node dec:fields) popFields+="pop\n";
 
-        String stmsCode = "";
-        if (statements != null) for (Node stm : statements) stmsCode += stm.codeGeneration(env);
+        String stmsCode="";
+        if (statements!=null) for (Node stm:statements) stmsCode+=stm.codeGeneration(env);
 
-        String funl = AssetLanLib.freshFunLabel();
-        AssetLanLib.putCode(funl + ":\n" +
-                                    "cfp\n" +        // setta $fp a $sp
-                                    "lra\n" +        // inserimento return address
-                                    stmsCode +
-                                    "srv\n" +        // pop del return value
-                                    popDecl +
-                                    popAssets +
-                                    "sra\n" +        // pop del return address
-                                    "pop\n" +        // pop di AL
-                                    //popFields+
-                                    "sfp\n" +        // setto $fp a valore del CL
-                                    "lrv\n" +        // risultato della funzione sullo stack
-                                    "lra\n" + "js\n"  // salta a $ra
+        String funl= AssetLanLib.freshFunLabel();
+        AssetLanLib.putCode(funl+":\n"+
+                "cfp\n"+ 		// setta $fp a $sp
+                "lra\n"+ 		// inserimento return address
+                stmsCode+
+                "srv\n"+ 		// pop del return value
+                popDecl+
+                popAssets+
+                "sra\n"+ 		// pop del return address
+                "pop\n"+ 		// pop di AL
+                //popFields+
+                "sfp\n"+  		// setto $fp a valore del CL
+                "lrv\n"+ 		// risultato della funzione sullo stack
+                "lra\n"+"js\n"  // salta a $ra
         );
 
-        return "push " + funl + "\n";
+        return "push "+ funl +"\n";
     }
 }
