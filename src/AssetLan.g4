@@ -45,12 +45,13 @@ ite         : 'if' '(' exp ')' '{'
               ('else' '{'
                     elseStatements=statementList
               '}')?;
+
 statementList : statement* ;
 call        : ID '(' (exp (',' exp)* )? ')' '[' (ID (',' ID)* )? ']' ;
 
 initcall    : ID '(' params=expList ')' '[' assets=expList ']' ;
 
-expList : exp (',' exp)* ;
+expList : (exp (',' exp)*)? ;
 exp	    : '(' exp ')'				                        #baseExp
 	    | '-' exp					                        #negExp
 	    | '!' exp                                           #notExp

@@ -1,8 +1,6 @@
 package ast;
 
-import utils.Environment;
-import utils.STEntry;
-import utils.SemanticError;
+import utils.*;
 
 import java.util.ArrayList;
 
@@ -64,8 +62,7 @@ public class FieldNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-
+    public void checkEffects(EffectsEnvironment env) {
     }
 
     @Override

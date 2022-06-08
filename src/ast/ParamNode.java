@@ -1,5 +1,6 @@
 package ast;
 
+import utils.EffectsEnvironment;
 import utils.Environment;
 import utils.STEntry;
 import utils.SemanticError;
@@ -37,7 +38,7 @@ public class ParamNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
+    public void checkEffects(EffectsEnvironment env) {
 
     }
 

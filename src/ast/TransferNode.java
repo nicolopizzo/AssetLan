@@ -1,9 +1,6 @@
 package ast;
 
-import utils.Effect;
-import utils.Environment;
-import utils.STEntry;
-import utils.SemanticError;
+import utils.*;
 
 import java.util.ArrayList;
 
@@ -39,8 +36,8 @@ public class TransferNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-        entry.setEffect(Effect.EMPTY);
+    public void checkEffects(EffectsEnvironment env) {
+        env.setEffect(id, Effect.EMPTY);
     }
 
     @Override

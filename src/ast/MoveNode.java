@@ -1,9 +1,6 @@
 package ast;
 
-import utils.Effect;
-import utils.Environment;
-import utils.STEntry;
-import utils.SemanticError;
+import utils.*;
 
 import java.util.ArrayList;
 
@@ -54,9 +51,15 @@ public class MoveNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-        Effect effect = entry2.getEffect();
-        entry1.setEffect(entry1.getEffect().assetMax(effect));
+    public void checkEffects(EffectsEnvironment env) {
+        Effect e1 = entry1.getEffect();
+        Effect e2 = entry2.getEffect();
+
+        env.setEffect(id1, Effect.EMPTY);
+        env.setEffect(id2, Effect.max(e1, e2));
+//        entry2.setEffect(e1.assetMax(e2));
+//        entry1.setEffect(Effect.EMPTY);
+//        entry1.setEffect(entry1.getEffect().assetMax(effect));
     }
 
 

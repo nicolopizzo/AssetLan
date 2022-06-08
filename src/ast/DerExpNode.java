@@ -1,9 +1,6 @@
 package ast;
 
-import utils.Effect;
-import utils.Environment;
-import utils.STEntry;
-import utils.SemanticError;
+import utils.*;
 
 import java.util.ArrayList;
 
@@ -34,11 +31,12 @@ public class DerExpNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-        if (Environment.getType(symEntry) != TypeNode.ASSET) {
-            Effect effect = symEntry.getEffect();
-            symEntry.setEffect(effect.rightExp());
-        }
+    public void checkEffects(EffectsEnvironment env) {
+//        if (Environment.getType(symEntry) != TypeNode.ASSET) {
+//            Effect effect = symEntry.getEffect();
+//            symEntry.setEffect(effect.rightExp());
+//        }
+//        if (env.)
     }
 
     @Override

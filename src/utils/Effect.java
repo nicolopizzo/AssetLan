@@ -38,5 +38,13 @@ public enum Effect {
 
         return TOP;
     }
+
+    public static Effect max(Effect e1, Effect e2) {
+        if (e1 == EMPTY) {
+            return e2;
+        }
+
+        return e1;
+    }
 }
 

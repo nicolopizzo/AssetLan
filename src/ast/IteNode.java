@@ -1,6 +1,7 @@
 package ast;
 
 import utils.AssetLanLib;
+import utils.EffectsEnvironment;
 import utils.Environment;
 import utils.SemanticError;
 
@@ -76,33 +77,48 @@ public class IteNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-        condition.checkEffects(env);
-
-        Environment env1 = env.deepCopy();
-        for (Node node : ifStatement) {
-            node.checkEffects(env1);
+    public void checkEffects(EffectsEnvironment env) {
+//        condition.checkEffects(env);
+//
+//        Environment env1 = env.deepCopy();
+//        for (Node node : ifStatement) {
+//            node.checkEffects(env1);
+//        }
+//        env1 = Environment.ifSeq(env, env1);
+//
+//        Environment env2 = env.deepCopy();
+//        if (elseStatement != null) {
+//            for (Node node : elseStatement) {
+//                node.checkEffects(env2);
+//            }
+//            env2 = Environment.ifSeq(env, env2);
+//        }
+//
+//
+//        env = Environment.ifSeq(env1, env2);
+        EffectsEnvironment sigma1 = env.copy();
+        for (Node s : ifStatement) {
+            s.checkEffects(sigma1);
         }
-        env1 = Environment.ifSeq(env, env1);
 
-        Environment env2 = env.deepCopy();
         if (elseStatement != null) {
-            for (Node node : elseStatement) {
-                node.checkEffects(env2);
+            EffectsEnvironment sigma2 = env.copy();
+            for (Node s : elseStatement) {
+                s.checkEffects(sigma2);
             }
-            env2 = Environment.ifSeq(env, env2);
+
+            sigma1 = EffectsEnvironment.max(sigma1, sigma2);
         }
 
-
-        env = Environment.ifSeq(env1, env2);
+        env.update(EffectsEnvironment.max(env, sigma1));
     }
 
     private String ifStatementString(Environment env) {
-        String s = new String();
+        StringBuilder s = new StringBuilder();
         for (Node node : ifStatement) {
-            s += node.codeGeneration(env);
+            s.append(node.codeGeneration(env));
         }
-        return s;
+        return s.toString();
     }
 
     private String elseStatementString(Environment env) {

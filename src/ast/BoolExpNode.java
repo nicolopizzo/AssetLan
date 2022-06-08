@@ -1,5 +1,6 @@
 package ast;
 
+import utils.EffectsEnvironment;
 import utils.Environment;
 import utils.SemanticError;
 
@@ -23,7 +24,7 @@ public class BoolExpNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
+    public void checkEffects(EffectsEnvironment env) {
 
     }
 

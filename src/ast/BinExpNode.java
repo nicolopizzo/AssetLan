@@ -1,6 +1,7 @@
 package ast;
 
 import utils.AssetLanLib;
+import utils.EffectsEnvironment;
 import utils.Environment;
 import utils.SemanticError;
 
@@ -74,9 +75,9 @@ public class BinExpNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-        left.checkEffects(env);
-        right.checkEffects(env);
+    public void checkEffects(EffectsEnvironment env) {
+//        left.checkEffects(env);
+//        right.checkEffects(env);
     }
 
     @Override

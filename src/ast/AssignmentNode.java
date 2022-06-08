@@ -1,8 +1,6 @@
 package ast;
 
-import utils.Environment;
-import utils.STEntry;
-import utils.SemanticError;
+import utils.*;
 
 import java.util.ArrayList;
 
@@ -47,9 +45,11 @@ public class AssignmentNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-        exp.checkEffects(env);
-        symEntry.setEffect(symEntry.getEffect().leftExp());
+    public void checkEffects(EffectsEnvironment env) {
+//        exp.checkEffects(env);
+//        symEntry.setEffect(symEntry.getEffect().leftExp());
+
+//        return new ArrayList<>();
     }
 
 

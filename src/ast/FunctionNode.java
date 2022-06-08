@@ -1,9 +1,6 @@
 package ast;
 
-import utils.AssetLanLib;
-import utils.Environment;
-import utils.STEntry;
-import utils.SemanticError;
+import utils.*;
 
 import java.util.ArrayList;
 
@@ -93,7 +90,7 @@ public class FunctionNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
+    public void checkEffects(EffectsEnvironment env) {
 
     }
 

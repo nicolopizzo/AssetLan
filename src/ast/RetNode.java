@@ -1,5 +1,6 @@
 package ast;
 
+import utils.EffectsEnvironment;
 import utils.Environment;
 import utils.SemanticError;
 
@@ -30,8 +31,8 @@ public class RetNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-           returendExpression.checkEffects(env);
+    public void checkEffects(EffectsEnvironment env) {
+//           returendExpression.checkEffects(env);
     }
 
     @Override

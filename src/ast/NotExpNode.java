@@ -1,5 +1,6 @@
 package ast;
 
+import utils.EffectsEnvironment;
 import utils.Environment;
 import utils.SemanticError;
 import utils.AssetLanLib;
@@ -29,8 +30,8 @@ public class NotExpNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-        exp.checkEffects(env);
+    public void checkEffects(EffectsEnvironment env) {
+//        exp.checkEffects(env);
     }
 
     @Override

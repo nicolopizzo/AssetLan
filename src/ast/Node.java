@@ -1,5 +1,6 @@
 package ast;
 
+import utils.EffectsEnvironment;
 import utils.Environment;
 import utils.SemanticError;
 
@@ -10,7 +11,7 @@ public interface Node {
 
     TypeNode typeCheck(Environment env);
 
-    void checkEffects(Environment env);
+    void checkEffects(EffectsEnvironment env);
 
     String codeGeneration(Environment env);
 }

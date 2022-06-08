@@ -1,5 +1,6 @@
 package ast;
 
+import utils.EffectsEnvironment;
 import utils.Environment;
 import utils.SemanticError;
 
@@ -25,8 +26,8 @@ public class PrintNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
-        exp.checkEffects(env);
+    public void checkEffects(EffectsEnvironment env) {
+//        exp.checkEffects(env);
     }
 
     @Override

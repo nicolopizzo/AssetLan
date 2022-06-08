@@ -1,9 +1,6 @@
 package ast;
 
-import utils.Environment;
-import utils.Functional;
-import utils.STEntry;
-import utils.SemanticError;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +75,7 @@ public class CallNode implements Node {
     }
 
     @Override
-    public void checkEffects(Environment env) {
+    public void checkEffects(EffectsEnvironment env) {
         // TODO: handle effects, check if function is recursive for fixed point, check local liquidity
     }
 

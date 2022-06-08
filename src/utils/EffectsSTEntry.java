@@ -8,13 +8,8 @@ public class EffectsSTEntry {
     private int nestLevel;
     private Effect effect;
 
-    public EffectsSTEntry(int nestLevel, Effect effect) {
-        this.nestLevel = nestLevel;
+    public EffectsSTEntry(Effect effect, int nestLevel) {
         this.effect = effect;
-    }
-
-    public int getNestLevel() {
-        return nestLevel;
     }
 
     public Effect getEffect() {
@@ -25,8 +20,11 @@ public class EffectsSTEntry {
         this.effect = effect;
     }
 
-    public void setNestLevel(int nestLevel) {
-        this.nestLevel = nestLevel;
+    public int getNestLevel() {
+        return nestLevel;
     }
 
+    public EffectsSTEntry copy() {
+        return new EffectsSTEntry(effect, nestLevel);
+    }
 }
