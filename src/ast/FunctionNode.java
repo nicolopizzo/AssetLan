@@ -30,6 +30,7 @@ public class FunctionNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
+
         ArrayList<SemanticError> errors = new ArrayList<>();
         if (env.isDeclaredInScope(id)) {
             errors.add(SemanticError.duplicateDeclaration(id));
@@ -49,28 +50,24 @@ public class FunctionNode implements Node {
         env.addEntry(id, new STEntry(env.getNestLevel(), types, env.offset--));
 
         env.enterScope();
+        int parOffset = 1;
         for (Node d : declarations) {
             errors.addAll(d.checkSemantics(env));
+            env.addEntry(((ParamNode) d).getId(), new STEntry(env.getNestLevel(), type, parOffset++));
         }
         for (Node a : assets) {
             errors.addAll(a.checkSemantics(env));
+            env.addEntry(((ParamNode) a).getId(), new STEntry(env.getNestLevel(), type, parOffset++));
             assetEntries.add(env.getLastEntry(((ParamNode) a).getId()));
         }
-
-        if (fields != null) {
-            env.offset = -2;
-        }
-        for (Node f : fields) {
-            errors.addAll(f.checkSemantics(env));
+        if(fields != null) {
+            env.offset = 2;
+            for (Node f : fields) {
+                errors.addAll(f.checkSemantics(env));
+            }
         }
         for (Node s : statements) {
             errors.addAll(s.checkSemantics(env));
-
-            if (s instanceof CallNode f) {
-                if (f.getId().equals(id)) {
-                    isRecursive = true;
-                }
-            }
         }
         env.exitScope();
 
@@ -172,13 +169,14 @@ public class FunctionNode implements Node {
         AssetLanLib.putCode(funl+":\n"+
                 "cfp\n"+ 		// setta $fp a $sp
                 "lra\n"+ 		// inserimento return address
+                fieldsCode+
                 stmsCode+
                 "srv\n"+ 		// pop del return value
-                popDecl+
-                popAssets+
+                popFields+
                 "sra\n"+ 		// pop del return address
                 "pop\n"+ 		// pop di AL
-                //popFields+
+                popDecl+
+                popAssets+
                 "sfp\n"+  		// setto $fp a valore del CL
                 "lrv\n"+ 		// risultato della funzione sullo stack
                 "lra\n"+"js\n"  // salta a $ra

@@ -1,15 +1,21 @@
 import ast.AssetLanVisitorConcrete;
 import ast.Node;
+import ast.SVMVisitorConcrete;
+import codegen.ExecuteVM;
 import errorhandler.LexerErrorListener;
 import errorhandler.SyntaxError;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parser.AssetLanLexer;
 import parser.AssetLanParser;
+import parser.SVMLexer;
+import parser.SVMParser;
 import utils.EffectsEnvironment;
 import utils.Environment;
 import utils.SemanticError;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -94,32 +100,33 @@ public class Main {
         EffectsEnvironment sigma = new EffectsEnvironment();
         ast.checkEffects(sigma);
 
-        // CODE GENERATION  prova.SimpLan.asm
-//        String code=ast.codeGeneration(env);
-//        BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
-//        out.write(code);
-//        out.close();
-//        System.out.println("Code generated! Assembling and running generated code.");
-//
-//        //create an instance of a lexer
-//        //AssetLanLexer is a class that extends the Antlr Lexer
-//        SVMLexer lexerSVM = new SVMLexer(CharStreams.fromFileName(fileName+".asm"));
-//        CommonTokenStream tokensSVM = new CommonTokenStream(lexerSVM);
-//        SVMParser parserSVM = new SVMParser(tokensSVM);
-//
-//        SVMVisitorConcrete visitorSVM = new SVMVisitorConcrete();
-//        visitorSVM.visit(parserSVM.assembly());
-//
-//        System.out.println("You had: "+lexerSVM.lexicalErrors+" lexical errors and "+parserSVM.getNumberOfSyntaxErrors()+" syntax errors.");
-//        if (lexerSVM.lexicalErrors>0)
-//            System.exit(ExitCode.LEXER_ERROR);
-//        if (parserSVM.getNumberOfSyntaxErrors()>0)
-//            System.exit(ExitCode.SYNTAX_ERROR);
-//
-//        System.out.println("Starting Virtual Machine...");
-//
-//        ExecuteVM vm = new ExecuteVM(visitorSVM.code);
-//        vm.cpu();
+
+        String code=ast.codeGeneration(env);
+        BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
+        out.write(code);
+        out.close();
+        System.out.println("Code generated! Assembling and running generated code.");
+
+        //create an instance of a lexer
+        //AssetLanLexer is a class that extends the Antlr Lexer
+        SVMLexer lexerSVM = new SVMLexer(CharStreams.fromFileName(fileName+".asm"));
+        CommonTokenStream tokensSVM = new CommonTokenStream(lexerSVM);
+        SVMParser parserSVM = new SVMParser(tokensSVM);
+
+        SVMVisitorConcrete visitorSVM = new SVMVisitorConcrete();
+        visitorSVM.visit(parserSVM.assembly());
+
+        System.out.println("You had: "+lexerSVM.lexicalErrors+" lexical errors and "+parserSVM.getNumberOfSyntaxErrors()+" syntax errors.");
+        if (lexerSVM.lexicalErrors>0)
+            System.exit(ExitCode.LEXER_ERROR);
+        if (parserSVM.getNumberOfSyntaxErrors()>0)
+            System.exit(ExitCode.SYNTAX_ERROR);
+
+        System.out.println("Starting Virtual Machine...");
+
+        ExecuteVM vm = new ExecuteVM(visitorSVM.code);
+        vm.cpu();
+
 
         System.exit(ExitCode.SUCCESS);
     }
