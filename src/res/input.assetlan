@@ -1,4 +1,6 @@
+int x;
+asset y;
 void main(int a)[asset x]{
-    print a;
+    a = 1;
 }
 main(2)[0];

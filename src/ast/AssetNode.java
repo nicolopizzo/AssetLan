@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class AssetNode implements Node {
     private String id;
     private final TypeNode type = TypeNode.ASSET;
+    private STEntry symEntry;
 
 
     public AssetNode(String id) {
@@ -25,8 +26,10 @@ public class AssetNode implements Node {
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> semanticErrors = new ArrayList<>();
 
-        if (!env.isDeclaredInScope(id))
-            env.addEntry(id, new STEntry(env.getNestLevel(), TypeNode.ASSET, env.offset--));
+        if (!env.isDeclaredInScope(id)) {
+            symEntry = new STEntry(env.getNestLevel(), TypeNode.ASSET, env.offset--);
+            env.addEntry(id, symEntry);
+        }
         else
             semanticErrors.add(SemanticError.duplicateDeclaration(id));
 
@@ -45,6 +48,10 @@ public class AssetNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return "";
+        return "push 0\n" /*+
+                "push "+symEntry.getOffset()+"\n"+
+                "lfp\n"+
+                "add\n"+
+                "sw\n"*/;
     }
 }

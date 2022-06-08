@@ -1,10 +1,12 @@
 push 0
+push 0
+push 0
 push function0
 lfp
-push 2
 push 0
+push 2
 lfp
-push -2
+push -4
 lfp
 add
 lw

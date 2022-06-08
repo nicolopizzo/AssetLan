@@ -76,12 +76,17 @@ public class ProgramNode implements Node {
         for (Node field:fields)
             fieldsCode+=field.codeGeneration(env);
 
+        String assetsCode="";
+        for (Node asset:assets)
+            assetsCode+=asset.codeGeneration(env);
+
         String fundecsCode="";
         for (Node fundec:functions)
             fundecsCode+=fundec.codeGeneration(env);
 
         return "push 0\n"+
                 fieldsCode+
+                assetsCode+
                 fundecsCode+
                 initCall.codeGeneration(env)+
                 "halt\n"+

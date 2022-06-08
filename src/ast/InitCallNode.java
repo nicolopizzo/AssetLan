@@ -88,8 +88,8 @@ public class InitCallNode implements Node {
             getAR+="lw\n"; // formato AR: control_link+parameters+access_link+dich_locali
 
         return "lfp\n"+ 				// CL
-                parCode+
                 aparCode+
+                parCode+
                 "lfp\n"+
                 getAR+ 		// setto AL risalendo la catena statica
                 // ora recupero l'indirizzo a cui saltare e lo metto sullo stack
