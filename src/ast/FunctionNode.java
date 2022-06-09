@@ -53,11 +53,11 @@ public class FunctionNode implements Node {
         int parOffset = 1;
         for (Node d : declarations) {
             errors.addAll(d.checkSemantics(env));
-            env.addEntry(((ParamNode) d).getId(), new STEntry(env.getNestLevel(), type, parOffset++));
+            env.addEntry(((ParamNode) d).getId(), new STEntry(env.getNestLevel(), ((ParamNode) d).getType(), parOffset++));
         }
         for (Node a : assets) {
             errors.addAll(a.checkSemantics(env));
-            env.addEntry(((ParamNode) a).getId(), new STEntry(env.getNestLevel(), type, parOffset++));
+            env.addEntry(((ParamNode) a).getId(), new STEntry(env.getNestLevel(), ((ParamNode) a).getType(), parOffset++));
             assetEntries.add(env.getLastEntry(((ParamNode) a).getId()));
         }
         if(fields != null) {
@@ -165,6 +165,19 @@ public class FunctionNode implements Node {
         String stmsCode="";
         if (statements!=null) for (Node stm:statements) stmsCode+=stm.codeGeneration(env);
 
+        String popStms="";
+        int i=0;
+        if (statements!=null)
+            for (Node stm:statements) {
+                if (stm.getClass() == PrintNode.class){
+                    if(i>0) {
+                        popStms += "pop\n";
+                    } else {
+                        i++;
+                    }
+                }
+            }
+
         String funl= AssetLanLib.freshFunLabel();
         AssetLanLib.putCode(funl+":\n"+
                 "cfp\n"+ 		// setta $fp a $sp
@@ -173,6 +186,7 @@ public class FunctionNode implements Node {
                 stmsCode+
                 "srv\n"+ 		// pop del return value
                 popFields+
+                popStms+
                 "sra\n"+ 		// pop del return address
                 "pop\n"+ 		// pop di AL
                 popDecl+

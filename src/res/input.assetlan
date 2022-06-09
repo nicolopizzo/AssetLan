@@ -1,6 +1,10 @@
 int x;
 asset y;
 void main(int a)[asset x]{
-    a = 1;
+    a = x;
+    a = 2;
+    print a;
+    print x+1;
+    print a+2;
 }
 main(2)[0];
