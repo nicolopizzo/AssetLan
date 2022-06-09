@@ -36,6 +36,7 @@ instruction:
 	  | STORERA
 	  | LOADRV
 	  | STORERV
+	  | STORERVI
 	  | LOADFP
 	  | STOREFP
 	  | COPYFP
@@ -68,6 +69,7 @@ LOADRA	 : 'lra' ;	// load from ra
 STORERA  : 'sra' ;	// store top into ra
 LOADRV	 : 'lrv' ;	// load from rv
 STORERV  : 'srv' ;	// store top into rv
+STORERVI    : 'srvi' ;	// store from rvi
 LOADFP	 : 'lfp' ;	// load frame pointer in the stack
 STOREFP	 : 'sfp' ;	// store top into frame pointer
 COPYFP   : 'cfp' ;      // copy stack pointer into frame pointer

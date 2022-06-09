@@ -103,6 +103,9 @@ public class SVMVisitorConcrete extends SVMBaseVisitor<Void> {
             case SVMLexer.STORERV:
                 code[i++] = SVMParser.STORERV;
                 break;
+            case SVMLexer.STORERVI:
+                code[i++] = SVMParser.STORERVI;
+                break;
             case SVMLexer.LOADFP:
                 code[i++] = SVMParser.LOADFP;
                 break;

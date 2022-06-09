@@ -16,6 +16,7 @@ public class ExecuteVM {
     private int fp = MEMSIZE;
     private int ra;
     private int rv;
+    private int rv_init = 0;
 
     public ExecuteVM(int[] code) {
         this.code = code;
@@ -122,6 +123,9 @@ public class ExecuteVM {
                     case SVMParser.LOADRV : //
                         push(rv);
                         break;
+                    case SVMParser.STORERVI : //
+                        rv_init+=pop();
+                        break;
                     case SVMParser.LOADFP : // load frame pointer in the stack
                         push(fp);
                         break;
@@ -142,7 +146,8 @@ public class ExecuteVM {
                         break;
                     case SVMParser.HALT :
                         //to print the result
-                        System.out.println("\nResult: " + memory[sp] + "\n");
+                        //System.out.println("\nResult: " + memory[sp] + "\n");
+                        System.out.println("\nResult: " + rv_init + "\n");
                         return;
                 }
             }

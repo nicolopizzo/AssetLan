@@ -9,6 +9,8 @@ public class TransferNode implements Node {
     private String id;
     private STEntry entry;
 
+    private int nestinglevel;
+
     public TransferNode(String id) {
         this.id = id;
     }
@@ -19,15 +21,17 @@ public class TransferNode implements Node {
 
         if (!env.isDeclared(id))
             semanticErrors.add(SemanticError.variableNotDeclared(id));
-        else
+        else{
             entry = env.getLastEntry(id);
+            nestinglevel = env.getNestLevel();
+        }
 
         return semanticErrors;
     }
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        if (env.getType(id) != TypeNode.ASSET){
+        if (entry.getTypes().get(0) != TypeNode.ASSET){
             //System.out.println("Error: " + id + " is not an asset");
             throw new RuntimeException("Type Error - " + id + " has type different from " + "ASSET");
         }
@@ -43,12 +47,13 @@ public class TransferNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
         String getAR="";
-        for (int i=0; i<env.getNestLevel()-entry.getNestLevel(); i++)
+        for (int i=0; i<nestinglevel-entry.getNestLevel(); i++)
             getAR+="lw\n";
         return "push "+entry.getOffset()+"\n"+ //metto offset sullo stack
                 "lfp\n"+getAR+ //risalgo la catena statica
                 "add\n"+
                 "lw\n"+
+                "srvi\n"+
                 "push 0\n"+
                 "push "+entry.getOffset()+"\n"+ //metto offset sullo stack
                 "lfp\n"+getAR+ //risalgo la catena statica

@@ -44,6 +44,11 @@ public class FunctionNode implements Node {
         for (int i = 0; i < assets.size(); i++) {
             types.add(TypeNode.ASSET);
         }
+        /*
+        for (Node asset : assets) {
+            types.add(((ParamNode) asset).getType());
+        }
+        */
         types.add(type);
 
 
@@ -165,18 +170,42 @@ public class FunctionNode implements Node {
         String stmsCode="";
         if (statements!=null) for (Node stm:statements) stmsCode+=stm.codeGeneration(env);
 
+        /*
         String popStms="";
         int i=0;
         if (statements!=null)
             for (Node stm:statements) {
                 if (stm.getClass() == PrintNode.class){
-                    if(i>0) {
+                    //if(i>0) {
                         popStms += "pop\n";
-                    } else {
-                        i++;
-                    }
+                    //} else {
+                    //    i++;
+                    //}
+                }
+                if (stm.getClass() == AssignmentNode.class){
+                    popStms += "push 0\n";
                 }
             }
+         */
+
+
+        int nPopStrings=0;
+        if (statements!=null)
+            for (Node stm:statements) {
+                if (stm.getClass() == PrintNode.class){
+                    nPopStrings++;
+                }
+            }
+
+        String pushStms="";
+        String popStms="";
+        if (nPopStrings==0) {
+            pushStms+="push 0\n";
+        } else {
+            for (int i=1; i<nPopStrings; i++) {
+                popStms+="pop\n";
+            }
+        }
 
         String funl= AssetLanLib.freshFunLabel();
         AssetLanLib.putCode(funl+":\n"+
@@ -184,6 +213,7 @@ public class FunctionNode implements Node {
                 "lra\n"+ 		// inserimento return address
                 fieldsCode+
                 stmsCode+
+                pushStms+
                 "srv\n"+ 		// pop del return value
                 popFields+
                 popStms+

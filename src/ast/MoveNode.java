@@ -12,6 +12,8 @@ public class MoveNode implements Node {
     private STEntry entry1;
     private STEntry entry2;
 
+    private int nestinglevel;
+
     public MoveNode(String id1, String id2) {
         this.id1 = id1;
         this.id2 = id2;
@@ -32,6 +34,8 @@ public class MoveNode implements Node {
         } else {
             entry1 = env.getLastEntry(id1);
         }
+
+        nestinglevel = env.getNestLevel();
 
         return semanticErrors;
     }
@@ -74,11 +78,11 @@ public class MoveNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
         StringBuilder getARx = new StringBuilder();
-        for (int i=0; i<env.getNestLevel()-entry1.getNestLevel(); i++)
+        for (int i=0; i<nestinglevel-entry1.getNestLevel(); i++)
             getARx.append("lw\n");
 
         StringBuilder getARy = new StringBuilder();
-        for (int i=0; i<env.getNestLevel()-entry1.getNestLevel(); i++)
+        for (int i=0; i<nestinglevel-entry2.getNestLevel(); i++)
             getARy.append("lw\n");
 
         return "push "+entry1.getOffset()+"\n"+ //metto offset sullo stack

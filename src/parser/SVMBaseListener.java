@@ -1,5 +1,6 @@
-// Generated from /home/nizzo/Documents/Projects/AssetLan/src/SVM.g4 by ANTLR 4.10.1
-package parser;
+package parser;// Generated from /Users/biancaraimondi/Desktop/CompilatoriEInterpreti/AssetLan/src/SVM.g4 by ANTLR 4.10.1
+
+import java.util.HashMap;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
