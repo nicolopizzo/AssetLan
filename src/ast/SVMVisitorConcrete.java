@@ -18,9 +18,6 @@ public class SVMVisitorConcrete extends SVMBaseVisitor<Void> {
     @Override
     public Void visitAssembly(SVMParser.AssemblyContext ctx) {
         visitChildren(ctx);
-        System.out.println("labelRef: " + labelRef);
-        System.out.println("labelAdd: " + labelAdd);
-
         for (Integer refAdd: labelRef.keySet()) {
             code[refAdd]=labelAdd.get(labelRef.get(refAdd));
         }

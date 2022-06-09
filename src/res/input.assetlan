@@ -1,22 +1,13 @@
-int x;
-asset y;
-
-void main(int a)[asset x]{
-    //a = x + 1;
-    //a = 2;
-    //print a;
-    //print x+1;
-    //print a+2;
-    //print a;
-    //x -o y;
-    print x;
-    print y;
-    transfer y;
-    transfer y;
-    x -o y;
-    print x;
-    print y;
-    //print x;
+void f(int a, int d)[asset f, asset g]{
+    print a;
+    print d;
+    f -o g;
+    transfer g;
 }
 
-main(5)[2];
+void main(int b, int c)[asset x]{
+    f(b, c)[x, x];
+    f(c, c)[x, x];
+}
+
+main(2, 7)[5];

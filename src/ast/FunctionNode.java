@@ -51,7 +51,7 @@ public class FunctionNode implements Node {
         */
         types.add(type);
 
-
+        System.out.println("offset " + id + ": " + env.getOffset());
         env.addEntry(id, new STEntry(env.getNestLevel(), types, env.offset--));
 
         env.enterScope();
@@ -62,11 +62,12 @@ public class FunctionNode implements Node {
         }
         for (Node a : assets) {
             errors.addAll(a.checkSemantics(env));
-            env.addEntry(((ParamNode) a).getId(), new STEntry(env.getNestLevel(), ((ParamNode) a).getType(), parOffset++));
-            assetEntries.add(env.getLastEntry(((ParamNode) a).getId()));
+            STEntry entry = new STEntry(env.getNestLevel(), TypeNode.ASSET, parOffset++);
+            env.addEntry(((ParamNode) a).getId(), entry);
+            assetEntries.add(entry);
         }
         if(fields != null) {
-            env.offset = 2;
+            //env.offset = -2;
             for (Node f : fields) {
                 errors.addAll(f.checkSemantics(env));
             }
@@ -192,7 +193,7 @@ public class FunctionNode implements Node {
         int nPopStrings=0;
         if (statements!=null)
             for (Node stm:statements) {
-                if (stm.getClass() == PrintNode.class){
+                if (stm.getClass() == PrintNode.class || stm.getClass() == CallNode.class) {
                     nPopStrings++;
                 }
             }

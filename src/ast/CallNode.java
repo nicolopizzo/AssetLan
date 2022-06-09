@@ -57,7 +57,8 @@ public class CallNode implements Node {
 
         ArrayList<TypeNode> givenParams = new ArrayList<>();
         givenParams.addAll(Functional.mapList(exp, e -> e.typeCheck(env)));
-        givenParams.addAll(Functional.mapList(ids, id -> env.getType(id)));
+        //givenParams.addAll(Functional.mapList(ids, id -> env.getType(id)));
+        givenParams.addAll(Functional.mapList(ids, id -> TypeNode.ASSET));
 
         if (paramsType.size() != givenParams.size()) {
             // TODO: handle type errors
@@ -75,7 +76,8 @@ public class CallNode implements Node {
         }
 
         applyEffect();
-        return env.getType(id);
+        return Environment.getType(symEntry);
+        //return env.getType(id);
     }
 
     @Override
@@ -106,8 +108,8 @@ public class CallNode implements Node {
             getAR += "lw\n";
         // formato AR: control_link+parameters+access_link+dich_locali
         return "lfp\n" +                // CL
-                parCode +
                 aparCode +
+                parCode +
                 "lfp\n" + getAR +        // setto AL risalendo la catena statica
                 // ora recupero l'indirizzo a cui saltare e lo metto sullo stack
                 "push " + symEntry.getOffset() + "\n" + // metto offset sullo stack
