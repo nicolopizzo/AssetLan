@@ -137,9 +137,9 @@ public class BinExpNode implements Node {
                                         END + ":\n";
                         case NE ->
                                 "beq "+ FALSE +"\n"+
-                                        "push 0\n"+
+                                        "push 1\n"+
                                         "b " + END + "\n" +
-                                        FALSE + ":push 1\n"+
+                                        FALSE + ":push 0\n"+
                                         END + ":\n";
                         default -> "";
                     };

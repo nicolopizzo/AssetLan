@@ -51,7 +51,6 @@ public class FunctionNode implements Node {
         */
         types.add(type);
 
-        System.out.println("offset " + id + ": " + env.getOffset());
         env.addEntry(id, new STEntry(env.getNestLevel(), types, env.offset--));
 
         env.enterScope();
@@ -148,52 +147,38 @@ public class FunctionNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
 
-        /*
-        String declCode="";
-        if (declarations!=null) for (Node dec:declarations)
-            declCode+=dec.codeGeneration(env);
-*/
         String fieldsCode="";
-        if (fields!=null) for (Node field:fields)
-            fieldsCode+=field.codeGeneration(env);
+        if (fields!=null)
+            for (Node field:fields)
+                fieldsCode += field.codeGeneration(env);
 
         String popDecl="";
         if (declarations!=null)
-            for (Node dec:declarations) popDecl+="pop\n";
+            for (Node dec:declarations)
+                popDecl += "pop\n";
 
         String popAssets="";
-        for (Node dec:assets) popAssets+="pop\n";
-
+        if (assets!=null)
+            for (Node dec:assets)
+                popAssets += "pop\n";
 
         String popFields="";
-        if (fields!=null) for (Node dec:fields) popFields+="pop\n";
+        if (fields!=null)
+            for (Node dec:fields)
+                popFields += "pop\n";
 
         String stmsCode="";
-        if (statements!=null) for (Node stm:statements) stmsCode+=stm.codeGeneration(env);
-
-        /*
-        String popStms="";
-        int i=0;
         if (statements!=null)
-            for (Node stm:statements) {
-                if (stm.getClass() == PrintNode.class){
-                    //if(i>0) {
-                        popStms += "pop\n";
-                    //} else {
-                    //    i++;
-                    //}
-                }
-                if (stm.getClass() == AssignmentNode.class){
-                    popStms += "push 0\n";
-                }
-            }
-         */
-
+            for (Node stm:statements)
+                stmsCode += stm.codeGeneration(env);
 
         int nPopStrings=0;
         if (statements!=null)
             for (Node stm:statements) {
-                if (stm.getClass() == PrintNode.class || stm.getClass() == CallNode.class) {
+                if (stm.getClass() == PrintNode.class
+                        || stm.getClass() == CallNode.class
+                        || stm.getClass() == IteNode.class
+                        || stm.getClass() == RetNode.class) {
                     nPopStrings++;
                 }
             }

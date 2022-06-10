@@ -1,13 +1,15 @@
-void f(int a, int d)[asset f, asset g]{
-    print a;
-    print d;
-    f -o g;
-    transfer g;
+asset x ;
+void f(int n)[asset u, asset v]{
+  if (n == 0) {
+    u -o x ;
+  }
+  else {
+    u -o x ;
+    v -o x ;
+  }
 }
-
-void main(int b, int c)[asset x]{
-    f(b, c)[x, x];
-    f(c, c)[x, x];
+void main()[asset a]{
+  f(0)[a,a] ;     // semantica di f()[a,a] ?
+  transfer x ;
 }
-
-main(2, 7)[5];
+main()[1] ;

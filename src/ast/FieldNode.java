@@ -77,17 +77,9 @@ public class FieldNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
         if (exp != null) {
-            return exp.codeGeneration(env) /*+
-                    "push "+symEntry.getOffset()+"\n"+
-                    "lfp\n"+
-                    "add\n"+
-                    "sw\n"*/;
+            return exp.codeGeneration(env);
         } else {
-            return "push 0\n" /*+
-                    "push "+symEntry.getOffset()+"\n"+
-                    "lfp\n"+
-                    "add\n"+
-                    "sw\n"*/;
+            return "push 0\n";
         }
     }
 

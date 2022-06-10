@@ -51,6 +51,19 @@ public class CallNode implements Node {
         return errors;
     }
 
+    private TypeNode getTypeOfId(String id){
+        TypeNode idType = null;
+        for (int i = 0; i < ids.size(); i++) {
+            if (ids.get(i) == id) {
+                idType = assetEntries.get(i).getTypes().get(0);
+            }
+        }
+        if (idType == null) {
+            throw new RuntimeException("Type error: wrong type of parameter ( type of " + id + " is " + null + ")");
+        }
+        return idType;
+    }
+
     @Override
     public TypeNode typeCheck(Environment env) {
         List<TypeNode> paramsType = Environment.getParamsType(symEntry);
@@ -58,7 +71,7 @@ public class CallNode implements Node {
         ArrayList<TypeNode> givenParams = new ArrayList<>();
         givenParams.addAll(Functional.mapList(exp, e -> e.typeCheck(env)));
         //givenParams.addAll(Functional.mapList(ids, id -> env.getType(id)));
-        givenParams.addAll(Functional.mapList(ids, id -> TypeNode.ASSET));
+        givenParams.addAll(Functional.mapList(ids, id -> getTypeOfId(id) ));
 
         if (paramsType.size() != givenParams.size()) {
             // TODO: handle type errors
@@ -69,9 +82,17 @@ public class CallNode implements Node {
             TypeNode t1 = paramsType.get(i);
             TypeNode t2 = givenParams.get(i);
 
+            /*
             if (t1 != t2) {
                 // TODO: handle type errors
                 throw new RuntimeException("Type error: wrong type of parameter (" + t1 + " != " + t2 + ")");
+            }
+            */
+
+            if (!(t1 == TypeNode.ASSET && (t2 == TypeNode.ASSET || t2 == TypeNode.INT))
+                    && !(t1 == TypeNode.INT && (t2 == TypeNode.ASSET || t2 == TypeNode.INT))
+                    && !(t1 == TypeNode.BOOL && t2 == TypeNode.BOOL)) {
+                throw new RuntimeException("Type error: wrong type of actual and formal parameters (" + t1 + " != " + t2 + ")");
             }
         }
 
@@ -93,15 +114,21 @@ public class CallNode implements Node {
             parCode += exp.get(i).codeGeneration(env);
 
         String aparCode = "";
-        for (STEntry assetEntry : assetEntries) {
+        for (int i = assetEntries.size() - 1; i >= 0; i--) {
             String getAR = "";
-            for (int i = 0; i < nestinglevel - assetEntry.getNestLevel(); i++)
+            for (int j = nestinglevel - assetEntries.get(i).getNestLevel()-1; j >= 0; j--)
                 getAR += "lw\n";
-            aparCode += "push " + assetEntry.getOffset() + "\n" + //metto offset sullo stack
+            aparCode += "push " + assetEntries.get(i).getOffset() + "\n" + //metto offset sullo stack
                     "lfp\n" + getAR + //risalgo la catena statica
                     "add\n" +
-                    "lw\n";
+                    "lw\n"+
+                    "push 0\n"+
+                    "push " + assetEntries.get(i).getOffset() + "\n" + //metto offset sullo stack
+                    "lfp\n" + getAR + //risalgo la catena statica
+                    "add\n" +
+                    "sw\n";
         }
+
 
         String getAR = "";
         for (int i = 0; i < nestinglevel - symEntry.getNestLevel(); i++)

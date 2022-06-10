@@ -8,6 +8,7 @@ public class AssignmentNode implements Node {
     private String id;
     private Node exp;
     private STEntry symEntry;
+    private int nestinglevel;
 
 
     public AssignmentNode(String id, Node exp) {
@@ -22,6 +23,7 @@ public class AssignmentNode implements Node {
             errors.add(SemanticError.variableNotDeclared(id));
         } else {
             symEntry = env.getLastEntry(id);
+            nestinglevel = env.getNestLevel();
         }
 
         errors.addAll(exp.checkSemantics(env));
@@ -61,7 +63,7 @@ public class AssignmentNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
         String getAR="";
-        for (int i=0; i<env.getNestLevel()-symEntry.getNestLevel(); i++)
+        for (int i=0; i<nestinglevel-symEntry.getNestLevel(); i++)
             getAR+="lw\n";
         return exp.codeGeneration(env)+
                "push "+symEntry.getOffset()+"\n"+ //metto offset sullo stack

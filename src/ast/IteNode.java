@@ -30,18 +30,18 @@ public class IteNode implements Node {
 
         errors.addAll(condition.checkSemantics(env));
 
-        env.enterScope();
+        //env.enterScope();
         for (Node node : ifStatement) {
             errors.addAll(node.checkSemantics(env));
         }
-        env.exitScope();
+        //env.exitScope();
 
         if (elseStatement != null) {
-            env.enterScope();
+            //env.enterScope();
             for (Node node : elseStatement) {
                 errors.addAll(node.checkSemantics(env));
             }
-            env.exitScope();
+            //env.exitScope();
         }
 
         return errors;

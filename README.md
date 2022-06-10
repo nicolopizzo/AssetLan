@@ -39,7 +39,7 @@ Il report deve contenere **TUTTE** le regole semantiche utilizzate e relativa di
 
 Codici da verificare/discutere:
 
-Codice 1
+Codice 1 (versione con errori sintattici)
 ```
 asset x, y ;
      void f()[asset u, asset v]{
@@ -52,7 +52,21 @@ asset x, y ;
         f()[x,y] ;
      }
      main()[2,3]
-
+```
+Codice 1 (versione corretta)
+```
+asset x;
+asset y;
+void f()[asset u, asset v]{
+    u -o y ;
+    v -o x ;
+}
+void main()[asset u, asset v]{
+    u -o x ;
+    u -o y ;
+    f()[x,y] ;
+}
+main()[2,3]
 ```
 Codice 2
 ```
@@ -63,7 +77,7 @@ void g()[]{
   transfer z ;
 }
 void f(int x)[asset y]{
-  a = y ;         // non e` errore
+  a = y ;
   b = b+x ;      
   y -o z ;
   g()[] ;

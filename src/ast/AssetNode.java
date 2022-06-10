@@ -48,10 +48,6 @@ public class AssetNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return "push 0\n" /*+
-                "push "+symEntry.getOffset()+"\n"+
-                "lfp\n"+
-                "add\n"+
-                "sw\n"*/;
+        return "push 0\n";
     }
 }

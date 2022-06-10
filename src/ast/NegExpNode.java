@@ -37,6 +37,8 @@ public class NegExpNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
-        return "-" + exp.codeGeneration(env);
+        return "push 0\n"+
+                exp.codeGeneration(env)+
+                "sub\n";
     }
 }
