@@ -39,7 +39,7 @@ public class InitCallNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        // TODO: check the given parameters correspond to the ones in the definition of the function.
+
         List<TypeNode> toCompare = Environment.getParamsType(symEntry);
 
         ArrayList<TypeNode> paramsTypes = new ArrayList<>();
@@ -47,7 +47,6 @@ public class InitCallNode implements Node {
         paramsTypes.addAll(Functional.mapList(assets, a -> a.typeCheck(env)));
 
         if (toCompare.size() != paramsTypes.size()) {
-            // TODO: handle type errors
             throw new RuntimeException("Type error: wrong number of parameters");
         }
 
@@ -60,7 +59,6 @@ public class InitCallNode implements Node {
             }
 
             if (t1 != t2) {
-                // TODO: handle type errors
                 throw new RuntimeException("Type error: wrong type of parameter (" + t1 + " != " + t2 + ")");
             }
         }
@@ -85,9 +83,9 @@ public class InitCallNode implements Node {
 
         String getAR="";
         for (int i=0; i<nestinglevel-symEntry.getNestLevel(); i++)
-            getAR+="lw\n"; // formato AR: control_link+parameters+access_link+dich_locali
+            getAR+="lw\n";
 
-        return "lfp\n"+ 				// CL
+        return "lfp\n"+
                 aparCode+
                 parCode+
                 "lfp\n"+

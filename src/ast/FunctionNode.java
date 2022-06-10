@@ -44,11 +44,7 @@ public class FunctionNode implements Node {
         for (int i = 0; i < assets.size(); i++) {
             types.add(TypeNode.ASSET);
         }
-        /*
-        for (Node asset : assets) {
-            types.add(((ParamNode) asset).getType());
-        }
-        */
+
         types.add(type);
 
         env.addEntry(id, new STEntry(env.getNestLevel(), types, env.offset--));
@@ -66,7 +62,6 @@ public class FunctionNode implements Node {
             assetEntries.add(entry);
         }
         if(fields != null) {
-            //env.offset = -2;
             for (Node f : fields) {
                 errors.addAll(f.checkSemantics(env));
             }
@@ -81,12 +76,6 @@ public class FunctionNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-//        for (Node d : declarations) {
-//            d.typeCheck(env);
-//        }
-//        for (Node a : assets) {
-//            a.typeCheck(env);
-//        }
         for (Node f : fields) {
             f.typeCheck(env);
         }

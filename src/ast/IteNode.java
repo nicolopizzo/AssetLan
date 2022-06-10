@@ -30,18 +30,14 @@ public class IteNode implements Node {
 
         errors.addAll(condition.checkSemantics(env));
 
-        //env.enterScope();
         for (Node node : ifStatement) {
             errors.addAll(node.checkSemantics(env));
         }
-        //env.exitScope();
 
         if (elseStatement != null) {
-            //env.enterScope();
             for (Node node : elseStatement) {
                 errors.addAll(node.checkSemantics(env));
             }
-            //env.exitScope();
         }
 
         return errors;
@@ -49,12 +45,11 @@ public class IteNode implements Node {
 
     @Override
     public TypeNode typeCheck(Environment env) {
-        //ArrayList<SemanticError> errors = new ArrayList<>();
+
         TypeNode lastIf = TypeNode.VOID;
 
 
         if (condition.typeCheck(env) != TypeNode.BOOL) {
-            //errors.add(SemanticError.typeError("condition in if statement","bool"));
             throw new RuntimeException("Type Error - " + "condition in if statement" + " has type different from " + "bool");
         }
         for (Node ifNode : ifStatement) {
@@ -68,7 +63,6 @@ public class IteNode implements Node {
             }
 
             if (lastIf != lastElse) {
-                //errors.add(SemanticError.typeError("if and else statement","different type"));
                 throw new RuntimeException("Type Error - " + "if and else statement" + " have different type");
             }
 

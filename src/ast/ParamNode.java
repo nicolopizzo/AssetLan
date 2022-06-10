@@ -25,8 +25,6 @@ public class ParamNode implements Node {
         ArrayList<SemanticError> errors = new ArrayList<>();
         if (env.isDeclaredInScope(id)) {
             errors.add(SemanticError.duplicateDeclaration(id));
-        } else {
-            //env.addEntry(id, new STEntry(env.getNestLevel(), type, env.getOffset()));
         }
 
         return errors;

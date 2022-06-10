@@ -39,12 +39,6 @@ public class AssignmentNode implements Node {
             throw new RuntimeException("Cannot assign an expression to an asset");
         }
 
-        /*
-        if ((idType != TypeNode.BOOL || expType != TypeNode.BOOL) && (idType != TypeNode.INT || (expType != TypeNode.INT && expType != TypeNode.ASSET))) {
-            throw new RuntimeException("Type Error: " + id + " has type " + idType + ", right expression has type " + expType);
-        }
-        */
-
         if(!(idType == TypeNode.BOOL && expType == TypeNode.BOOL) && !(idType == TypeNode.INT && (expType == TypeNode.INT || expType == TypeNode.ASSET))){
             throw new RuntimeException("Type Error: " + id + " has type " + idType + ", right expression has type " + expType);
         }

@@ -23,7 +23,6 @@ public class NotExpNode implements Node {
     public TypeNode typeCheck(Environment env) {
         TypeNode t = exp.typeCheck(env);
         if (t != TypeNode.BOOL) {
-            // TODO: handle the type error
             throw new RuntimeException("Type Error - " + "expression" + " has type different from " + "bool");
         }
         return TypeNode.BOOL;

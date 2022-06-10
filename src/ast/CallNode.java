@@ -70,24 +70,15 @@ public class CallNode implements Node {
 
         ArrayList<TypeNode> givenParams = new ArrayList<>();
         givenParams.addAll(Functional.mapList(exp, e -> e.typeCheck(env)));
-        //givenParams.addAll(Functional.mapList(ids, id -> env.getType(id)));
         givenParams.addAll(Functional.mapList(ids, id -> getTypeOfId(id) ));
 
         if (paramsType.size() != givenParams.size()) {
-            // TODO: handle type errors
             throw new RuntimeException("Type error: wrong number of parameters");
         }
 
         for (int i = 0; i < paramsType.size(); i++) {
             TypeNode t1 = paramsType.get(i);
             TypeNode t2 = givenParams.get(i);
-
-            /*
-            if (t1 != t2) {
-                // TODO: handle type errors
-                throw new RuntimeException("Type error: wrong type of parameter (" + t1 + " != " + t2 + ")");
-            }
-            */
 
             if (!(t1 == TypeNode.ASSET && (t2 == TypeNode.ASSET || t2 == TypeNode.INT))
                     && !(t1 == TypeNode.INT && (t2 == TypeNode.ASSET || t2 == TypeNode.INT))
@@ -98,7 +89,6 @@ public class CallNode implements Node {
 
         applyEffect();
         return Environment.getType(symEntry);
-        //return env.getType(id);
     }
 
     @Override

@@ -22,7 +22,6 @@ public class NegExpNode implements Node {
     public TypeNode typeCheck(Environment env) {
         TypeNode t1 = exp.typeCheck(env);
         if (t1 != TypeNode.ASSET && t1 != TypeNode.INT) {
-            // TODO: gestire l'errore correttamente
             throw new RuntimeException("Type Error - " + "expression" + " has type different from " + "int or asset");
         }
 

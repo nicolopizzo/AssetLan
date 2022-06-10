@@ -32,10 +32,8 @@ public class TransferNode implements Node {
     @Override
     public TypeNode typeCheck(Environment env) {
         if (entry.getTypes().get(0) != TypeNode.ASSET){
-            //System.out.println("Error: " + id + " is not an asset");
             throw new RuntimeException("Type Error - " + id + " has type different from " + "ASSET");
         }
-        //applyEffect();
         return TypeNode.VOID;
     }
 
