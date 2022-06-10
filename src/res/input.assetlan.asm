@@ -1,12 +1,9 @@
 push 0
-push 0
 push function0
 push function1
 lfp
-push 2
-push 1
 lfp
-push -4
+push -3
 lfp
 add
 lw
@@ -16,88 +13,16 @@ halt
 function0:
 cfp
 lra
-push 1
-lfp
-add
-lw
 push 0
-beq label2
-push 0
-b label3
-label2:
-push 1
-label3:
 push 0
 beq label0
-push 2
-lfp
-add
-lw
-push -2
-lfp
-lw
-add
-lw
-add
-push -2
-lfp
-lw
-add
-sw
 push 0
-push 2
-lfp
-add
-sw
 b label1
 label0:
-push 2
-lfp
-add
-lw
-push -2
-lfp
-lw
-add
-lw
-add
-push -2
-lfp
-lw
-add
-sw
-push 0
-push 2
-lfp
-add
-sw
-push 3
-lfp
-add
-lw
-push -2
-lfp
-lw
-add
-lw
-add
-push -2
-lfp
-lw
-add
-sw
-push 0
-push 3
-lfp
-add
-sw
+push 1
 label1:
-push 0
 srv
 sra
-pop
-pop
-pop
 pop
 sfp
 lrv
@@ -108,56 +33,17 @@ function1:
 cfp
 lra
 lfp
-push 2
-lfp
-add
-lw
-push 0
-push 2
-lfp
-add
-sw
-push 1
-lfp
-add
-lw
-push 0
-push 1
-lfp
-add
-sw
-push 0
 lfp
 lw
-push -3
+push -2
 lfp
 lw
 add
 lw
 js
-push -2
-lfp
-lw
-add
-lw
 print
-push -2
-lfp
-lw
-add
-lw
-srvi
-push 0
-push -2
-lfp
-lw
-add
-sw
 srv
-pop
 sra
-pop
-pop
 pop
 sfp
 lrv

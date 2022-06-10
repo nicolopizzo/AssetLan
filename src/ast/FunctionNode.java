@@ -81,8 +81,32 @@ public class FunctionNode implements Node {
         }
 
         TypeNode t1 = TypeNode.VOID;
+        boolean returnPresent = false;
         for (Node s : statements) {
+            if (s instanceof RetNode) {
+                returnPresent = true;
+            }
             t1 = s.typeCheck(env);
+        }
+
+        boolean returnInItePresent = false;
+        ArrayList<Integer> retPos = new ArrayList<>();
+        for (Node s : statements) {
+            if (s instanceof IteNode && ((IteNode) s).isReturnPresent()) {
+                returnInItePresent = true;
+                retPos.add(statements.indexOf(s));
+            }
+        }
+
+        if (returnPresent && !(statements.get(statements.size() - 1) instanceof RetNode)) {
+            throw new RuntimeException("There are statements after return statement");
+        }
+
+        if (returnInItePresent &&
+                (!(statements.get(statements.size() - 1) instanceof IteNode)
+                    || (retPos.get(0) != retPos.get(retPos.size()-1) ) )
+        ) {
+            throw new RuntimeException("There are statements after return statement");
         }
 
         if (t1 != type) {

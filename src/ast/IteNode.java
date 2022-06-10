@@ -43,6 +43,21 @@ public class IteNode implements Node {
         return errors;
     }
 
+    public boolean isReturnPresent() {
+        for (Node node : ifStatement) {
+            if (node instanceof RetNode) {
+                return true;
+            }
+        }
+        if (elseStatement != null)
+            for (Node node : elseStatement) {
+                if (node instanceof RetNode) {
+                    return true;
+                }
+            }
+        return false;
+    }
+
     @Override
     public TypeNode typeCheck(Environment env) {
 
