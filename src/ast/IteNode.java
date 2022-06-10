@@ -131,6 +131,29 @@ public class IteNode implements Node {
 
     @Override
     public String codeGeneration(Environment env) {
+
+        int nPopStrings=0;
+        if (ifStatement!=null)
+            for (Node stm:ifStatement) {
+                if (stm.getClass() == PrintNode.class
+                        || stm.getClass() == CallNode.class
+                        || stm.getClass() == IteNode.class
+                        || stm.getClass() == RetNode.class
+                ) {
+                    nPopStrings++;
+                }
+            }
+
+        String pushStms="";
+        String popStms="";
+        if (nPopStrings==0) {
+            pushStms+="push 0\n";
+        } else {
+            for (int i=1; i<nPopStrings; i++) {
+                popStms+="pop\n";
+            }
+        }
+
         String ELSE = AssetLanLib.freshLabel();
         String END = AssetLanLib.freshLabel();
         if (elseStatement != null) {
@@ -141,13 +164,18 @@ public class IteNode implements Node {
                     "b "+ END +"\n"+
                     ELSE + ":\n"+
                     elseStatementString(env)+
-                    END + ":\n";
+                    END + ":\n"+
+                    popStms+
+                    pushStms;
         } else {
             return condition.codeGeneration(env)+
                     "push 0\n"+
                     "beq "+ END +"\n"+
                     ifStatementString(env)+
-                    END + ":\n";
+                    "b "+ END +"\n"+
+                    END + ":\n"+
+                    popStms+
+                    pushStms;
         }
 
 

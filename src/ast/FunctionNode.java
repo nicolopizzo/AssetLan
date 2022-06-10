@@ -178,7 +178,8 @@ public class FunctionNode implements Node {
                 if (stm.getClass() == PrintNode.class
                         || stm.getClass() == CallNode.class
                         || stm.getClass() == IteNode.class
-                        || stm.getClass() == RetNode.class) {
+                        || stm.getClass() == RetNode.class
+                ) {
                     nPopStrings++;
                 }
             }

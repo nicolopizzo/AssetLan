@@ -100,12 +100,31 @@ void main()[asset a, asset b, asset c]{
 main()[1,2,3] ;
 ```
 
-Codice 4
+Codice 4 (versione con errori sintattici)
 ```
 asset x ;
 void f(int n)[asset u, asset v]{ 
   if (n == 0) u -o x ; 
   else { u -o x ; v -o x ; }
+}
+void main()[asset a]{
+  f(0)[a,a] ;     // semantica di f()[a,a] ?
+  transfer x ;
+}
+main()[1] ;
+```
+
+Codice 4 (versione corretta)
+```
+asset x ;
+void f(int n)[asset u, asset v]{
+  if (n == 0){
+    u -o x ;
+  }
+  else {
+    u -o x ;
+    v -o x ;
+  }
 }
 void main()[asset a]{
   f(0)[a,a] ;     // semantica di f()[a,a] ?
@@ -124,6 +143,8 @@ e implementare l'interprete. In particolare:
 
 
 CODICI DA VERIFICARE:
+
+Codice 1_bis (versione con errori sintattici)
 ```
 int x = 1;
 void f(int n)[]{ 
@@ -132,6 +153,22 @@ void f(int n)[]{
 }
 f(10) ;
 ```
+
+Codice 1_bis (versione corretta)
+```
+int x = 1;
+void f(int n)[]{
+    if (n == 0) {
+        print x ;
+    }
+    else {
+        x = x * n ;
+        f(n-1)[] ;
+    }
+}
+f(10)[] ;
+```
+
 
 IMPLEMENTARE I CODICI DELL'ESERCIZIO 3
 

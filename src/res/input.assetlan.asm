@@ -3,6 +3,7 @@ push 0
 push function0
 push function1
 lfp
+push 2
 push 1
 lfp
 push -4
@@ -23,7 +24,8 @@ push 0
 beq label2
 push 0
 b label3
-label2:push 1
+label2:
+push 1
 label3:
 push 0
 beq label0
@@ -90,6 +92,7 @@ lfp
 add
 sw
 label1:
+push 0
 srv
 sra
 pop
@@ -105,12 +108,12 @@ function1:
 cfp
 lra
 lfp
-push 1
+push 2
 lfp
 add
 lw
 push 0
-push 1
+push 2
 lfp
 add
 sw
@@ -137,6 +140,12 @@ lfp
 lw
 add
 lw
+print
+push -2
+lfp
+lw
+add
+lw
 srvi
 push 0
 push -2
@@ -145,7 +154,9 @@ lw
 add
 sw
 srv
+pop
 sra
+pop
 pop
 pop
 sfp

@@ -103,25 +103,29 @@ public class BinExpNode implements Node {
                             "bleq "+ TRUE +"\n"+
                             "push 0\n"+
                             "b " + END + "\n" +
-                            TRUE + ":push 1\n"+
+                            TRUE + ":\n"+
+                            "push 1\n"+
                             END + ":\n";
                         case GT ->
                             "bgt "+ TRUE +"\n"+
                             "push 0\n"+
                             "b " + END + "\n" +
-                            TRUE + ":push 1\n"+
+                            TRUE + ":\n"+
+                            "push 1\n"+
                             END + ":\n";
                         case LT ->
                             "blt "+ TRUE +"\n"+
                             "push 0\n"+
                             "b " + END + "\n" +
-                            TRUE + ":push 1\n"+
+                            TRUE + ":\n"+
+                            "push 1\n"+
                             END + ":\n";
                         case GE ->
                             "bgeq "+ TRUE +"\n"+
                             "push 0\n"+
                             "b " + END + "\n" +
-                            TRUE + ":push 1\n"+
+                            TRUE + ":\n"+
+                            "push 1\n"+
                             END + ":\n";
                         default -> "";
                     };
@@ -133,13 +137,15 @@ public class BinExpNode implements Node {
                                 "beq "+ TRUE +"\n"+
                                         "push 0\n"+
                                         "b " + END + "\n" +
-                                        TRUE + ":push 1\n"+
+                                        TRUE + ":\n"+
+                                        "push 1\n"+
                                         END + ":\n";
                         case NE ->
                                 "beq "+ FALSE +"\n"+
                                         "push 1\n"+
                                         "b " + END + "\n" +
-                                        FALSE + ":push 0\n"+
+                                        FALSE + ":\n"+
+                                        "push 0\n"+
                                         END + ":\n";
                         default -> "";
                     };
@@ -154,7 +160,8 @@ public class BinExpNode implements Node {
                                 "beq "+ FALSE +"\n"+
                                 "push 1\n"+
                                 "b " + END + "\n" +
-                                FALSE + ":push 0\n"+
+                                FALSE + ":\n"+
+                                "push 0\n"+
                                 END + ":\n";
                         case OR ->
                                 left.codeGeneration(env) +
@@ -165,7 +172,8 @@ public class BinExpNode implements Node {
                                 "beq "+ TRUE +"\n"+
                                 "push 0\n"+
                                 "b " + END + "\n" +
-                                TRUE + ":push 1\n"+
+                                TRUE + ":\n"+
+                                "push 1\n"+
                                 END + ":\n";
                         default -> "";
                     };
