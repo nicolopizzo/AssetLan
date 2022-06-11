@@ -27,4 +27,13 @@ public class EffectsSTEntry {
     public EffectsSTEntry copy() {
         return new EffectsSTEntry(effect, nestLevel);
     }
+
+    // equals() method
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof EffectsSTEntry e
+                && nestLevel == e.nestLevel
+                && effect.equals(e.effect);
+    }
 }

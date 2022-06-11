@@ -94,7 +94,7 @@ void f(int n)[asset u, asset v, asset w]{
   f(a)[v,w,u] ;
 }
 void main()[asset a, asset b, asset c]{
-  f()[a,b,c] ;
+  f(3)[a,b,c] ;
   transfer x ;
 }
 main()[1,2,3] ;

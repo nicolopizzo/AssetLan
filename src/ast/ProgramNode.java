@@ -68,6 +68,15 @@ public class ProgramNode implements Node {
     @Override
     public void checkEffects(EffectsEnvironment env) {
         // TODO: handle effects, check liquidity, check everything under top
+        for (Node a : assets) {
+            a.checkEffects(env);
+        }
+
+        for (Node f : functions) {
+            f.checkEffects(env);
+        }
+
+        initCall.checkEffects(env);
     }
 
     @Override

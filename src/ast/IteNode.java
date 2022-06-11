@@ -110,16 +110,18 @@ public class IteNode implements Node {
             s.checkEffects(sigma1);
         }
 
-        if (elseStatement != null) {
-            EffectsEnvironment sigma2 = env.copy();
-            for (Node s : elseStatement) {
-                s.checkEffects(sigma2);
-            }
-
-            sigma1 = EffectsEnvironment.max(sigma1, sigma2);
+        if (elseStatement == null) {
+            env.update(EffectsEnvironment.max(env, sigma1));
+            return;
         }
 
-        env.update(EffectsEnvironment.max(env, sigma1));
+        EffectsEnvironment sigma2 = env.copy();
+        for (Node s : elseStatement) {
+            s.checkEffects(sigma2);
+        }
+
+        sigma1 = EffectsEnvironment.max(sigma1, sigma2);
+        env.update(sigma1);
     }
 
     private String ifStatementString(Environment env) {

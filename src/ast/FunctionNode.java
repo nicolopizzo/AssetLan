@@ -61,13 +61,16 @@ public class FunctionNode implements Node {
             env.addEntry(((ParamNode) a).getId(), entry);
             assetEntries.add(entry);
         }
-        if(fields != null) {
+        if (fields != null) {
             for (Node f : fields) {
                 errors.addAll(f.checkSemantics(env));
             }
         }
         for (Node s : statements) {
             errors.addAll(s.checkSemantics(env));
+            if (s instanceof CallNode c && c.getId().equals(id)) {
+                isRecursive = true;
+            }
         }
         env.exitScope();
 
@@ -118,24 +121,42 @@ public class FunctionNode implements Node {
 
     @Override
     public void checkEffects(EffectsEnvironment env) {
+        ArrayList<String> localAssets = new ArrayList<>(Functional.mapList(assets, a -> ((ParamNode) a).getId()));
+        ArrayList<String> globalAssets = new ArrayList<>(Functional.mapList(this.globalAssets, a -> ((AssetNode) a).getId()));
+
+        globalAssets = new ArrayList(Functional.filterList(globalAssets, a -> !localAssets.contains(a)));
+
         EffectsEnvironment sigma0 = env.copy();
+
         sigma0.enterScope();
         if (isRecursive) {
+//            EffectsEnvironment sigma1 = sigma0.copy();
+            for (String a : globalAssets) {
+                sigma0.addEntry(
+                        a,
+                        new EffectsSTEntry(new NormalFormEffect(a), env.getNestLevel())
+                );
+            }
+
             for (Node a : assets) {
                 sigma0.addEntry(
                         ((ParamNode) a).getId(),
                         new EffectsSTEntry(AssetEffect.Full(), env.getNestLevel())
                 );
             }
-            fixedPoint(sigma0);
+
+            sigma0.addEntry(id, new EffectsSTEntry(new FunctionEffect(localAssets, globalAssets, sigma0, sigma0), env.getNestLevel()));
+
+            EffectsEnvironment sigma1 = fixedPoint(sigma0);
+            env.addEntry(id, sigma1.getLastEntry(id));
+            return;
         }
 
         // TODO: parametrizzare asset parametri e globali
-        for (Node a : globalAssets) {
-            String id = ((AssetNode) a).getId();
+        for (String a : globalAssets) {
             sigma0.addEntry(
-                    id,
-                    new EffectsSTEntry(new NormalFormEffect(id), env.getNestLevel())
+                    a,
+                    new EffectsSTEntry(new NormalFormEffect(a), env.getNestLevel())
             );
         }
 
@@ -151,43 +172,63 @@ public class FunctionNode implements Node {
         for (Node s : statements) {
             s.checkEffects(sigma1);
         }
+
+        env.addEntry(id, new EffectsSTEntry(new FunctionEffect(localAssets, globalAssets, sigma0, sigma1), env.getNestLevel()));
     }
 
-    private void fixedPoint(EffectsEnvironment sigma0) {
+    private EffectsEnvironment fixedPoint(EffectsEnvironment sigma0) {
+        EffectsEnvironment sigma1 = sigma0.copy();
+        
+        for (Node s : statements) {
+            if (s instanceof CallNode c && c.getId().equals(id)) {
+                ArrayList<String> localAssets = new ArrayList<>(Functional.mapList(assets, a -> ((ParamNode) a).getId()));
+                ((FunctionEffect) sigma1.getEffect(id)).updateSigma1(sigma1);
+                c.checkFixedPoint(sigma1, localAssets);
+                continue;
+//                break;
+            }
+            s.checkEffects(sigma1);
 
+        }
+
+        if (sigma0.equals(sigma1)) {
+            return sigma1;
+        }
+
+        return fixedPoint(sigma1.copy());
     }
 
     @Override
     public String codeGeneration(Environment env) {
 
-        String fieldsCode="";
-        if (fields!=null)
-            for (Node field:fields)
+        String fieldsCode = "";
+        if (fields != null)
+            for (Node field : fields)
                 fieldsCode += field.codeGeneration(env);
 
-        String popDecl="";
-        if (declarations!=null)
-            for (Node dec:declarations)
+        String popDecl = "";
+        if (declarations != null)
+            for (Node dec : declarations)
                 popDecl += "pop\n";
 
-        String popAssets="";
-        if (assets!=null)
-            for (Node dec:assets)
+        String popAssets = "";
+        if (assets != null)
+            for (Node dec : assets)
                 popAssets += "pop\n";
 
-        String popFields="";
-        if (fields!=null)
-            for (Node dec:fields)
+        String popFields = "";
+        if (fields != null)
+            for (Node dec : fields)
                 popFields += "pop\n";
 
-        String stmsCode="";
-        if (statements!=null)
-            for (Node stm:statements)
+        String stmsCode = "";
+        if (statements != null)
+            for (Node stm : statements)
                 stmsCode += stm.codeGeneration(env);
 
-        int nPopStrings=0;
-        if (statements!=null)
-            for (Node stm:statements) {
+        int nPopStrings = 0;
+        if (statements != null)
+            for (Node stm : statements) {
                 if (stm.getClass() == PrintNode.class
                         || stm.getClass() == CallNode.class
                         || stm.getClass() == IteNode.class
@@ -197,35 +238,35 @@ public class FunctionNode implements Node {
                 }
             }
 
-        String pushStms="";
-        String popStms="";
-        if (nPopStrings==0) {
-            pushStms+="push 0\n";
+        String pushStms = "";
+        String popStms = "";
+        if (nPopStrings == 0) {
+            pushStms += "push 0\n";
         } else {
-            for (int i=1; i<nPopStrings; i++) {
-                popStms+="pop\n";
+            for (int i = 1; i < nPopStrings; i++) {
+                popStms += "pop\n";
             }
         }
 
-        String funl= AssetLanLib.freshFunLabel();
-        AssetLanLib.putCode(funl+":\n"+
-                "cfp\n"+ 		// setta $fp a $sp
-                "lra\n"+ 		// inserimento return address
-                fieldsCode+
-                stmsCode+
-                pushStms+
-                "srv\n"+ 		// pop del return value
-                popFields+
-                popStms+
-                "sra\n"+ 		// pop del return address
-                "pop\n"+ 		// pop di AL
-                popDecl+
-                popAssets+
-                "sfp\n"+  		// setto $fp a valore del CL
-                "lrv\n"+ 		// risultato della funzione sullo stack
-                "lra\n"+"js\n"  // salta a $ra
+        String funl = AssetLanLib.freshFunLabel();
+        AssetLanLib.putCode(funl + ":\n" +
+                                    "cfp\n" +        // setta $fp a $sp
+                                    "lra\n" +        // inserimento return address
+                                    fieldsCode +
+                                    stmsCode +
+                                    pushStms +
+                                    "srv\n" +        // pop del return value
+                                    popFields +
+                                    popStms +
+                                    "sra\n" +        // pop del return address
+                                    "pop\n" +        // pop di AL
+                                    popDecl +
+                                    popAssets +
+                                    "sfp\n" +        // setto $fp a valore del CL
+                                    "lrv\n" +        // risultato della funzione sullo stack
+                                    "lra\n" + "js\n"  // salta a $ra
         );
 
-        return "push "+ funl +"\n";
+        return "push " + funl + "\n";
     }
 }

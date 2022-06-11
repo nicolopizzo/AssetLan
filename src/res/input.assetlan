@@ -1,11 +1,10 @@
-bool f()[]{
-  if (false) {
-    return false;
-  } else {
-    return true;
-  }
+asset x ;
+
+void f()[asset u, asset v] {
+    u -o x;
+    f()[v, u];
+
+    transfer x;
 }
-void main()[]{
-  print f()[] ;
-}
-main()[] ;
+
+f()[1, 2]

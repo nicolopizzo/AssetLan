@@ -22,4 +22,13 @@ public class AssetEffect extends Effect {
 
         return e1;
     }
+
+    public boolean isEmpty() {
+        return effect == 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof AssetEffect e && effect == e.effect;
+    }
 }

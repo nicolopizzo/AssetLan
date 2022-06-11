@@ -47,7 +47,7 @@ ite         : 'if' '(' exp ')' '{'
               '}')?;
 
 statementList : statement* ;
-call        : ID '(' (exp (',' exp)* )? ')' '[' (ID (',' ID)* )? ']' ;
+call        : ID '(' (exp (',' exp)*)? ')' '[' (ID (',' ID)*)? ']' ;
 
 initcall    : ID '(' params=expList ')' '[' assets=expList ']' ;
 

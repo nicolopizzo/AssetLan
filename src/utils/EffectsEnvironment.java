@@ -53,14 +53,14 @@ public class EffectsEnvironment {
 
     //get last effect
     public EffectsSTEntry getLastEntry(String id) {
-        if (!table.containsKey(id)) {
+        if (!table.containsKey(id) || table.get(id).size() == 0) {
             return null;
         }
         return table.get(id).get(table.get(id).size() - 1);
     }
 
     public Effect getEffect(String id) {
-        if (!table.containsKey(id)) {
+        if (!table.containsKey(id) || table.get(id).size() == 0) {
             return null;
         }
         return table.get(id).get(table.get(id).size() - 1).getEffect();
@@ -71,7 +71,10 @@ public class EffectsEnvironment {
             table.put(id, new ArrayList<EffectsSTEntry>());
         }
 
-        getLastEntry(id).setEffect(e);
+        EffectsSTEntry entry = getLastEntry(id);
+        if (entry != null) {
+            entry.setEffect(e);
+        }
 //        table.get(id).add(new EffectsSTEntry(e));
     }
 
@@ -93,6 +96,10 @@ public class EffectsEnvironment {
 
                 if (e0 instanceof AssetEffect a0 && e1 instanceof AssetEffect a1) {
                     entry.setEffect(AssetEffect.max(a0, a1));
+                }
+
+                if (e0 instanceof NormalFormEffect n0 && e1 instanceof NormalFormEffect n1) {
+                    entry.setEffect(NormalFormEffect.max(n0, n1));
                 }
             }
         }
@@ -123,8 +130,32 @@ public class EffectsEnvironment {
             ArrayList<EffectsSTEntry> entries = table.get(key);
             ArrayList<EffectsSTEntry> sigma1Entries = sigma1.table.get(key);
 
-            entries = (ArrayList<EffectsSTEntry>) sigma1Entries.clone();
+            entries.clear();
+            sigma1Entries.forEach(e -> entries.add(e.copy()));
+//            entries.addAll(sigma1Entries);
         }
+    }
+
+    // equals()
+    public boolean equals(EffectsEnvironment sigma) {
+        if (sigma.table.size() != table.size()) return false;
+
+        for (String key : table.keySet()) {
+            if (!sigma.table.containsKey(key)) return false;
+            ArrayList<EffectsSTEntry> entries = table.get(key);
+            ArrayList<EffectsSTEntry> sigmaEntries = sigma.table.get(key);
+
+            if (entries.size() != sigmaEntries.size()) return false;
+
+            for (int i = 0; i < entries.size(); i++) {
+                EffectsSTEntry entry = entries.get(i);
+                EffectsSTEntry sigmaEntry = sigmaEntries.get(i);
+
+                if (!entry.equals(sigmaEntry)) return false;
+            }
+        }
+
+        return true;
     }
 
 }

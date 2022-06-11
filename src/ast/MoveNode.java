@@ -67,9 +67,16 @@ public class MoveNode implements Node {
             env.setEffect(id1, new NormalFormEffect("0"));
         }
 
-//        entry2.setEffect(e1.assetMax(e2));
-//        entry1.setEffect(Effect.EMPTY);
-//        entry1.setEffect(entry1.getEffect().assetMax(effect));
+        if (e1 instanceof AssetEffect a1 && e2 instanceof NormalFormEffect n2) {
+            if (!a1.isEmpty()) {
+                env.setEffect(id2, AssetEffect.Full());
+            }
+            env.setEffect(id1, AssetEffect.Empty());
+        }
+
+        if (e1 instanceof  NormalFormEffect n1 && e2 instanceof AssetEffect a2) {
+            env.setEffect(id2, new NormalFormEffect("0"));
+        }
     }
 
 

@@ -32,4 +32,8 @@ public class ValExpNode implements Node {
     public String codeGeneration(Environment env) {
         return "push "+value+"\n";
     }
+
+    public int getValue() {
+        return value;
+    }
 }

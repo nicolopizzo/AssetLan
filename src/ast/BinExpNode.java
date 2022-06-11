@@ -178,4 +178,43 @@ public class BinExpNode implements Node {
                         default -> "";
                     };
     }
+
+    public int getValue() {
+        if (op.isArithmetic()) {
+            int x = 0;
+            int y = 0;
+
+            if (left instanceof BinExpNode b)
+                x = b.getValue();
+            if (right instanceof BinExpNode b)
+                y = b.getValue();
+            if (left instanceof ValExpNode v)
+                x = v.getValue();
+            if (right instanceof ValExpNode v)
+                y = v.getValue();
+            if (left instanceof BaseExpNode b)
+                x = b.getValue();
+            if (right instanceof BaseExpNode b)
+                y = b.getValue();
+
+            return simpleCalc(x, y, op.toString());
+        }
+
+        return 0;
+    }
+
+    private int simpleCalc(int x, int y, String op) {
+        switch (op) {
+            case "+":
+                return x + y;
+            case "-":
+                return x - y;
+            case "*":
+                return x * y;
+            case "/":
+                return x / y;
+            default:
+                return 0;
+        }
+    }
 }

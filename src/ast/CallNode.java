@@ -3,6 +3,7 @@ package ast;
 import utils.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CallNode implements Node {
@@ -94,6 +95,68 @@ public class CallNode implements Node {
     @Override
     public void checkEffects(EffectsEnvironment env) {
         // TODO: handle effects, check if function is recursive for fixed point, check local liquidity
+        FunctionEffect effect = (FunctionEffect) env.getEffect(id);
+        EffectsEnvironment sigma1 = effect.getSigma1().copy();
+        ArrayList<String> localAssets = effect.getLocalAssets();
+
+        HashMap<String, Effect> replaceMap = new HashMap<>();
+        // Scorro al contrario per svuotare gli asset da destra verso sinistra
+        for (int i = ids.size() - 1; i >= 0; i--) {
+            String paramId = localAssets.get(i);
+            String assetId = ids.get(i);
+
+            Effect pe = sigma1.getEffect(paramId);
+            Effect ae = env.getEffect(assetId);
+            if (ae instanceof AssetEffect e && e.isEmpty()) {
+                ae = new NormalFormEffect("0");
+            }
+
+            replaceMap.put(paramId, ae);
+//            if (pe instanceof NormalFormEffect ne0 && ae instanceof NormalFormEffect ne1) {
+//                replaceMap.put(paramId, ne1);
+//                ne0.replace(ne1);
+//            }
+            env.setEffect(assetId, AssetEffect.Empty());
+        }
+
+        // Controllo che in sigma1 gli asset parametro siano a 0
+        for (String a : localAssets) {
+            Effect e = sigma1.getEffect(a);
+            if (e instanceof AssetEffect ae && !ae.isEmpty()) {
+                System.out.println("Error: formal asset " + a + " is not empty. The function " + id + " is not liquid.");
+                System.exit(1);
+            } else if (e instanceof NormalFormEffect ne && !ne.isEmpty()) {
+                System.out.println("Error: formal asset " + a + " is in normal form. The function " + id + " is not liquid.");
+                System.exit(1);
+            }
+        }
+
+
+        // Update dei valori di sigma1
+        for (String ga : effect.getGlobalAssets()) {
+            Effect e = sigma1.getEffect(ga);
+            if (e instanceof NormalFormEffect n) {
+                n.replace(replaceMap);
+            }
+        }
+
+        env.update(sigma1);
+    }
+
+    public void checkFixedPoint(EffectsEnvironment env, ArrayList<String> params) {
+        FunctionEffect effect = (FunctionEffect) env.getEffect(id);
+        EffectsEnvironment sigma1 = effect.getSigma1().copy();
+        EffectsEnvironment sigma2 = sigma1.copy();
+
+        for (int i = 0; i < params.size(); i++) {
+            String pId = params.get(i);
+            String aId = ids.get(i);
+            Effect e = sigma2.getEffect(aId);
+
+            sigma1.setEffect(pId, e);
+        }
+
+        env.update(sigma1);
     }
 
     @Override
@@ -134,7 +197,6 @@ public class CallNode implements Node {
                 "add\n" +
                 "lw\n" +                // carico sullo stack il valore all'indirizzo ottenuto
                 "js\n";
-
     }
 
     private void applyEffect() {

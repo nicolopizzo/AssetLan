@@ -3,6 +3,7 @@ package ast;
 import utils.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class InitCallNode implements Node {
@@ -68,7 +69,67 @@ public class InitCallNode implements Node {
 
     @Override
     public void checkEffects(EffectsEnvironment env) {
-        // TODO: handle effects
+        FunctionEffect effect = (FunctionEffect) env.getEffect(id);
+        EffectsEnvironment sigma1 = effect.getSigma1();
+        ArrayList<String> localAssets = effect.getLocalAssets();
+        ArrayList<String> globalAssets = effect.getGlobalAssets();
+
+        HashMap<String, AssetEffect> replaceMap = new HashMap<>();
+
+        for (int i = 0; i < assets.size(); i++) {
+            Node a = assets.get(i);
+            String id = localAssets.get(i);
+
+            int value = 0;
+            if (a instanceof BinExpNode b) {
+                value = b.getValue();
+            } else if (a instanceof ValExpNode v) {
+                value = v.getValue();
+            } else if (a instanceof BaseExpNode b) {
+                value = b.getValue();
+            }
+
+            if (value > 0) {
+                replaceMap.put(id, AssetEffect.Full());
+            } else if (value == 0) {
+                replaceMap.put(id, AssetEffect.Empty());
+            } else  {
+                System.out.println("Error: negative asset value in initCall");
+                System.exit(1);
+            }
+
+        }
+
+
+
+        for (String a : localAssets) {
+            Effect e = sigma1.getEffect(a);
+            if (e instanceof AssetEffect ae && !ae.isEmpty()) {
+                System.out.println("Error: formal asset " + a + " is not empty. The function " + id + " is not liquid.");
+                System.exit(1);
+            } else if (e instanceof NormalFormEffect ne) {
+                AssetEffect ae = ne.resolve(replaceMap);
+
+                if (!ae.isEmpty()) {
+                    System.out.println("Error: formal asset " + a + " is in normal form. The function " + id + " is not liquid.");
+                    System.exit(1);
+                }
+            }
+        }
+
+        // Controllo che in sigma1 gli asset parametro siano a 0
+        for (String a : globalAssets) {
+            Effect e = sigma1.getEffect(a);
+            if (e instanceof AssetEffect ae && !ae.isEmpty()) {
+                System.out.println("Error: asset " + a + " is not empty. Program is not liquid.");
+                System.exit(1);
+            } else if (e instanceof NormalFormEffect ne) {
+                if (!ne.isSingleton() || !ne.hasAsset(a)) {
+                    System.out.println("Error: formal asset " + a + " is in normal form. Program is not liquid.");
+                    System.exit(1);
+                }
+            }
+        }
     }
 
     @Override

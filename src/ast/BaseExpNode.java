@@ -33,4 +33,20 @@ public class BaseExpNode implements Node {
     public String codeGeneration(Environment env) {
         return exp.codeGeneration(env);
     }
+
+    public int getValue() {
+        if (exp instanceof ValExpNode) {
+            return ((ValExpNode) exp).getValue();
+        }
+
+        if (exp instanceof BaseExpNode) {
+            return ((BaseExpNode) exp).getValue();
+        }
+
+        if (exp instanceof BinExpNode) {
+            return ((BinExpNode) exp).getValue();
+        }
+
+        return 0;
+    }
 }

@@ -1,4 +1,5 @@
 package ast;
+
 //enum used to manage the exp operator
 public enum BinaryOperator {
     ADD, SUB, MUL, DIV, AND, OR, EQ, NE, LT, GT, LE, GE;
@@ -18,6 +19,25 @@ public enum BinaryOperator {
             case "<=" -> LE;
             case ">=" -> GE;
             default -> null;
+        };
+    }
+
+    @Override
+    public String toString() {
+        return switch (this) {
+            case ADD -> "+";
+            case SUB -> "-";
+            case MUL -> "*";
+            case DIV -> "/";
+            case AND -> "&&";
+            case OR -> "||";
+            case EQ -> "==";
+            case NE -> "!=";
+            case LT -> "<";
+            case GT -> ">";
+            case LE -> "<=";
+            case GE -> ">=";
+            default -> "";
         };
     }
 
