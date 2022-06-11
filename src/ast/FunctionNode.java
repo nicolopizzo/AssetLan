@@ -138,7 +138,6 @@ public class FunctionNode implements Node {
 
         sigma0.enterScope();
         if (isRecursive) {
-//            EffectsEnvironment sigma1 = sigma0.copy();
             for (String a : globalAssets) {
                 sigma0.addEntry(
                         a,
@@ -155,7 +154,7 @@ public class FunctionNode implements Node {
 
             sigma0.addEntry(id, new EffectsSTEntry(new FunctionEffect(localAssets, globalAssets, sigma0, sigma0), env.getNestLevel()));
 
-            EffectsEnvironment sigma1 = fixedPoint(sigma0);
+            EffectsEnvironment sigma1 = fixedPoint(sigma0.copy());
             env.addEntry(id, sigma1.getLastEntry(id));
             return;
         }
@@ -185,15 +184,18 @@ public class FunctionNode implements Node {
     }
 
     private EffectsEnvironment fixedPoint(EffectsEnvironment sigma0) {
-        EffectsEnvironment sigma1 = sigma0.copy();
+        EffectsEnvironment sigma1 = ((FunctionEffect) sigma0.copy().getEffect(id)).getSigma1();
         
         for (Node s : statements) {
+            ArrayList<String> localAssets = new ArrayList<>(Functional.mapList(assets, a -> ((ParamNode) a).getId()));
             if (s instanceof CallNode c && c.getId().equals(id)) {
-                ArrayList<String> localAssets = new ArrayList<>(Functional.mapList(assets, a -> ((ParamNode) a).getId()));
-                ((FunctionEffect) sigma1.getEffect(id)).updateSigma1(sigma1);
                 c.checkFixedPoint(sigma1, localAssets);
                 continue;
-//                break;
+            }
+
+            if (s instanceof IteNode i) {
+                i.checkFixedPoint(sigma1, id, localAssets);
+                continue;
             }
 
             s.checkEffects(sigma1);

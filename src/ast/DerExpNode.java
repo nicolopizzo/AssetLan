@@ -32,11 +32,6 @@ public class DerExpNode implements Node {
 
     @Override
     public void checkEffects(EffectsEnvironment env) {
-//        if (Environment.getType(symEntry) != TypeNode.ASSET) {
-//            Effect effect = symEntry.getEffect();
-//            symEntry.setEffect(effect.rightExp());
-//        }
-//        if (env.)
     }
 
     @Override

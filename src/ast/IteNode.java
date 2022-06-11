@@ -87,24 +87,6 @@ public class IteNode implements Node {
 
     @Override
     public void checkEffects(EffectsEnvironment env) {
-//        condition.checkEffects(env);
-//
-//        Environment env1 = env.deepCopy();
-//        for (Node node : ifStatement) {
-//            node.checkEffects(env1);
-//        }
-//        env1 = Environment.ifSeq(env, env1);
-//
-//        Environment env2 = env.deepCopy();
-//        if (elseStatement != null) {
-//            for (Node node : elseStatement) {
-//                node.checkEffects(env2);
-//            }
-//            env2 = Environment.ifSeq(env, env2);
-//        }
-//
-//
-//        env = Environment.ifSeq(env1, env2);
         EffectsEnvironment sigma1 = env.copy();
         for (Node s : ifStatement) {
             s.checkEffects(sigma1);
@@ -117,6 +99,34 @@ public class IteNode implements Node {
 
         EffectsEnvironment sigma2 = env.copy();
         for (Node s : elseStatement) {
+            s.checkEffects(sigma2);
+        }
+
+        sigma1 = EffectsEnvironment.max(sigma1, sigma2);
+        env.update(sigma1);
+    }
+
+    void checkFixedPoint(EffectsEnvironment env, String fName, ArrayList<String> params) {
+        EffectsEnvironment sigma1 = env.copy();
+        for (Node s : ifStatement) {
+            if (s instanceof CallNode c && c.getId().equals(fName)) {
+                c.checkFixedPoint(env, params);
+                continue;
+            }
+            s.checkEffects(sigma1);
+        }
+
+        if (elseStatement == null) {
+            env.update(EffectsEnvironment.max(env, sigma1));
+            return;
+        }
+
+        EffectsEnvironment sigma2 = env.copy();
+        for (Node s : elseStatement) {
+            if (s instanceof CallNode c && c.getId().equals(fName)) {
+                c.checkFixedPoint(env, params);
+                continue;
+            }
             s.checkEffects(sigma2);
         }
 

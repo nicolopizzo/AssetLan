@@ -1,0 +1,29 @@
+int x = 1;
+
+int fib(int n)[] {
+    if (n <= 1) {
+        return 1;
+    } else {
+        return fib(n - 1)[] + fib(n - 2)[];
+    }
+}
+
+void f(int n)[asset u]{
+    if (n == 0) {
+        print x ;
+    }
+
+    else {
+        x = x * n ;
+        f(n-1)[u] ;
+    }
+}
+
+void g(int n)[] {
+    int x;
+
+    x = fib(n)[];
+    print x;
+}
+
+g(10)[];

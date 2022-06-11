@@ -76,8 +76,7 @@ public class BinExpNode implements Node {
 
     @Override
     public void checkEffects(EffectsEnvironment env) {
-//        left.checkEffects(env);
-//        right.checkEffects(env);
+
     }
 
     @Override
