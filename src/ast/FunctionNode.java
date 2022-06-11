@@ -71,6 +71,14 @@ public class FunctionNode implements Node {
             if (s instanceof CallNode c && c.getId().equals(id)) {
                 isRecursive = true;
             }
+
+            if (s instanceof IteNode i) {
+                for (Node c : i.getStatements()) {
+                    if (c instanceof CallNode call && call.getId().equals(id)) {
+                        isRecursive = true;
+                    }
+                }
+            }
         }
         env.exitScope();
 
@@ -187,6 +195,7 @@ public class FunctionNode implements Node {
                 continue;
 //                break;
             }
+
             s.checkEffects(sigma1);
 
         }

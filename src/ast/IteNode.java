@@ -143,9 +143,9 @@ public class IteNode implements Node {
     @Override
     public String codeGeneration(Environment env) {
 
-        int nPopStrings=0;
-        if (ifStatement!=null)
-            for (Node stm:ifStatement) {
+        int nPopStrings = 0;
+        if (ifStatement != null)
+            for (Node stm : ifStatement) {
                 if (stm.getClass() == PrintNode.class
                         || stm.getClass() == CallNode.class
                         || stm.getClass() == IteNode.class
@@ -155,40 +155,49 @@ public class IteNode implements Node {
                 }
             }
 
-        String pushStms="";
-        String popStms="";
-        if (nPopStrings==0) {
-            pushStms+="push 0\n";
+        String pushStms = "";
+        String popStms = "";
+        if (nPopStrings == 0) {
+            pushStms += "push 0\n";
         } else {
-            for (int i=1; i<nPopStrings; i++) {
-                popStms+="pop\n";
+            for (int i = 1; i < nPopStrings; i++) {
+                popStms += "pop\n";
             }
         }
 
         String ELSE = AssetLanLib.freshLabel();
         String END = AssetLanLib.freshLabel();
         if (elseStatement != null) {
-            return condition.codeGeneration(env)+
-                    "push 0\n"+
-                    "beq "+ ELSE +"\n"+
-                    ifStatementString(env)+
-                    "b "+ END +"\n"+
-                    ELSE + ":\n"+
-                    elseStatementString(env)+
-                    END + ":\n"+
-                    popStms+
+            return condition.codeGeneration(env) +
+                    "push 0\n" +
+                    "beq " + ELSE + "\n" +
+                    ifStatementString(env) +
+                    "b " + END + "\n" +
+                    ELSE + ":\n" +
+                    elseStatementString(env) +
+                    END + ":\n" +
+                    popStms +
                     pushStms;
         } else {
-            return condition.codeGeneration(env)+
-                    "push 0\n"+
-                    "beq "+ END +"\n"+
-                    ifStatementString(env)+
-                    "b "+ END +"\n"+
-                    END + ":\n"+
-                    popStms+
+            return condition.codeGeneration(env) +
+                    "push 0\n" +
+                    "beq " + END + "\n" +
+                    ifStatementString(env) +
+                    "b " + END + "\n" +
+                    END + ":\n" +
+                    popStms +
                     pushStms;
         }
 
 
+    }
+
+    ArrayList<Node> getStatements() {
+        ArrayList<Node> statements = new ArrayList<>();
+        statements.addAll(new ArrayList<>(ifStatement));
+
+        if (elseStatement != null)
+            statements.addAll(new ArrayList<>(elseStatement));
+        return statements;
     }
 }
